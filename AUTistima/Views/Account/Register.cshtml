@@ -1,0 +1,136 @@
+@model AUTistima.ViewModels.RegisterViewModel
+@using AUTistima.Models.Enums
+@{
+    ViewData["Title"] = "Cadastre-se";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card">
+                <div class="card-header text-center bg-salmon-light">
+                    <h3 class="mb-0">
+                        <i class="bi bi-person-plus text-salmon me-2"></i>Faça Parte
+                    </h3>
+                </div>
+                <div class="card-body p-4">
+                    <p class="text-center text-muted mb-4">
+                        Junte-se a uma comunidade que entende você. 
+                        <strong>Você não está sozinha.</strong>
+                    </p>
+                    
+                    <form asp-action="Register" method="post">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+                        
+                        <div class="mb-3">
+                            <label asp-for="NomeCompleto" class="form-label"></label>
+                            <input asp-for="NomeCompleto" class="form-control" placeholder="Seu nome completo" autofocus />
+                            <span asp-validation-for="NomeCompleto" class="text-danger small"></span>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label asp-for="Email" class="form-label"></label>
+                            <input asp-for="Email" class="form-control" placeholder="seu@email.com" />
+                            <span asp-validation-for="Email" class="text-danger small"></span>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label asp-for="TipoPerfil" class="form-label"></label>
+                            <select asp-for="TipoPerfil" class="form-select">
+                                <option value="">Selecione...</option>
+                                <option value="@TipoPerfil.Mae">👩 Mãe Atípica (mãe de autista)</option>
+                                <option value="@TipoPerfil.ProfissionalSaude">🏥 Profissional de Saúde</option>
+                                <option value="@TipoPerfil.ProfissionalEducacao">📚 Profissional de Educação</option>
+                                <option value="@TipoPerfil.Empresa">🏢 Empresa</option>
+                                <option value="@TipoPerfil.Governo">🏛️ Governo/Administração Pública</option>
+                            </select>
+                            <span asp-validation-for="TipoPerfil" class="text-danger small"></span>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-8 mb-3">
+                                <label asp-for="Cidade" class="form-label"></label>
+                                <input asp-for="Cidade" class="form-control" placeholder="Sua cidade" />
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label asp-for="Estado" class="form-label"></label>
+                                <select asp-for="Estado" class="form-select">
+                                    <option value="">UF</option>
+                                    <option value="AC">AC</option>
+                                    <option value="AL">AL</option>
+                                    <option value="AP">AP</option>
+                                    <option value="AM">AM</option>
+                                    <option value="BA">BA</option>
+                                    <option value="CE">CE</option>
+                                    <option value="DF">DF</option>
+                                    <option value="ES">ES</option>
+                                    <option value="GO">GO</option>
+                                    <option value="MA">MA</option>
+                                    <option value="MT">MT</option>
+                                    <option value="MS">MS</option>
+                                    <option value="MG">MG</option>
+                                    <option value="PA">PA</option>
+                                    <option value="PB">PB</option>
+                                    <option value="PR">PR</option>
+                                    <option value="PE">PE</option>
+                                    <option value="PI">PI</option>
+                                    <option value="RJ">RJ</option>
+                                    <option value="RN">RN</option>
+                                    <option value="RS">RS</option>
+                                    <option value="RO">RO</option>
+                                    <option value="RR">RR</option>
+                                    <option value="SC">SC</option>
+                                    <option value="SP">SP</option>
+                                    <option value="SE">SE</option>
+                                    <option value="TO">TO</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label asp-for="Password" class="form-label"></label>
+                            <input asp-for="Password" class="form-control" placeholder="Mínimo 6 caracteres" />
+                            <span asp-validation-for="Password" class="text-danger small"></span>
+                            <small class="text-muted">A senha deve ter pelo menos 6 caracteres e incluir um número.</small>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label asp-for="ConfirmPassword" class="form-label"></label>
+                            <input asp-for="ConfirmPassword" class="form-control" placeholder="Digite a senha novamente" />
+                            <span asp-validation-for="ConfirmPassword" class="text-danger small"></span>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-salmon w-100 mb-3">
+                            <i class="bi bi-heart me-2"></i>Criar Minha Conta
+                        </button>
+                    </form>
+                    
+                    <hr>
+                    
+                    <div class="text-center">
+                        <p class="mb-2">Já tem uma conta?</p>
+                        <a asp-action="Login" class="btn btn-outline-salmon">
+                            <i class="bi bi-box-arrow-in-right me-2"></i>Entrar
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Card de informação -->
+            <div class="card mt-4 bg-blue-light">
+                <div class="card-body">
+                    <h6><i class="bi bi-shield-check me-2"></i>Seus dados estão seguros</h6>
+                    <p class="small mb-0">
+                        Respeitamos sua privacidade. Suas informações são protegidas e nunca 
+                        serão compartilhadas sem sua autorização. 
+                        <a asp-controller="Home" asp-action="Privacidade">Saiba mais</a>.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

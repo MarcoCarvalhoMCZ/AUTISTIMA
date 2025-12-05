@@ -1,0 +1,813 @@
+/*
+ * AUTistima - Tema Visual Principal
+ * "Política pública em forma de afeto"
+ * 
+ * Paleta de Cores:
+ * - Salmão Suave: #F28B82 (botões primários, destaques)
+ * - Amarelo Pastel: #FCE883 (alertas, cards especiais)
+ * - Azul Bebê: #AECBFA (links, elementos secundários)
+ * - Cinza Claro: #F0F2F5 (fundos, divisores)
+ * 
+ * Regra de Ouro: Fundo BRANCO, tipografia PRETA e GRANDE
+ * Alto contraste para acessibilidade cognitiva
+ */
+
+:root {
+    /* ========================================
+       CORES PRINCIPAIS - PALETA PASTEL
+    ======================================== */
+    --color-salmon: #F28B82;
+    --color-salmon-hover: #E07A72;
+    --color-salmon-light: #FADADD;
+    
+    --color-yellow: #FCE883;
+    --color-yellow-hover: #F5DC6B;
+    --color-yellow-light: #FFF9E6;
+    
+    --color-blue: #AECBFA;
+    --color-blue-hover: #8AB4F8;
+    --color-blue-light: #E8F0FE;
+    
+    --color-gray: #F0F2F5;
+    --color-gray-medium: #DADCE0;
+    --color-gray-dark: #5F6368;
+    
+    /* ========================================
+       CORES SEMÂNTICAS
+    ======================================== */
+    --color-primary: var(--color-salmon);
+    --color-primary-hover: var(--color-salmon-hover);
+    
+    --color-secondary: var(--color-blue);
+    --color-secondary-hover: var(--color-blue-hover);
+    
+    --color-accent: var(--color-yellow);
+    --color-accent-hover: var(--color-yellow-hover);
+    
+    --color-success: #81C995;
+    --color-warning: var(--color-yellow);
+    --color-danger: #EA4335;
+    --color-info: var(--color-blue);
+    
+    /* ========================================
+       ALTO CONTRASTE - TEXTOS E FUNDOS
+    ======================================== */
+    --color-background: #FFFFFF;
+    --color-background-secondary: var(--color-gray);
+    --color-text: #202124;
+    --color-text-secondary: #5F6368;
+    --color-text-light: #FFFFFF;
+    
+    /* ========================================
+       TIPOGRAFIA
+    ======================================== */
+    --font-family-base: 'Inter', 'Roboto', 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-family-heading: var(--font-family-base);
+    
+    /* Tamanhos grandes para acessibilidade */
+    --font-size-base: 1.125rem;      /* 18px - maior que o padrão */
+    --font-size-sm: 1rem;            /* 16px */
+    --font-size-lg: 1.25rem;         /* 20px */
+    --font-size-xl: 1.5rem;          /* 24px */
+    --font-size-2xl: 1.875rem;       /* 30px */
+    --font-size-3xl: 2.25rem;        /* 36px */
+    --font-size-4xl: 3rem;           /* 48px */
+    
+    --font-weight-normal: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+    
+    --line-height-base: 1.6;
+    --line-height-heading: 1.3;
+    
+    /* ========================================
+       ESPAÇAMENTOS
+    ======================================== */
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    --spacing-2xl: 3rem;
+    --spacing-3xl: 4rem;
+    
+    /* ========================================
+       BORDAS E SOMBRAS
+    ======================================== */
+    --border-radius-sm: 8px;
+    --border-radius-md: 12px;
+    --border-radius-lg: 16px;
+    --border-radius-xl: 24px;
+    --border-radius-full: 9999px;
+    
+    --border-width: 2px;
+    --border-color: var(--color-gray-medium);
+    
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+    --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1);
+    
+    /* ========================================
+       TRANSIÇÕES
+    ======================================== */
+    --transition-fast: 150ms ease;
+    --transition-base: 250ms ease;
+    --transition-slow: 350ms ease;
+}
+
+/* ============================================
+   RESET E BASE
+============================================ */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    font-family: var(--font-family-base);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-normal);
+    line-height: var(--line-height-base);
+    color: var(--color-text);
+    background-color: var(--color-background);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    margin-bottom: 60px;
+}
+
+/* ============================================
+   TIPOGRAFIA
+============================================ */
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-family-heading);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--line-height-heading);
+    color: var(--color-text);
+    margin-bottom: var(--spacing-md);
+}
+
+h1 { font-size: var(--font-size-4xl); }
+h2 { font-size: var(--font-size-3xl); }
+h3 { font-size: var(--font-size-2xl); }
+h4 { font-size: var(--font-size-xl); }
+h5 { font-size: var(--font-size-lg); }
+h6 { font-size: var(--font-size-base); }
+
+p {
+    margin-bottom: var(--spacing-md);
+}
+
+a {
+    color: var(--color-blue-hover);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+}
+
+a:hover {
+    color: var(--color-primary);
+    text-decoration: underline;
+}
+
+/* ============================================
+   BOTÕES PERSONALIZADOS
+============================================ */
+.btn {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border-radius: var(--border-radius-md);
+    transition: all var(--transition-base);
+    border: var(--border-width) solid transparent;
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem var(--color-salmon);
+}
+
+/* Botão Salmão - Primário */
+.btn-salmon {
+    background-color: var(--color-salmon);
+    color: var(--color-text);
+    border-color: var(--color-salmon);
+}
+
+.btn-salmon:hover, .btn-salmon:focus {
+    background-color: var(--color-salmon-hover);
+    border-color: var(--color-salmon-hover);
+    color: var(--color-text);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn-outline-salmon {
+    background-color: transparent;
+    color: var(--color-salmon);
+    border-color: var(--color-salmon);
+}
+
+.btn-outline-salmon:hover, .btn-outline-salmon:focus {
+    background-color: var(--color-salmon-light);
+    color: var(--color-salmon-hover);
+}
+
+/* Botão Azul - Secundário */
+.btn-blue {
+    background-color: var(--color-blue);
+    color: var(--color-text);
+    border-color: var(--color-blue);
+}
+
+.btn-blue:hover, .btn-blue:focus {
+    background-color: var(--color-blue-hover);
+    border-color: var(--color-blue-hover);
+    color: var(--color-text);
+}
+
+.btn-outline-blue {
+    background-color: transparent;
+    color: var(--color-blue-hover);
+    border-color: var(--color-blue);
+}
+
+.btn-outline-blue:hover, .btn-outline-blue:focus {
+    background-color: var(--color-blue-light);
+    color: var(--color-blue-hover);
+}
+
+/* Botão Amarelo - Destaque */
+.btn-yellow {
+    background-color: var(--color-yellow);
+    color: var(--color-text);
+    border-color: var(--color-yellow);
+}
+
+.btn-yellow:hover, .btn-yellow:focus {
+    background-color: var(--color-yellow-hover);
+    border-color: var(--color-yellow-hover);
+}
+
+/* Botão Acolher - Especial */
+.btn-acolher {
+    background-color: var(--color-salmon-light);
+    color: var(--color-salmon-hover);
+    border-color: var(--color-salmon);
+    padding: var(--spacing-sm) var(--spacing-lg);
+    font-size: var(--font-size-lg);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.btn-acolher:hover, .btn-acolher:focus {
+    background-color: var(--color-salmon);
+    color: var(--color-text);
+    transform: scale(1.05);
+}
+
+.btn-acolher.acolhido {
+    background-color: var(--color-salmon);
+    color: var(--color-text-light);
+}
+
+.btn-acolher .acolher-icon {
+    font-size: 1.3em;
+}
+
+/* ============================================
+   CARDS PERSONALIZADOS
+============================================ */
+.card {
+    background-color: var(--color-background);
+    border: var(--border-width) solid var(--color-gray-medium);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition-base);
+}
+
+.card:hover {
+    box-shadow: var(--shadow-md);
+}
+
+.card-header {
+    background-color: var(--color-gray);
+    border-bottom: var(--border-width) solid var(--color-gray-medium);
+    border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
+    padding: var(--spacing-md) var(--spacing-lg);
+}
+
+.card-body {
+    padding: var(--spacing-lg);
+}
+
+.card-footer {
+    background-color: var(--color-gray);
+    border-top: var(--border-width) solid var(--color-gray-medium);
+    border-radius: 0 0 var(--border-radius-lg) var(--border-radius-lg);
+    padding: var(--spacing-md) var(--spacing-lg);
+}
+
+/* Cards coloridos para Manejos */
+.card-salmon {
+    border-color: var(--color-salmon);
+    border-left-width: 4px;
+}
+
+.card-salmon .card-header {
+    background-color: var(--color-salmon-light);
+    border-color: var(--color-salmon);
+}
+
+.card-blue {
+    border-color: var(--color-blue);
+    border-left-width: 4px;
+}
+
+.card-blue .card-header {
+    background-color: var(--color-blue-light);
+    border-color: var(--color-blue);
+}
+
+.card-yellow {
+    border-color: var(--color-yellow);
+    border-left-width: 4px;
+}
+
+.card-yellow .card-header {
+    background-color: var(--color-yellow-light);
+    border-color: var(--color-yellow);
+}
+
+/* ============================================
+   CENTRAL DE ACOLHIMENTO - FEED
+============================================ */
+.post-card {
+    background-color: var(--color-background);
+    border: var(--border-width) solid var(--color-gray-medium);
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+    transition: all var(--transition-base);
+}
+
+.post-card:hover {
+    box-shadow: var(--shadow-md);
+}
+
+.post-author {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+}
+
+.post-author-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--border-radius-full);
+    background-color: var(--color-salmon-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-xl);
+    color: var(--color-salmon);
+}
+
+.post-author-info {
+    flex: 1;
+}
+
+.post-author-name {
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text);
+    margin: 0;
+}
+
+.post-date {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+}
+
+.post-content {
+    font-size: var(--font-size-lg);
+    line-height: var(--line-height-base);
+    margin-bottom: var(--spacing-lg);
+}
+
+.post-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-lg);
+    padding-top: var(--spacing-md);
+    border-top: 1px solid var(--color-gray);
+}
+
+.acolhimentos-count {
+    font-size: var(--font-size-base);
+    color: var(--color-text-secondary);
+}
+
+/* ============================================
+   NAVBAR PERSONALIZADA
+============================================ */
+.navbar-autistima {
+    background-color: var(--color-background);
+    border-bottom: var(--border-width) solid var(--color-gray-medium);
+    padding: var(--spacing-md) 0;
+}
+
+.navbar-autistima .navbar-brand {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.navbar-autistima .navbar-brand img {
+    height: 40px;
+}
+
+.navbar-autistima .nav-link {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text);
+    padding: var(--spacing-sm) var(--spacing-md) !important;
+    border-radius: var(--border-radius-sm);
+    transition: all var(--transition-fast);
+}
+
+.navbar-autistima .nav-link:hover,
+.navbar-autistima .nav-link.active {
+    color: var(--color-primary);
+    background-color: var(--color-salmon-light);
+}
+
+/* ============================================
+   FORMULÁRIOS ACESSÍVEIS
+============================================ */
+.form-control, .form-select {
+    font-size: var(--font-size-base);
+    padding: var(--spacing-md);
+    border: var(--border-width) solid var(--color-gray-medium);
+    border-radius: var(--border-radius-md);
+    transition: all var(--transition-fast);
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px var(--color-salmon-light);
+}
+
+.form-label {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+    margin-bottom: var(--spacing-sm);
+    color: var(--color-text);
+}
+
+.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
+    color: var(--bs-secondary-color);
+    text-align: end;
+}
+
+.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
+    text-align: start;
+}
+
+/* ============================================
+   BADGES E TAGS
+============================================ */
+.badge-salmon {
+    background-color: var(--color-salmon-light);
+    color: var(--color-salmon-hover);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--border-radius-sm);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+}
+
+.badge-blue {
+    background-color: var(--color-blue-light);
+    color: var(--color-blue-hover);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--border-radius-sm);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+}
+
+.badge-yellow {
+    background-color: var(--color-yellow-light);
+    color: #B08800;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--border-radius-sm);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+}
+
+.badge-success {
+    background-color: #E6F4EA;
+    color: #137333;
+}
+
+.badge-empresa-amiga {
+    background: linear-gradient(135deg, var(--color-salmon-light), var(--color-blue-light));
+    color: var(--color-text);
+    padding: var(--spacing-xs) var(--spacing-md);
+    border-radius: var(--border-radius-full);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+}
+
+/* ============================================
+   SEÇÕES DA LANDING PAGE
+============================================ */
+.hero-section {
+    background: linear-gradient(135deg, var(--color-background) 0%, var(--color-gray) 100%);
+    padding: var(--spacing-3xl) 0;
+    text-align: center;
+}
+
+.hero-title {
+    font-size: var(--font-size-4xl);
+    font-weight: var(--font-weight-bold);
+    margin-bottom: var(--spacing-lg);
+}
+
+.hero-subtitle {
+    font-size: var(--font-size-xl);
+    color: var(--color-text-secondary);
+    max-width: 700px;
+    margin: 0 auto var(--spacing-xl);
+}
+
+.section {
+    padding: var(--spacing-3xl) 0;
+}
+
+.section-title {
+    font-size: var(--font-size-3xl);
+    text-align: center;
+    margin-bottom: var(--spacing-2xl);
+}
+
+.feature-card {
+    text-align: center;
+    padding: var(--spacing-xl);
+    background-color: var(--color-background);
+    border-radius: var(--border-radius-xl);
+    border: var(--border-width) solid var(--color-gray-medium);
+    transition: all var(--transition-base);
+    height: 100%;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+.feature-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: var(--border-radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto var(--spacing-lg);
+    font-size: 2rem;
+}
+
+.feature-icon.salmon {
+    background-color: var(--color-salmon-light);
+    color: var(--color-salmon);
+}
+
+.feature-icon.blue {
+    background-color: var(--color-blue-light);
+    color: var(--color-blue-hover);
+}
+
+.feature-icon.yellow {
+    background-color: var(--color-yellow-light);
+    color: #B08800;
+}
+
+/* ============================================
+   FILTROS E CATEGORIAS
+============================================ */
+.filter-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-xl);
+}
+
+.filter-tab {
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border: var(--border-width) solid var(--color-gray-medium);
+    border-radius: var(--border-radius-full);
+    background-color: var(--color-background);
+    color: var(--color-text);
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.filter-tab:hover, .filter-tab.active {
+    background-color: var(--color-salmon-light);
+    border-color: var(--color-salmon);
+    color: var(--color-salmon-hover);
+}
+
+/* ============================================
+   FOOTER
+============================================ */
+.footer-autistima {
+    background-color: var(--color-gray);
+    padding: var(--spacing-2xl) 0 var(--spacing-lg);
+    margin-top: var(--spacing-3xl);
+    border-top: var(--border-width) solid var(--color-gray-medium);
+}
+
+.footer-autistima p {
+    color: var(--color-text-secondary);
+    margin-bottom: var(--spacing-sm);
+}
+
+/* ============================================
+   UTILITÁRIOS
+============================================ */
+.text-salmon { color: var(--color-salmon); }
+.text-blue { color: var(--color-blue-hover); }
+.text-yellow { color: #B08800; }
+
+.bg-salmon-light { background-color: var(--color-salmon-light); }
+.bg-blue-light { background-color: var(--color-blue-light); }
+.bg-yellow-light { background-color: var(--color-yellow-light); }
+
+.border-salmon { border-color: var(--color-salmon) !important; }
+.border-blue { border-color: var(--color-blue) !important; }
+.border-yellow { border-color: var(--color-yellow) !important; }
+
+/* ============================================
+   ACESSIBILIDADE
+============================================ */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: var(--color-primary);
+    color: var(--color-text);
+    padding: var(--spacing-sm) var(--spacing-md);
+    z-index: 100;
+    transition: top var(--transition-fast);
+}
+
+.skip-link:focus {
+    top: 0;
+}
+
+/* Foco visível para navegação por teclado */
+:focus-visible {
+    outline: 3px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+/* Reduzir movimento para usuários que preferem */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* ============================================
+   RESPONSIVIDADE
+============================================ */
+@media (max-width: 768px) {
+    :root {
+        --font-size-base: 1rem;
+        --font-size-4xl: 2rem;
+        --font-size-3xl: 1.75rem;
+        --font-size-2xl: 1.5rem;
+    }
+    
+    .hero-section {
+        padding: var(--spacing-2xl) 0;
+    }
+    
+    .section {
+        padding: var(--spacing-2xl) 0;
+    }
+    
+    .post-actions {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+/* Indicador de validação por especialista */
+.validated-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    background-color: #E6F4EA;
+    color: #137333;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--border-radius-sm);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+}
+
+.validated-badge::before {
+    content: "✓";
+    font-weight: bold;
+}
+
+/* Status da triagem */
+.status-pendente { 
+    background-color: var(--color-yellow-light); 
+    color: #B08800; 
+}
+.status-avaliacao { 
+    background-color: var(--color-blue-light); 
+    color: var(--color-blue-hover); 
+}
+.status-encaminhado { 
+    background-color: #E6F4EA; 
+    color: #137333; 
+}
+.status-concluido { 
+    background-color: var(--color-gray); 
+    color: var(--color-text-secondary); 
+}
+
+/* Logo styling */
+.logo-heart {
+    display: inline-block;
+    position: relative;
+}
+
+/* Pulse animation for acolher button */
+@keyframes pulse-heart {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+.btn-acolher:hover .acolher-icon {
+    animation: pulse-heart 0.5s ease-in-out;
+}
+
+/* Manejo categories colors */
+.categoria-ansiedade { border-left-color: var(--color-salmon) !important; }
+.categoria-banho { border-left-color: var(--color-blue) !important; }
+.categoria-alimentacao { border-left-color: var(--color-yellow) !important; }
+.categoria-sono { border-left-color: #B39DDB !important; }
+.categoria-crise { border-left-color: #FFAB91 !important; }
+.categoria-comunicacao { border-left-color: #80DEEA !important; }
+.categoria-socializacao { border-left-color: #C5E1A5 !important; }
+.categoria-escola { border-left-color: #90CAF9 !important; }
+.categoria-rotina { border-left-color: #BCAAA4 !important; }
+
+/* Empty state styling */
+.empty-state {
+    text-align: center;
+    padding: var(--spacing-3xl);
+    color: var(--color-text-secondary);
+}
+
+.empty-state-icon {
+    font-size: 4rem;
+    margin-bottom: var(--spacing-lg);
+    opacity: 0.5;
+}
+
+/* Stats cards */
+.stat-card {
+    text-align: center;
+    padding: var(--spacing-xl);
+}
+
+.stat-number {
+    font-size: var(--font-size-4xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-primary);
+}
+
+.stat-label {
+    font-size: var(--font-size-base);
+    color: var(--color-text-secondary);
+}

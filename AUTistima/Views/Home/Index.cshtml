@@ -1,0 +1,236 @@
+﻿@{
+    ViewData["Title"] = "Início";
+}
+
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 text-lg-start">
+                <h1 class="hero-title">
+                    <span style="color: var(--color-salmon);">AUT</span>istima
+                </h1>
+                <p class="hero-subtitle text-start">
+                    <strong>Política pública em forma de afeto.</strong><br>
+                    Uma rede de apoio que conecta mães atípicas, profissionais e empresas 
+                    em prol da inclusão e do diagnóstico precoce.
+                </p>
+                <div class="d-flex gap-3 flex-wrap justify-content-lg-start justify-content-center">
+                    <a asp-controller="Account" asp-action="Register" class="btn btn-salmon btn-lg">
+                        <i class="bi bi-heart me-2"></i>Faça Parte
+                    </a>
+                    <a asp-controller="Home" asp-action="Sobre" class="btn btn-outline-blue btn-lg">
+                        <i class="bi bi-info-circle me-2"></i>Saiba Mais
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6 text-center mt-4 mt-lg-0">
+                <img src="~/images/logo.png" alt="Logo AUTistima - Coração formado por peças de quebra-cabeça" 
+                     class="img-fluid" style="max-width: 350px;" 
+                     onerror="this.outerHTML='<div class=\'text-center\'><i class=\'bi bi-heart-pulse-fill\' style=\'font-size: 15rem; color: var(--color-salmon);\'></i></div>'">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Estatísticas -->
+<section class="section bg-salmon-light">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-6 col-md-3 mb-4">
+                <div class="stat-card">
+                    <div class="stat-number">@(ViewBag.TotalMaes ?? 0)</div>
+                    <div class="stat-label">Mães Conectadas</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3 mb-4">
+                <div class="stat-card">
+                    <div class="stat-number">@(ViewBag.TotalManejos ?? 0)</div>
+                    <div class="stat-label">Dicas de Manejo</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3 mb-4">
+                <div class="stat-card">
+                    <div class="stat-number">@(ViewBag.TotalAcolhimentos ?? 0)</div>
+                    <div class="stat-label">Acolhimentos</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3 mb-4">
+                <div class="stat-card">
+                    <div class="stat-number">@(ViewBag.TotalProfissionais ?? 0)</div>
+                    <div class="stat-label">Profissionais</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Funcionalidades -->
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">O que você encontra aqui</h2>
+        
+        <div class="row g-4">
+            <!-- Central de Acolhimento -->
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card">
+                    <div class="feature-icon salmon">
+                        <i class="bi bi-chat-heart"></i>
+                    </div>
+                    <h4>Central de Acolhimento</h4>
+                    <p>
+                        Um espaço seguro para compartilhar sentimentos, desabafar e receber 
+                        apoio de outras mães que entendem sua jornada.
+                    </p>
+                    <a asp-controller="Acolhimento" asp-action="Index" class="btn btn-outline-salmon">
+                        Acessar <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Manejos -->
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card">
+                    <div class="feature-icon yellow">
+                        <i class="bi bi-lightbulb"></i>
+                    </div>
+                    <h4>Manejos & Dicas</h4>
+                    <p>
+                        Saberes de mães para mães. Dicas práticas para situações do dia a dia: 
+                        banho, alimentação, sono, crises e muito mais.
+                    </p>
+                    <a asp-controller="Manejos" asp-action="Index" class="btn btn-outline-salmon">
+                        Explorar <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Oportunidades -->
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card">
+                    <div class="feature-icon blue">
+                        <i class="bi bi-briefcase"></i>
+                    </div>
+                    <h4>Oportunidades</h4>
+                    <p>
+                        Vagas de emprego em empresas amigas e marketplace para mães 
+                        empreendedoras divulgarem seus serviços.
+                    </p>
+                    <a asp-controller="Oportunidades" asp-action="Index" class="btn btn-outline-salmon">
+                        Ver Vagas <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Saúde -->
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card">
+                    <div class="feature-icon salmon">
+                        <i class="bi bi-heart-pulse"></i>
+                    </div>
+                    <h4>Rede de Saúde</h4>
+                    <p>
+                        Encontre profissionais voluntários, clínicas escola e 
+                        atendimentos com valor social na sua região.
+                    </p>
+                    <a asp-controller="Saude" asp-action="Index" class="btn btn-outline-salmon">
+                        Buscar <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Glossário -->
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card">
+                    <div class="feature-icon yellow">
+                        <i class="bi bi-book"></i>
+                    </div>
+                    <h4>Mini Dicionário</h4>
+                    <p>
+                        Termos técnicos explicados de forma simples. 
+                        Entenda laudos, relatórios e conversas com profissionais.
+                    </p>
+                    <a asp-controller="Glossario" asp-action="Index" class="btn btn-outline-salmon">
+                        Consultar <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Triagem -->
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card">
+                    <div class="feature-icon blue">
+                        <i class="bi bi-clipboard2-pulse"></i>
+                    </div>
+                    <h4>Triagem Educacional</h4>
+                    <p>
+                        Fluxo para acelerar o diagnóstico precoce nas escolas. 
+                        Conectando educadores e profissionais de saúde.
+                    </p>
+                    <a asp-controller="Triagem" asp-action="Index" class="btn btn-outline-salmon">
+                        Acessar <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Sobre o Projeto -->
+<section class="section bg-blue-light">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h2>Você não está sozinha</h2>
+                <p class="lead">
+                    O AUTistima nasceu do entendimento de que a solidão é uma das maiores 
+                    dores das mães atípicas. Aqui, construímos uma rede de afeto e apoio mútuo.
+                </p>
+                <p>
+                    Somos uma política pública digital que:
+                </p>
+                <ul>
+                    <li><strong>Combate a solidão materna</strong> através da conexão entre mães</li>
+                    <li><strong>Acelera o diagnóstico precoce</strong> com a triagem educacional</li>
+                    <li><strong>Gera renda e empregabilidade</strong> para mães e pessoas autistas</li>
+                    <li><strong>Democratiza o acesso à informação</strong> com linguagem acessível</li>
+                </ul>
+                <a asp-controller="Home" asp-action="Sobre" class="btn btn-salmon mt-3">
+                    Conheça Nossa História <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
+            <div class="col-lg-6">
+                <div class="card card-salmon mt-4 mt-lg-0">
+                    <div class="card-body">
+                        <blockquote class="mb-0">
+                            <p class="lead mb-3">
+                                "Entre (nos) tons de azul, cada vivência é um tom. 
+                                Somos muitas, somos fortes, e juntas somos ainda mais."
+                            </p>
+                            <footer class="text-muted">— Manifesto AUTistima</footer>
+                        </blockquote>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Final -->
+<section class="section text-center">
+    <div class="container">
+        <h2>Pronta para fazer parte?</h2>
+        <p class="lead mb-4">
+            Junte-se a uma comunidade que entende você. Seja para receber apoio, 
+            compartilhar experiências ou contribuir profissionalmente.
+        </p>
+        <div class="d-flex gap-3 justify-content-center flex-wrap">
+            <a asp-controller="Account" asp-action="Register" class="btn btn-salmon btn-lg">
+                <i class="bi bi-person-plus me-2"></i>Criar Minha Conta
+            </a>
+            <a asp-controller="Acolhimento" asp-action="Index" class="btn btn-outline-blue btn-lg">
+                <i class="bi bi-eye me-2"></i>Ver a Comunidade
+            </a>
+        </div>
+    </div>
+</section>

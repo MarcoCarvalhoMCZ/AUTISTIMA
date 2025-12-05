@@ -1,0 +1,265 @@
+@model IEnumerable<AUTistima.Models.Service>
+@using AUTistima.Models.Enums
+@{
+    ViewData["Title"] = "Rede de Saúde";
+}
+
+<div class="container py-4">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+        <div>
+            <h1><i class="bi bi-heart-pulse text-salmon me-2"></i>Rede de Saúde</h1>
+            <p class="text-muted mb-0">Encontre profissionais de saúde, clínicas escola e atendimentos acessíveis.</p>
+        </div>
+        @if (User.Identity?.IsAuthenticated == true)
+        {
+            <a asp-action="Create" class="btn btn-salmon">
+                <i class="bi bi-plus-lg me-1"></i>Cadastrar Serviço
+            </a>
+        }
+    </div>
+
+    <!-- Mensagens de feedback -->
+    @if (TempData["Mensagem"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle me-2"></i>@TempData["Mensagem"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+        </div>
+    }
+
+    <!-- Estatísticas -->
+    <div class="row g-3 mb-4">
+        <div class="col-6 col-md-3">
+            <div class="card text-center bg-salmon-light">
+                <div class="card-body py-3">
+                    <div class="h4 mb-0">@(ViewBag.TotalGratuitos ?? 0)</div>
+                    <small>Gratuitos</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="card text-center bg-yellow-light">
+                <div class="card-body py-3">
+                    <div class="h4 mb-0">@(ViewBag.TotalValorSocial ?? 0)</div>
+                    <small>Valor Social</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="card text-center bg-blue-light">
+                <div class="card-body py-3">
+                    <div class="h4 mb-0">@(ViewBag.TotalConvenio ?? 0)</div>
+                    <small>Clínicas Escola</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="card text-center" style="background-color: #E8F5E9;">
+                <div class="card-body py-3">
+                    <div class="h4 mb-0">@(ViewBag.TotalOnline ?? 0)</div>
+                    <small>Atendimento Online</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filtros -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <form asp-action="Index" method="get" class="row g-3">
+                <div class="col-md-3">
+                    <label for="especialidade" class="form-label">Especialidade</label>
+                    <select class="form-select" id="especialidade" name="especialidade">
+                        <option value="">Todas</option>
+                        @foreach (Especialidade esp in Enum.GetValues(typeof(Especialidade)))
+                        {
+                            <option value="@esp" selected="@(ViewBag.EspecialidadeAtual?.ToString() == esp.ToString())">
+                                @GetEspecialidadeNome(esp)
+                            </option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for="tipoAtendimento" class="form-label">Tipo de Atendimento</label>
+                    <select class="form-select" id="tipoAtendimento" name="tipoAtendimento">
+                        <option value="">Todos</option>
+                        @foreach (TipoAtendimento tipo in Enum.GetValues(typeof(TipoAtendimento)))
+                        {
+                            <option value="@tipo" selected="@(ViewBag.TipoAtendimentoAtual?.ToString() == tipo.ToString())">
+                                @GetTipoAtendimentoNome(tipo)
+                            </option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label for="cidade" class="form-label">Cidade</label>
+                    <input type="text" class="form-control" id="cidade" name="cidade" 
+                           value="@ViewBag.CidadeAtual" placeholder="Ex: São Paulo">
+                </div>
+                <div class="col-md-2">
+                    <label for="bairro" class="form-label">Bairro</label>
+                    <input type="text" class="form-control" id="bairro" name="bairro" 
+                           value="@ViewBag.BairroAtual" placeholder="Ex: Centro">
+                </div>
+                <div class="col-md-2 d-flex align-items-end">
+                    <button type="submit" class="btn btn-salmon w-100">
+                        <i class="bi bi-search me-1"></i>Buscar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Atalhos rápidos -->
+    <div class="filter-tabs mb-4">
+        <a asp-action="Gratuitos" class="filter-tab">
+            💚 Gratuitos
+        </a>
+        @foreach (Especialidade esp in new[] { Especialidade.Psicologia, Especialidade.Fonoaudiologia, Especialidade.TerapiaOcupacional, Especialidade.ABA })
+        {
+            <a asp-action="Especialidade" asp-route-especialidade="@esp" class="filter-tab">
+                @GetEspecialidadeNome(esp)
+            </a>
+        }
+    </div>
+
+    <!-- Lista de Serviços -->
+    @if (Model.Any())
+    {
+        <div class="row g-4">
+            @foreach (var servico in Model)
+            {
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100">
+                        <div class="card-header d-flex justify-content-between align-items-start flex-wrap gap-2">
+                            <span class="badge @GetTipoAtendimentoBadge(servico.TipoAtendimento)">
+                                @GetTipoAtendimentoNome(servico.TipoAtendimento)
+                            </span>
+                            @if (servico.Verificado)
+                            {
+                                <span class="validated-badge">Verificado</span>
+                            }
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">@servico.NomeProfissional</h5>
+                            <p class="text-muted mb-2">
+                                <i class="bi bi-mortarboard me-1"></i>@GetEspecialidadeNome(servico.Especialidade)
+                            </p>
+                            
+                            @if (!string.IsNullOrEmpty(servico.RegistroProfissional))
+                            {
+                                <p class="small text-muted mb-2">
+                                    <i class="bi bi-card-text me-1"></i>@servico.RegistroProfissional
+                                </p>
+                            }
+                            
+                            @if (!string.IsNullOrEmpty(servico.Bairro) || !string.IsNullOrEmpty(servico.Cidade))
+                            {
+                                <p class="small mb-2">
+                                    <i class="bi bi-geo-alt me-1"></i>
+                                    @servico.Bairro@(string.IsNullOrEmpty(servico.Bairro) || string.IsNullOrEmpty(servico.Cidade) ? "" : ", ")@servico.Cidade/@servico.Estado
+                                </p>
+                            }
+                            
+                            <div class="d-flex flex-wrap gap-2 mb-3">
+                                @if (servico.AtendeOnline)
+                                {
+                                    <span class="badge bg-success">
+                                        <i class="bi bi-camera-video me-1"></i>Online
+                                    </span>
+                                }
+                                @if (!string.IsNullOrEmpty(servico.ValorConsulta))
+                                {
+                                    <span class="badge bg-light text-dark">
+                                        <i class="bi bi-currency-dollar me-1"></i>@servico.ValorConsulta
+                                    </span>
+                                }
+                            </div>
+                            
+                            @if (!string.IsNullOrEmpty(servico.Telefone))
+                            {
+                                <p class="mb-0">
+                                    <i class="bi bi-telephone me-1"></i>
+                                    <a href="tel:@servico.Telefone">@servico.Telefone</a>
+                                </p>
+                            }
+                        </div>
+                        <div class="card-footer bg-transparent">
+                            <a asp-action="Details" asp-route-id="@servico.Id" class="btn btn-outline-salmon w-100">
+                                Ver Detalhes <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="empty-state">
+            <div class="empty-state-icon">
+                <i class="bi bi-heart-pulse"></i>
+            </div>
+            <h4>Nenhum profissional encontrado</h4>
+            <p>Tente ajustar os filtros ou buscar por outra região.</p>
+            <a asp-action="Index" class="btn btn-outline-salmon">Limpar Filtros</a>
+        </div>
+    }
+
+    <!-- Dica -->
+    <div class="card mt-4 bg-yellow-light">
+        <div class="card-body">
+            <h5><i class="bi bi-lightbulb me-2"></i>Dica Importante</h5>
+            <p class="mb-0">
+                Antes de iniciar qualquer tratamento, verifique se o profissional possui registro ativo 
+                no conselho de classe (CRP para psicólogos, CRFa para fonoaudiólogos, CREFITO para 
+                terapeutas ocupacionais e fisioterapeutas). Você pode consultar nos sites dos conselhos.
+            </p>
+        </div>
+    </div>
+</div>
+
+@functions {
+    string GetEspecialidadeNome(Especialidade especialidade)
+    {
+        return especialidade switch
+        {
+            Especialidade.Psicologia => "🧠 Psicologia",
+            Especialidade.Fonoaudiologia => "🗣️ Fonoaudiologia",
+            Especialidade.TerapiaOcupacional => "🖐️ Terapia Ocupacional",
+            Especialidade.Psicopedagogia => "📚 Psicopedagogia",
+            Especialidade.Neurologia => "🧬 Neurologia",
+            Especialidade.Psiquiatria => "💊 Psiquiatria",
+            Especialidade.Fisioterapia => "🦶 Fisioterapia",
+            Especialidade.Musicoterapia => "🎵 Musicoterapia",
+            Especialidade.ABA => "📊 ABA",
+            Especialidade.Nutricao => "🥗 Nutrição",
+            _ => especialidade.ToString()
+        };
+    }
+    
+    string GetTipoAtendimentoNome(TipoAtendimento tipo)
+    {
+        return tipo switch
+        {
+            TipoAtendimento.Gratuito => "💚 Gratuito",
+            TipoAtendimento.ValorSocial => "💛 Valor Social",
+            TipoAtendimento.ConvenioUniversitario => "🎓 Clínica Escola",
+            TipoAtendimento.Particular => "💳 Particular",
+            _ => tipo.ToString()
+        };
+    }
+    
+    string GetTipoAtendimentoBadge(TipoAtendimento tipo)
+    {
+        return tipo switch
+        {
+            TipoAtendimento.Gratuito => "bg-success",
+            TipoAtendimento.ValorSocial => "badge-yellow",
+            TipoAtendimento.ConvenioUniversitario => "badge-blue",
+            TipoAtendimento.Particular => "bg-secondary",
+            _ => "badge-salmon"
+        };
+    }
+}

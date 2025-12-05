@@ -1,0 +1,175 @@
+@model IEnumerable<AUTistima.Models.Manejo>
+@using AUTistima.Models.Enums
+@{
+    ViewData["Title"] = "Manejos & Dicas";
+}
+
+<div class="container py-4">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+        <div>
+            <h1><i class="bi bi-lightbulb text-salmon me-2"></i>Manejos & Dicas</h1>
+            <p class="text-muted mb-0">Saberes de mães para mães. Estratégias práticas para o dia a dia.</p>
+        </div>
+        @if (User.Identity?.IsAuthenticated == true)
+        {
+            <a asp-action="Create" class="btn btn-salmon">
+                <i class="bi bi-plus-lg me-1"></i>Compartilhar Dica
+            </a>
+        }
+    </div>
+
+    <!-- Mensagens de feedback -->
+    @if (TempData["Mensagem"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle me-2"></i>@TempData["Mensagem"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+        </div>
+    }
+
+    <!-- Filtros por categoria -->
+    <div class="filter-tabs mb-4">
+        <a asp-action="Index" class="filter-tab @(ViewBag.CategoriaAtual == null ? "active" : "")">
+            Todas
+        </a>
+        @foreach (CategoriaManejo cat in Enum.GetValues(typeof(CategoriaManejo)))
+        {
+            <a asp-action="Index" asp-route-categoria="@cat" 
+               class="filter-tab @(ViewBag.CategoriaAtual?.ToString() == cat.ToString() ? "active" : "")">
+                @GetCategoriaNome(cat)
+            </a>
+        }
+    </div>
+
+    <!-- Grid de Manejos -->
+    @if (Model.Any())
+    {
+        <div class="row g-4">
+            @foreach (var manejo in Model)
+            {
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 @GetCategoriaClasse(manejo.Categoria)" style="border-left-width: 4px;">
+                        <div class="card-header d-flex justify-content-between align-items-start">
+                            <span class="badge badge-@GetCategoriaCor(manejo.Categoria)">
+                                @GetCategoriaNome(manejo.Categoria)
+                            </span>
+                            @if (manejo.ValidadoPorEspecialista)
+                            {
+                                <span class="validated-badge" title="Validado por especialista">
+                                    Validado
+                                </span>
+                            }
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">@manejo.Titulo</h5>
+                            <p class="card-text">
+                                @(manejo.Descricao.Length > 150 ? manejo.Descricao[..150] + "..." : manejo.Descricao)
+                            </p>
+                            
+                            @if (!string.IsNullOrEmpty(manejo.FaixaEtariaIndicada))
+                            {
+                                <p class="small text-muted mb-1">
+                                    <i class="bi bi-person me-1"></i>@manejo.FaixaEtariaIndicada
+                                </p>
+                            }
+                            @if (manejo.NivelSuporteIndicado.HasValue)
+                            {
+                                <p class="small text-muted mb-0">
+                                    <i class="bi bi-bar-chart me-1"></i>Nível @((int)manejo.NivelSuporteIndicado)
+                                </p>
+                            }
+                        </div>
+                        <div class="card-footer bg-transparent d-flex justify-content-between align-items-center">
+                            <small class="text-muted">
+                                por @(manejo.Autor?.NomeCompleto?.Split(' ').FirstOrDefault() ?? "Anônimo")
+                            </small>
+                            <a asp-action="Details" asp-route-id="@manejo.Id" class="btn btn-sm btn-outline-salmon">
+                                Ver Dica <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="empty-state">
+            <div class="empty-state-icon">
+                <i class="bi bi-lightbulb"></i>
+            </div>
+            <h4>Nenhuma dica encontrada</h4>
+            <p>
+                @if (ViewBag.CategoriaAtual != null)
+                {
+                    <span>Não há dicas para esta categoria ainda.</span>
+                }
+                else
+                {
+                    <span>Seja a primeira a compartilhar uma dica!</span>
+                }
+            </p>
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                <a asp-action="Create" class="btn btn-salmon">
+                    <i class="bi bi-plus-lg me-1"></i>Compartilhar Dica
+                </a>
+            }
+        </div>
+    }
+</div>
+
+@functions {
+    string GetCategoriaNome(CategoriaManejo categoria)
+    {
+        return categoria switch
+        {
+            CategoriaManejo.Ansiedade => "😰 Ansiedade",
+            CategoriaManejo.Banho => "🛁 Banho",
+            CategoriaManejo.Alimentacao => "🍽️ Alimentação",
+            CategoriaManejo.Sono => "😴 Sono",
+            CategoriaManejo.CriseSensorial => "⚡ Crise Sensorial",
+            CategoriaManejo.Comunicacao => "💬 Comunicação",
+            CategoriaManejo.Socializacao => "👥 Socialização",
+            CategoriaManejo.Escola => "📚 Escola",
+            CategoriaManejo.Rotina => "📅 Rotina",
+            CategoriaManejo.Outros => "📌 Outros",
+            _ => categoria.ToString()
+        };
+    }
+    
+    string GetCategoriaClasse(CategoriaManejo categoria)
+    {
+        return categoria switch
+        {
+            CategoriaManejo.Ansiedade => "categoria-ansiedade",
+            CategoriaManejo.Banho => "categoria-banho",
+            CategoriaManejo.Alimentacao => "categoria-alimentacao",
+            CategoriaManejo.Sono => "categoria-sono",
+            CategoriaManejo.CriseSensorial => "categoria-crise",
+            CategoriaManejo.Comunicacao => "categoria-comunicacao",
+            CategoriaManejo.Socializacao => "categoria-socializacao",
+            CategoriaManejo.Escola => "categoria-escola",
+            CategoriaManejo.Rotina => "categoria-rotina",
+            _ => ""
+        };
+    }
+    
+    string GetCategoriaCor(CategoriaManejo categoria)
+    {
+        return categoria switch
+        {
+            CategoriaManejo.Ansiedade => "salmon",
+            CategoriaManejo.Banho => "blue",
+            CategoriaManejo.Alimentacao => "yellow",
+            CategoriaManejo.Sono => "blue",
+            CategoriaManejo.CriseSensorial => "salmon",
+            CategoriaManejo.Comunicacao => "blue",
+            CategoriaManejo.Socializacao => "yellow",
+            CategoriaManejo.Escola => "blue",
+            CategoriaManejo.Rotina => "salmon",
+            _ => "salmon"
+        };
+    }
+}

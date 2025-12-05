@@ -1,0 +1,269 @@
+@model IEnumerable<AUTistima.Models.Post>
+@{
+    ViewData["Title"] = "Central de Acolhimento";
+}
+
+<div class="container py-4">
+    <div class="row">
+        <div class="col-lg-8">
+            <!-- Header -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h1><i class="bi bi-chat-heart text-salmon me-2"></i>Central de Acolhimento</h1>
+                    <p class="text-muted mb-0">Um espaço seguro para você. Desabafe, compartilhe, seja acolhida.</p>
+                </div>
+            </div>
+
+            <!-- Mensagens de feedback -->
+            @if (TempData["Mensagem"] != null)
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="bi bi-heart me-2"></i>@TempData["Mensagem"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+                </div>
+            }
+            @if (TempData["Erro"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    @TempData["Erro"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+                </div>
+            }
+
+            <!-- Formulário de novo post -->
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <form asp-action="Create" method="post">
+                            @Html.AntiForgeryToken()
+                            <div class="mb-3">
+                                <label for="Conteudo" class="form-label">
+                                    <i class="bi bi-pencil-heart me-1"></i>Como você está se sentindo hoje?
+                                </label>
+                                <textarea class="form-control" id="Conteudo" name="Conteudo" rows="3" 
+                                          placeholder="Compartilhe o que está no seu coração..." required></textarea>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="PermitirComentarios" 
+                                           name="PermitirComentarios" value="true" checked>
+                                    <label class="form-check-label" for="PermitirComentarios">
+                                        Permitir comentários de apoio
+                                    </label>
+                                </div>
+                                <button type="submit" class="btn btn-salmon">
+                                    <i class="bi bi-send me-1"></i>Compartilhar
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="alert bg-salmon-light mb-4">
+                    <i class="bi bi-heart me-2"></i>
+                    <a asp-controller="Account" asp-action="Login">Faça login</a> para compartilhar como você está se sentindo.
+                </div>
+            }
+
+            <!-- Feed de Posts -->
+            @if (Model.Any())
+            {
+                foreach (var post in Model)
+                {
+                    <article class="post-card" id="post-@post.Id">
+                        <header class="post-author">
+                            <div class="post-author-avatar">
+                                @if (!string.IsNullOrEmpty(post.Autor?.FotoPerfilUrl))
+                                {
+                                    <img src="@post.Autor.FotoPerfilUrl" alt="" class="rounded-circle" style="width: 48px; height: 48px; object-fit: cover;">
+                                }
+                                else
+                                {
+                                    <i class="bi bi-person-heart"></i>
+                                }
+                            </div>
+                            <div class="post-author-info">
+                                <p class="post-author-name">@(post.Autor?.NomeCompleto ?? "Mãe Anônima")</p>
+                                <span class="post-date">
+                                    <i class="bi bi-clock me-1"></i>
+                                    @post.DataCriacao.ToString("dd/MM/yyyy 'às' HH:mm")
+                                </span>
+                            </div>
+                        </header>
+                        
+                        <div class="post-content">
+                            @Html.Raw(post.Conteudo.Replace("\n", "<br>"))
+                        </div>
+                        
+                        <footer class="post-actions">
+                            @{
+                                var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+                                var jaAcolheu = post.Acolhimentos?.Any(a => a.UserId == userId) ?? false;
+                            }
+                            
+                            <button class="btn btn-acolher @(jaAcolheu ? "acolhido" : "")" 
+                                    onclick="acolher(@post.Id, this)"
+                                    data-post-id="@post.Id"
+                                    @(User.Identity?.IsAuthenticated != true ? "disabled" : "")>
+                                <span class="acolher-icon">@(jaAcolheu ? "❤️" : "🤍")</span>
+                                <span class="acolher-texto">Acolher</span>
+                                <span class="acolhimentos-count" id="count-@post.Id">(@(post.Acolhimentos?.Count ?? 0))</span>
+                            </button>
+                            
+                            @if (post.PermitirComentarios)
+                            {
+                                <button class="btn btn-outline-blue" onclick="toggleComentarios(@post.Id)">
+                                    <i class="bi bi-chat-dots me-1"></i>
+                                    Comentários (@(post.Comentarios?.Count ?? 0))
+                                </button>
+                            }
+                            
+                            <a asp-action="Details" asp-route-id="@post.Id" class="btn btn-link">
+                                Ver mais <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </footer>
+                        
+                        <!-- Área de comentários (oculta por padrão) -->
+                        @if (post.PermitirComentarios)
+                        {
+                            <div class="comentarios-area mt-3" id="comentarios-@post.Id" style="display: none;">
+                                <hr>
+                                
+                                @if (post.Comentarios?.Any() == true)
+                                {
+                                    <div class="comentarios-lista mb-3">
+                                        @foreach (var comentario in post.Comentarios.OrderByDescending(c => c.DataCriacao).Take(3))
+                                        {
+                                            <div class="d-flex gap-2 mb-2 p-2 bg-light rounded">
+                                                <div>
+                                                    <strong class="small">@(comentario.Autor?.NomeCompleto ?? "Anônimo")</strong>
+                                                    <span class="small text-muted">
+                                                        — @comentario.DataCriacao.ToString("dd/MM HH:mm")
+                                                    </span>
+                                                    <p class="mb-0 small">@comentario.Conteudo</p>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                }
+                                
+                                @if (User.Identity?.IsAuthenticated == true)
+                                {
+                                    <form asp-action="Comentar" method="post" class="d-flex gap-2">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="postId" value="@post.Id">
+                                        <input type="text" name="conteudo" class="form-control form-control-sm" 
+                                               placeholder="Escreva uma mensagem de apoio..." required>
+                                        <button type="submit" class="btn btn-sm btn-salmon">
+                                            <i class="bi bi-send"></i>
+                                        </button>
+                                    </form>
+                                }
+                            </div>
+                        }
+                    </article>
+                }
+            }
+            else
+            {
+                <div class="empty-state">
+                    <div class="empty-state-icon">
+                        <i class="bi bi-chat-heart"></i>
+                    </div>
+                    <h4>Nenhuma mensagem ainda</h4>
+                    <p>Seja a primeira a compartilhar como está se sentindo!</p>
+                </div>
+            }
+        </div>
+        
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+            <div class="card mb-4">
+                <div class="card-header bg-salmon-light">
+                    <h5 class="mb-0"><i class="bi bi-info-circle me-2"></i>Sobre este espaço</h5>
+                </div>
+                <div class="card-body">
+                    <p>
+                        A Central de Acolhimento é um espaço seguro onde você pode compartilhar 
+                        seus sentimentos e receber apoio de outras mães que entendem sua jornada.
+                    </p>
+                    <p class="mb-0">
+                        <strong>Aqui não existe "curtir".</strong> Existe <strong>ACOLHER</strong> — 
+                        um abraço virtual de quem entende você.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header bg-blue-light">
+                    <h5 class="mb-0"><i class="bi bi-telephone me-2"></i>Precisa de Ajuda?</h5>
+                </div>
+                <div class="card-body">
+                    <p class="mb-2">
+                        <strong>CVV - Centro de Valorização da Vida</strong><br>
+                        <i class="bi bi-telephone me-1"></i>Ligue <strong>188</strong> (24h)
+                    </p>
+                    <p class="mb-0">
+                        <strong>CAPS</strong><br>
+                        Centro de Atenção Psicossocial<br>
+                        <small class="text-muted">Procure a unidade mais próxima</small>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    // Função para acolher via AJAX
+    async function acolher(postId, button) {
+        if (!@(User.Identity?.IsAuthenticated == true ? "true" : "false")) {
+            window.location.href = '@Url.Action("Login", "Account")';
+            return;
+        }
+        
+        try {
+            const response = await fetch('@Url.Action("Acolher")', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value || ''
+                },
+                body: `postId=${postId}`
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                const countSpan = document.getElementById(`count-${postId}`);
+                countSpan.textContent = `(${data.total})`;
+                
+                const iconSpan = button.querySelector('.acolher-icon');
+                if (data.acolhido) {
+                    button.classList.add('acolhido');
+                    iconSpan.textContent = '❤️';
+                } else {
+                    button.classList.remove('acolhido');
+                    iconSpan.textContent = '🤍';
+                }
+            }
+        } catch (error) {
+            console.error('Erro ao acolher:', error);
+        }
+    }
+    
+    // Função para mostrar/ocultar comentários
+    function toggleComentarios(postId) {
+        const area = document.getElementById(`comentarios-${postId}`);
+        if (area.style.display === 'none') {
+            area.style.display = 'block';
+        } else {
+            area.style.display = 'none';
+        }
+    }
+</script>
+}

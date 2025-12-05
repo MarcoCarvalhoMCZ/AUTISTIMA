@@ -1,0 +1,132 @@
+@model IEnumerable<AUTistima.Models.GlossaryTerm>
+@{
+    ViewData["Title"] = "Mini Dicionário";
+}
+
+<div class="container py-4">
+    <!-- Header -->
+    <div class="mb-4">
+        <h1><i class="bi bi-book text-salmon me-2"></i>Mini Dicionário</h1>
+        <p class="text-muted">Termos técnicos explicados de forma simples. Entenda laudos, relatórios e conversas com profissionais.</p>
+    </div>
+
+    <!-- Busca -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <form asp-action="Index" method="get" class="row g-3">
+                <div class="col-md-6">
+                    <label for="busca" class="form-label">Buscar termo</label>
+                    <input type="text" class="form-control" id="busca" name="busca" 
+                           value="@ViewBag.BuscaAtual" placeholder="Digite o termo que deseja entender...">
+                </div>
+                <div class="col-md-4">
+                    <label for="categoria" class="form-label">Categoria</label>
+                    <select class="form-select" id="categoria" name="categoria">
+                        <option value="">Todas as categorias</option>
+                        @if (ViewBag.Categorias != null)
+                        {
+                            foreach (string cat in ViewBag.Categorias)
+                            {
+                                <option value="@cat" selected="@(ViewBag.CategoriaAtual == cat)">@cat</option>
+                            }
+                        }
+                    </select>
+                </div>
+                <div class="col-md-2 d-flex align-items-end">
+                    <button type="submit" class="btn btn-salmon w-100">
+                        <i class="bi bi-search me-1"></i>Buscar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Filtros rápidos por categoria -->
+    @if (ViewBag.Categorias != null && ((IEnumerable<string>)ViewBag.Categorias).Any())
+    {
+        <div class="filter-tabs mb-4">
+            <a asp-action="Index" class="filter-tab @(ViewBag.CategoriaAtual == null ? "active" : "")">
+                Todas
+            </a>
+            @foreach (string cat in ViewBag.Categorias)
+            {
+                <a asp-action="Index" asp-route-categoria="@cat" 
+                   class="filter-tab @(ViewBag.CategoriaAtual == cat ? "active" : "")">
+                    @cat
+                </a>
+            }
+        </div>
+    }
+
+    <!-- Lista de Termos -->
+    @if (Model.Any())
+    {
+        <div class="row g-4">
+            @foreach (var termo in Model)
+            {
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0 text-salmon">@termo.TermoTecnico</h5>
+                            @if (!string.IsNullOrEmpty(termo.Categoria))
+                            {
+                                <span class="badge badge-blue">@termo.Categoria</span>
+                            }
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">@termo.ExplicacaoSimples</p>
+                            
+                            @if (!string.IsNullOrEmpty(termo.ExemploUso))
+                            {
+                                <div class="bg-light p-3 rounded mt-3">
+                                    <small class="text-muted d-block mb-1">
+                                        <i class="bi bi-chat-quote me-1"></i>Exemplo de uso:
+                                    </small>
+                                    <em>@termo.ExemploUso</em>
+                                </div>
+                            }
+                        </div>
+                        @if (!string.IsNullOrEmpty(termo.Fonte))
+                        {
+                            <div class="card-footer bg-transparent">
+                                <small class="text-muted">
+                                    <i class="bi bi-info-circle me-1"></i>Fonte: @termo.Fonte
+                                </small>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="empty-state">
+            <div class="empty-state-icon">
+                <i class="bi bi-book"></i>
+            </div>
+            <h4>Nenhum termo encontrado</h4>
+            @if (!string.IsNullOrEmpty(ViewBag.BuscaAtual?.ToString()))
+            {
+                <p>Não encontramos o termo "<strong>@ViewBag.BuscaAtual</strong>".</p>
+                <a asp-action="Index" class="btn btn-outline-salmon">Ver todos os termos</a>
+            }
+            else
+            {
+                <p>O glossário está sendo construído.</p>
+            }
+        </div>
+    }
+
+    <!-- Dica -->
+    <div class="card mt-4 bg-yellow-light">
+        <div class="card-body">
+            <h5><i class="bi bi-lightbulb me-2"></i>Dica</h5>
+            <p class="mb-0">
+                Quando receber um laudo ou relatório, não tenha medo de perguntar ao profissional 
+                o significado de cada termo. Você tem o direito de entender tudo sobre seu filho. 
+                Use este glossário como apoio!
+            </p>
+        </div>
+    </div>
+</div>

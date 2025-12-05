@@ -1,0 +1,214 @@
+@model IEnumerable<AUTistima.Models.Opportunity>
+@using AUTistima.Models.Enums
+@{
+    ViewData["Title"] = "Oportunidades";
+}
+
+<div class="container py-4">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+        <div>
+            <h1><i class="bi bi-briefcase text-salmon me-2"></i>Oportunidades</h1>
+            <p class="text-muted mb-0">Vagas de emprego e serviços oferecidos por mães empreendedoras.</p>
+        </div>
+        @if (User.Identity?.IsAuthenticated == true)
+        {
+            <a asp-action="Create" class="btn btn-salmon">
+                <i class="bi bi-plus-lg me-1"></i>Publicar Oportunidade
+            </a>
+        }
+    </div>
+
+    <!-- Mensagens de feedback -->
+    @if (TempData["Mensagem"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle me-2"></i>@TempData["Mensagem"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+        </div>
+    }
+
+    <!-- Estatísticas -->
+    <div class="row g-3 mb-4">
+        <div class="col-6 col-md-3">
+            <div class="card text-center bg-salmon-light">
+                <div class="card-body py-3">
+                    <div class="h4 mb-0">@(ViewBag.TotalVagasMaes ?? 0)</div>
+                    <small>Vagas para Mães</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="card text-center bg-blue-light">
+                <div class="card-body py-3">
+                    <div class="h4 mb-0">@(ViewBag.TotalVagasFilhos ?? 0)</div>
+                    <small>Vagas para Autistas</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="card text-center bg-yellow-light">
+                <div class="card-body py-3">
+                    <div class="h4 mb-0">@(ViewBag.TotalServicos ?? 0)</div>
+                    <small>Serviços de Mães</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="card text-center" style="background: linear-gradient(135deg, var(--color-salmon-light), var(--color-blue-light));">
+                <div class="card-body py-3">
+                    <div class="h4 mb-0">@(ViewBag.EmpresasAmigas ?? 0)</div>
+                    <small>Empresas Amigas</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filtros -->
+    <div class="filter-tabs mb-4">
+        <a asp-action="Index" class="filter-tab @(ViewBag.TipoAtual == null ? "active" : "")">
+            Todas
+        </a>
+        <a asp-action="Index" asp-route-tipo="@TipoOportunidade.EmpregoParaMae" 
+           class="filter-tab @(ViewBag.TipoAtual?.ToString() == "EmpregoParaMae" ? "active" : "")">
+            💼 Emprego para Mães
+        </a>
+        <a asp-action="Index" asp-route-tipo="@TipoOportunidade.EmpregoParaFilho" 
+           class="filter-tab @(ViewBag.TipoAtual?.ToString() == "EmpregoParaFilho" ? "active" : "")">
+            🎯 Emprego para Autistas
+        </a>
+        <a asp-action="Index" asp-route-tipo="@TipoOportunidade.ServicoMae" 
+           class="filter-tab @(ViewBag.TipoAtual?.ToString() == "ServicoMae" ? "active" : "")">
+            🛍️ Serviços de Mães
+        </a>
+    </div>
+
+    <!-- Lista de Oportunidades -->
+    @if (Model.Any())
+    {
+        <div class="row g-4">
+            @foreach (var opp in Model)
+            {
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100">
+                        <div class="card-header d-flex justify-content-between align-items-start flex-wrap gap-2">
+                            <span class="badge @GetTipoBadge(opp.Tipo)">
+                                @GetTipoNome(opp.Tipo)
+                            </span>
+                            @if (opp.Criador?.EmpresaAmiga == true)
+                            {
+                                <span class="badge-empresa-amiga">
+                                    <i class="bi bi-award"></i> Empresa Amiga
+                                </span>
+                            }
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">@opp.Titulo</h5>
+                            
+                            @if (!string.IsNullOrEmpty(opp.Criador?.NomeEmpresa))
+                            {
+                                <p class="small text-muted mb-2">
+                                    <i class="bi bi-building me-1"></i>@opp.Criador.NomeEmpresa
+                                </p>
+                            }
+                            
+                            <p class="card-text">
+                                @(opp.Descricao.Length > 120 ? opp.Descricao[..120] + "..." : opp.Descricao)
+                            </p>
+                            
+                            <div class="d-flex flex-wrap gap-2 mb-3">
+                                @if (opp.PermiteHomeOffice)
+                                {
+                                    <span class="badge bg-success">
+                                        <i class="bi bi-house me-1"></i>Home Office
+                                    </span>
+                                }
+                                @if (opp.HorarioFlexivel)
+                                {
+                                    <span class="badge bg-info text-dark">
+                                        <i class="bi bi-clock me-1"></i>Horário Flexível
+                                    </span>
+                                }
+                                @if (!string.IsNullOrEmpty(opp.Cidade))
+                                {
+                                    <span class="badge bg-light text-dark">
+                                        <i class="bi bi-geo-alt me-1"></i>@opp.Cidade/@opp.Estado
+                                    </span>
+                                }
+                            </div>
+                            
+                            @if (!string.IsNullOrEmpty(opp.ValorSalario))
+                            {
+                                <p class="mb-0">
+                                    <strong class="text-salmon">@opp.ValorSalario</strong>
+                                </p>
+                            }
+                        </div>
+                        <div class="card-footer bg-transparent">
+                            <a asp-action="Details" asp-route-id="@opp.Id" class="btn btn-outline-salmon w-100">
+                                Ver Detalhes <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="empty-state">
+            <div class="empty-state-icon">
+                <i class="bi bi-briefcase"></i>
+            </div>
+            <h4>Nenhuma oportunidade encontrada</h4>
+            <p>Novas oportunidades são publicadas frequentemente. Volte em breve!</p>
+        </div>
+    }
+
+    <!-- Card Empresas Amigas -->
+    <div class="card mt-4">
+        <div class="card-body">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h5><i class="bi bi-award text-salmon me-2"></i>Selo Empresa Amiga</h5>
+                    <p class="mb-0">
+                        Empresas com o selo "Empresa Amiga" oferecem condições especiais para mães atípicas 
+                        e pessoas autistas: home office, horários flexíveis, ambiente sensory-friendly e 
+                        compreensão sobre as necessidades da família.
+                    </p>
+                </div>
+                <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                    <a asp-action="EmpresasAmigas" class="btn btn-outline-salmon">
+                        Ver Empresas Amigas
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@functions {
+    string GetTipoNome(TipoOportunidade tipo)
+    {
+        return tipo switch
+        {
+            TipoOportunidade.EmpregoParaMae => "💼 Emprego para Mães",
+            TipoOportunidade.EmpregoParaFilho => "🎯 Emprego para Autistas",
+            TipoOportunidade.ServicoMae => "🛍️ Serviço de Mãe",
+            TipoOportunidade.Capacitacao => "📚 Capacitação",
+            _ => tipo.ToString()
+        };
+    }
+    
+    string GetTipoBadge(TipoOportunidade tipo)
+    {
+        return tipo switch
+        {
+            TipoOportunidade.EmpregoParaMae => "badge-salmon",
+            TipoOportunidade.EmpregoParaFilho => "badge-blue",
+            TipoOportunidade.ServicoMae => "badge-yellow",
+            TipoOportunidade.Capacitacao => "badge-blue",
+            _ => "badge-salmon"
+        };
+    }
+}
