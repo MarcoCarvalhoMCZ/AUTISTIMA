@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AUTistima - Offline</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #FFF5F5 0%, #FFE4E1 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .offline-container {
+            text-align: center;
+            max-width: 400px;
+        }
+        
+        .offline-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+        
+        h1 {
+            color: #F28B82;
+            font-size: 2rem;
+            margin-bottom: 16px;
+        }
+        
+        p {
+            color: #666;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+        
+        .retry-btn {
+            background: linear-gradient(135deg, #F28B82, #E57373);
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            font-size: 1rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 15px rgba(242, 139, 130, 0.4);
+        }
+        
+        .retry-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(242, 139, 130, 0.5);
+        }
+        
+        .retry-btn:active {
+            transform: translateY(0);
+        }
+        
+        .tips {
+            margin-top: 40px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 16px;
+            text-align: left;
+        }
+        
+        .tips h3 {
+            color: #F28B82;
+            margin-bottom: 12px;
+            font-size: 1rem;
+        }
+        
+        .tips ul {
+            list-style: none;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .tips li {
+            padding: 6px 0;
+            padding-left: 24px;
+            position: relative;
+        }
+        
+        .tips li::before {
+            content: "💕";
+            position: absolute;
+            left: 0;
+        }
+        
+        .brand {
+            margin-top: 40px;
+            color: #999;
+            font-size: 0.9rem;
+        }
+        
+        .brand strong {
+            color: #F28B82;
+        }
+    </style>
+</head>
+<body>
+    <div class="offline-container">
+        <div class="offline-icon">📴</div>
+        <h1>Você está offline</h1>
+        <p>Parece que você está sem conexão com a internet. Não se preocupe, algumas páginas que você já visitou estão salvas!</p>
+        
+        <button class="retry-btn" onclick="window.location.reload()">
+            🔄 Tentar novamente
+        </button>
+        
+        <div class="tips">
+            <h3>💜 Enquanto isso, lembre-se:</h3>
+            <ul>
+                <li>Você não está sozinha nessa jornada</li>
+                <li>Cada pequeno passo é uma grande conquista</li>
+                <li>Seu cansaço é válido e real</li>
+                <li>Cuidar de você também é cuidar do seu filho</li>
+            </ul>
+        </div>
+        
+        <p class="brand">
+            <strong>AUTistima</strong> - Rede de apoio para mães atípicas
+        </p>
+    </div>
+    
+    <script>
+        // Verificar conexão periodicamente
+        setInterval(() => {
+            if (navigator.onLine) {
+                window.location.reload();
+            }
+        }, 5000);
+        
+        // Evento de conexão restaurada
+        window.addEventListener('online', () => {
+            window.location.reload();
+        });
+    </script>
+</body>
+</html>

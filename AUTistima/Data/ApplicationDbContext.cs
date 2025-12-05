@@ -30,6 +30,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<Notification> Notifications { get; set; } = null!;
     public DbSet<ChatMessage> ChatMessages { get; set; } = null!;
     public DbSet<Conversation> Conversations { get; set; } = null!;
+    public DbSet<PushSubscription> PushSubscriptions { get; set; } = null!;
     
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -247,6 +248,19 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
                 .WithMany()
                 .HasForeignKey(e => e.Usuario2Id)
                 .OnDelete(DeleteBehavior.Restrict);
+        });
+        
+        // PushSubscription - Para notificações push do PWA
+        builder.Entity<PushSubscription>(entity =>
+        {
+            entity.ToTable("PushSubscriptions");
+            entity.HasIndex(e => e.UserId);
+            entity.HasIndex(e => e.Endpoint).IsUnique();
+            
+            entity.HasOne(e => e.User)
+                .WithMany()
+                .HasForeignKey(e => e.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
         });
         
         // Seed de dados iniciais para o Glossário

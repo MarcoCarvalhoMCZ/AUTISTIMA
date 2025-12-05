@@ -358,7 +358,7 @@ public class ApiController : ControllerBase
 
     /// <summary>
     /// Retorna versão e status da API
-    /// GET: api/Api/status
+    /// GET: api/status
     /// </summary>
     [HttpGet("status")]
     public ActionResult GetStatus()
@@ -369,7 +369,125 @@ public class ApiController : ControllerBase
             versao = "1.0.0",
             nome = "AUTistima API",
             descricao = "API para aplicativo móvel AUTistima",
+            pwa = true,
             timestamp = DateTime.UtcNow
+        });
+    }
+
+    #endregion
+
+    #region Push Notifications
+
+    /// <summary>
+    /// Registra uma subscription de Push Notification
+    /// POST: api/push/subscribe
+    /// </summary>
+    [HttpPost("push/subscribe")]
+    [Authorize]
+    public async Task<ActionResult> SubscribePush([FromBody] PushSubscriptionDto dto)
+    {
+        if (dto == null || string.IsNullOrEmpty(dto.Endpoint))
+            return BadRequest(new { error = "Dados de subscription inválidos" });
+        
+        var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+        if (string.IsNullOrEmpty(userId))
+            return Unauthorized();
+        
+        // Verificar se já existe subscription com este endpoint
+        var existing = await _context.PushSubscriptions
+            .FirstOrDefaultAsync(p => p.Endpoint == dto.Endpoint);
+        
+        if (existing != null)
+        {
+            // Atualizar se for do mesmo usuário
+            if (existing.UserId == userId)
+            {
+                existing.P256dh = dto.Keys?.P256dh ?? existing.P256dh;
+                existing.Auth = dto.Keys?.Auth ?? existing.Auth;
+                existing.UserAgent = Request.Headers.UserAgent.ToString();
+                existing.Ativo = true;
+            }
+            else
+            {
+                // Transferir para o novo usuário
+                existing.UserId = userId;
+                existing.P256dh = dto.Keys?.P256dh ?? existing.P256dh;
+                existing.Auth = dto.Keys?.Auth ?? existing.Auth;
+                existing.UserAgent = Request.Headers.UserAgent.ToString();
+                existing.Ativo = true;
+            }
+        }
+        else
+        {
+            // Nova subscription
+            var subscription = new PushSubscription
+            {
+                UserId = userId,
+                Endpoint = dto.Endpoint,
+                P256dh = dto.Keys?.P256dh ?? string.Empty,
+                Auth = dto.Keys?.Auth ?? string.Empty,
+                UserAgent = Request.Headers.UserAgent.ToString(),
+                DataCriacao = DateTime.UtcNow,
+                Ativo = true
+            };
+            _context.PushSubscriptions.Add(subscription);
+        }
+        
+        await _context.SaveChangesAsync();
+        
+        _logger.LogInformation("Push subscription registrada para usuário {UserId}", userId);
+        
+        return Ok(new { success = true, message = "Subscription registrada com sucesso" });
+    }
+
+    /// <summary>
+    /// Remove uma subscription de Push Notification
+    /// POST: api/push/unsubscribe
+    /// </summary>
+    [HttpPost("push/unsubscribe")]
+    [Authorize]
+    public async Task<ActionResult> UnsubscribePush([FromBody] PushSubscriptionDto dto)
+    {
+        if (dto == null || string.IsNullOrEmpty(dto.Endpoint))
+            return BadRequest(new { error = "Endpoint inválido" });
+        
+        var subscription = await _context.PushSubscriptions
+            .FirstOrDefaultAsync(p => p.Endpoint == dto.Endpoint);
+        
+        if (subscription != null)
+        {
+            subscription.Ativo = false;
+            await _context.SaveChangesAsync();
+        }
+        
+        return Ok(new { success = true });
+    }
+
+    /// <summary>
+    /// Testa envio de notificação push (apenas para desenvolvimento)
+    /// POST: api/push/test
+    /// </summary>
+    [HttpPost("push/test")]
+    [Authorize]
+    public async Task<ActionResult> TestPush()
+    {
+        var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+        if (string.IsNullOrEmpty(userId))
+            return Unauthorized();
+        
+        var subscriptions = await _context.PushSubscriptions
+            .Where(p => p.UserId == userId && p.Ativo)
+            .ToListAsync();
+        
+        if (!subscriptions.Any())
+            return BadRequest(new { error = "Nenhuma subscription ativa encontrada. Ative as notificações primeiro." });
+        
+        // Aqui você implementaria o envio real usando web-push
+        // Por enquanto, apenas simula
+        return Ok(new { 
+            success = true, 
+            message = "Teste de push enviado",
+            subscriptionsCount = subscriptions.Count
         });
     }
 
@@ -377,6 +495,18 @@ public class ApiController : ControllerBase
 }
 
 #region DTOs
+
+public class PushSubscriptionDto
+{
+    public string Endpoint { get; set; } = string.Empty;
+    public PushSubscriptionKeysDto? Keys { get; set; }
+}
+
+public class PushSubscriptionKeysDto
+{
+    public string P256dh { get; set; } = string.Empty;
+    public string Auth { get; set; } = string.Empty;
+}
 
 public class GlossarioDto
 {
