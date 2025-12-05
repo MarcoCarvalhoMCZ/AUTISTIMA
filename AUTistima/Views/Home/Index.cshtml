@@ -74,6 +74,52 @@
     </div>
 </section>
 
+<!-- Banner Instalar PWA -->
+<section class="section py-3" id="pwa-install-section" style="display: none;">
+    <div class="container">
+        <div class="card border-0 shadow-sm" style="background: linear-gradient(135deg, #FFF5F5 0%, #FFE4E1 100%);">
+            <div class="card-body p-4">
+                <div class="row align-items-center">
+                    <div class="col-auto d-none d-md-block">
+                        <div class="rounded-circle bg-white p-3 shadow-sm">
+                            <i class="bi bi-phone-fill text-primary" style="font-size: 2.5rem;"></i>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <h5 class="mb-1">
+                            <i class="bi bi-download me-2 d-md-none"></i>
+                            📱 Instale o AUTistima no seu celular!
+                        </h5>
+                        <p class="mb-2 text-muted small">
+                            Tenha acesso rápido, receba notificações e use mesmo offline.
+                        </p>
+                        
+                        <!-- Instruções específicas por dispositivo -->
+                        <div id="pwa-ios-instructions" style="display: none;">
+                            <span class="badge bg-secondary me-2">iPhone/iPad</span>
+                            <small>Toque em <i class="bi bi-box-arrow-up"></i> <strong>Compartilhar</strong> e depois em <strong>"Adicionar à Tela de Início"</strong></small>
+                        </div>
+                        <div id="pwa-android-instructions" style="display: none;">
+                            <span class="badge bg-success me-2">Android</span>
+                            <small>Toque no menu <i class="bi bi-three-dots-vertical"></i> e selecione <strong>"Instalar aplicativo"</strong></small>
+                        </div>
+                        <div id="pwa-desktop-instructions" style="display: none;">
+                            <span class="badge bg-primary me-2">Computador</span>
+                            <small>Clique no ícone <i class="bi bi-download"></i> na barra de endereço</small>
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <button type="button" class="btn btn-primary" id="pwa-install-btn" style="display: none;">
+                            <i class="bi bi-download me-1"></i> Instalar
+                        </button>
+                        <button type="button" class="btn-close" aria-label="Fechar" onclick="dismissPwaInstall()"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 <!-- Funcionalidades -->
 <section class="section">
     <div class="container">
@@ -245,4 +291,88 @@
         </div>
     </div>
 </section>
+}
+
+@section Scripts {
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const pwaSection = document.getElementById('pwa-install-section');
+    const iosInstructions = document.getElementById('pwa-ios-instructions');
+    const androidInstructions = document.getElementById('pwa-android-instructions');
+    const desktopInstructions = document.getElementById('pwa-desktop-instructions');
+    const installBtn = document.getElementById('pwa-install-btn');
+    
+    // Verificar se já está instalado como PWA ou se foi dispensado
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || 
+                         window.navigator.standalone === true;
+    const wasDismissed = localStorage.getItem('pwa-install-dismissed');
+    const dismissedDate = wasDismissed ? new Date(wasDismissed) : null;
+    const daysSinceDismissed = dismissedDate ? (new Date() - dismissedDate) / (1000 * 60 * 60 * 24) : null;
+    
+    // Não mostrar se já instalado ou dispensado há menos de 7 dias
+    if (isStandalone || (daysSinceDismissed !== null && daysSinceDismissed < 7)) {
+        return;
+    }
+    
+    // Detectar dispositivo
+    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+    const isIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
+    const isAndroid = /android/i.test(userAgent);
+    const isMobile = isIOS || isAndroid;
+    
+    // Mostrar instruções específicas
+    if (isIOS) {
+        iosInstructions.style.display = 'block';
+        pwaSection.style.display = 'block';
+    } else if (isAndroid) {
+        androidInstructions.style.display = 'block';
+        pwaSection.style.display = 'block';
+    } else if (!isMobile) {
+        desktopInstructions.style.display = 'block';
+        pwaSection.style.display = 'block';
+    }
+    
+    // Capturar evento de instalação nativa (Chrome/Edge)
+    window.addEventListener('beforeinstallprompt', function(e) {
+        e.preventDefault();
+        window.deferredPrompt = e;
+        
+        // Mostrar botão de instalação nativa
+        installBtn.style.display = 'inline-block';
+        pwaSection.style.display = 'block';
+        
+        // Ocultar instruções manuais se tiver prompt nativo
+        iosInstructions.style.display = 'none';
+        androidInstructions.style.display = 'none';
+        desktopInstructions.style.display = 'none';
+    });
+    
+    // Evento de clique no botão instalar
+    installBtn.addEventListener('click', async function() {
+        if (window.deferredPrompt) {
+            window.deferredPrompt.prompt();
+            const { outcome } = await window.deferredPrompt.userChoice;
+            
+            if (outcome === 'accepted') {
+                console.log('PWA instalado com sucesso!');
+                pwaSection.style.display = 'none';
+            }
+            
+            window.deferredPrompt = null;
+        }
+    });
+    
+    // Detectar instalação concluída
+    window.addEventListener('appinstalled', function() {
+        pwaSection.style.display = 'none';
+        console.log('🎉 AUTistima foi instalado!');
+    });
+});
+
+// Dispensar banner por 7 dias
+function dismissPwaInstall() {
+    localStorage.setItem('pwa-install-dismissed', new Date().toISOString());
+    document.getElementById('pwa-install-section').style.display = 'none';
+}
+</script>
 }
