@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using AUTistima.Data;
 using AUTistima.Models;
 using AUTistima.Models.Enums;
+using AUTistima.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,6 +45,9 @@ builder.Services.ConfigureApplicationCookie(options =>
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// Registrar serviços personalizados
+builder.Services.AddAIServices();
 
 var app = builder.Build();
 

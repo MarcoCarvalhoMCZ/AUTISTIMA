@@ -14,5 +14,6 @@ public enum CategoriaManejo
     Socializacao = 7,
     Escola = 8,
     Rotina = 9,
-    Outros = 10
+    Autocuidado = 10,
+    Outros = 99
 }

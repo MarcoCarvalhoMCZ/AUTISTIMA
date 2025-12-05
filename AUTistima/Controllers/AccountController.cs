@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using AUTistima.Models;
 using AUTistima.ViewModels;
 using AUTistima.Models.Enums;
+using AUTistima.Data;
 
 namespace AUTistima.Controllers;
 
@@ -11,15 +12,18 @@ public class AccountController : Controller
 {
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly SignInManager<ApplicationUser> _signInManager;
+    private readonly ApplicationDbContext _context;
     private readonly ILogger<AccountController> _logger;
 
     public AccountController(
         UserManager<ApplicationUser> userManager,
         SignInManager<ApplicationUser> signInManager,
+        ApplicationDbContext context,
         ILogger<AccountController> logger)
     {
         _userManager = userManager;
         _signInManager = signInManager;
+        _context = context;
         _logger = logger;
     }
 
@@ -93,6 +97,16 @@ public class AccountController : Controller
                 // Adiciona claim do tipo de perfil
                 await _userManager.AddClaimAsync(user, 
                     new System.Security.Claims.Claim("TipoPerfil", model.TipoPerfil.ToString()));
+                
+                // Criar notificação de boas-vindas
+                await NotificacoesController.CriarNotificacao(
+                    _context,
+                    user.Id,
+                    "🌟 Bem-vinda ao AUTistima!",
+                    $"Olá, {model.NomeCompleto.Split(' ').First()}! Estamos muito felizes em ter você aqui. Você não está sozinha nessa jornada! 💕",
+                    TipoNotificacao.BoasVindas,
+                    "/Home/Sobre"
+                );
                 
                 await _signInManager.SignInAsync(user, isPersistent: false);
                 

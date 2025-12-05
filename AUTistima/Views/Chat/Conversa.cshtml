@@ -1,0 +1,103 @@
+@model IEnumerable<AUTistima.Models.ChatMessage>
+@{
+    var outroUsuario = ViewBag.OutroUsuario as AUTistima.Models.ApplicationUser;
+    var userId = ViewBag.UserId as string;
+    ViewData["Title"] = $"Conversa com {outroUsuario?.NomeCompleto}";
+}
+
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <!-- Header da conversa -->
+            <div class="card shadow-sm border-0 mb-3">
+                <div class="card-body py-2">
+                    <div class="d-flex align-items-center">
+                        <a asp-action="Index" class="btn btn-link text-dark me-2">
+                            <i class="bi bi-arrow-left fs-5"></i>
+                        </a>
+                        <div class="flex-shrink-0">
+                            @if (!string.IsNullOrEmpty(outroUsuario?.FotoPerfilUrl))
+                            {
+                                <img src="@outroUsuario.FotoPerfilUrl" class="rounded-circle" width="45" height="45" alt="@outroUsuario.NomeCompleto">
+                            }
+                            else
+                            {
+                                <div class="rounded-circle bg-primary d-flex align-items-center justify-content-center" style="width: 45px; height: 45px;">
+                                    <span class="text-white fw-bold">@outroUsuario?.NomeCompleto.Substring(0, 1).ToUpper()</span>
+                                </div>
+                            }
+                        </div>
+                        <div class="ms-3">
+                            <h6 class="mb-0 fw-bold">@outroUsuario?.NomeCompleto</h6>
+                            <small class="text-muted">@outroUsuario?.TipoPerfil.ToString()</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Área de mensagens -->
+            <div class="card shadow-sm border-0 mb-3" style="height: 500px;">
+                <div class="card-body overflow-auto" id="chat-messages">
+                    @if (!Model.Any())
+                    {
+                        <div class="text-center text-muted py-5">
+                            <i class="bi bi-chat-heart display-4"></i>
+                            <p class="mt-3">Comece a conversa! 💕</p>
+                        </div>
+                    }
+                    else
+                    {
+                        @foreach (var msg in Model)
+                        {
+                            var isMinha = msg.RemetenteId == userId;
+                            var alignClass = isMinha ? "justify-content-end" : "justify-content-start";
+                            var bgClass = isMinha ? "bg-primary text-white" : "bg-light";
+                            
+                            <div class="d-flex @alignClass mb-2">
+                                <div class="@bgClass rounded-3 p-3" style="max-width: 70%;">
+                                    <p class="mb-1">@msg.Conteudo</p>
+                                    <small class="@(isMinha ? "text-white-50" : "text-muted")">
+                                        @msg.DataEnvio.ToString("HH:mm")
+                                        @if (isMinha && msg.Lida)
+                                        {
+                                            <i class="bi bi-check-all ms-1"></i>
+                                        }
+                                    </small>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+
+            <!-- Formulário de envio -->
+            <div class="card shadow-sm border-0">
+                <div class="card-body py-2">
+                    <form asp-action="Enviar" method="post" class="d-flex gap-2">
+                        <input type="hidden" name="destinatarioId" value="@outroUsuario?.Id" />
+                        <input type="text" name="conteudo" class="form-control" 
+                               placeholder="Digite sua mensagem..." 
+                               required autocomplete="off" autofocus />
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-send-fill"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Scroll para o final das mensagens
+        const chatMessages = document.getElementById('chat-messages');
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        
+        // Auto-refresh a cada 10 segundos
+        setInterval(() => {
+            // Em produção, usar SignalR para tempo real
+            location.reload();
+        }, 30000);
+    </script>
+}

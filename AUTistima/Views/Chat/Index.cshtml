@@ -1,0 +1,116 @@
+@model IEnumerable<ConversaViewModel>
+@{
+    ViewData["Title"] = "Minhas Conversas";
+}
+
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="mb-0">
+                    <i class="bi bi-chat-dots-fill text-primary"></i> Minhas Conversas
+                </h2>
+                <a asp-action="NovaConversa" class="btn btn-primary">
+                    <i class="bi bi-plus-lg"></i> Nova Conversa
+                </a>
+            </div>
+
+            @if (TempData["Mensagem"] != null)
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    @TempData["Mensagem"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+                </div>
+            }
+
+            @if (!Model.Any())
+            {
+                <div class="card shadow-sm border-0">
+                    <div class="card-body text-center py-5">
+                        <i class="bi bi-chat-square-text display-1 text-muted"></i>
+                        <h4 class="mt-3 text-muted">Nenhuma conversa ainda</h4>
+                        <p class="text-muted">Comece uma conversa com outra mãe ou profissional! 💬</p>
+                        <a asp-action="NovaConversa" class="btn btn-primary mt-3">
+                            <i class="bi bi-plus-lg"></i> Iniciar conversa
+                        </a>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="list-group shadow-sm">
+                    @foreach (var conversa in Model)
+                    {
+                        var bgClass = conversa.MensagensNaoLidas > 0 ? "bg-light" : "";
+                        
+                        <a asp-action="Conversa" asp-route-id="@conversa.OutroUsuarioId" 
+                           class="list-group-item list-group-item-action @bgClass py-3">
+                            <div class="d-flex align-items-center">
+                                <div class="flex-shrink-0">
+                                    @if (!string.IsNullOrEmpty(conversa.FotoOutroUsuario))
+                                    {
+                                        <img src="@conversa.FotoOutroUsuario" class="rounded-circle" width="50" height="50" alt="@conversa.NomeOutroUsuario">
+                                    }
+                                    else
+                                    {
+                                        <div class="rounded-circle bg-primary d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                            <span class="text-white fw-bold">@conversa.NomeOutroUsuario.Substring(0, 1).ToUpper()</span>
+                                        </div>
+                                    }
+                                </div>
+                                <div class="flex-grow-1 ms-3">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h6 class="mb-0 fw-bold">@conversa.NomeOutroUsuario</h6>
+                                        <small class="text-muted">
+                                            @FormatarData(conversa.DataUltimaMensagem)
+                                        </small>
+                                    </div>
+                                    <p class="mb-0 text-muted text-truncate" style="max-width: 400px;">
+                                        @(conversa.UltimaMensagem.Length > 50 ? conversa.UltimaMensagem.Substring(0, 50) + "..." : conversa.UltimaMensagem)
+                                    </p>
+                                </div>
+                                @if (conversa.MensagensNaoLidas > 0)
+                                {
+                                    <span class="badge bg-primary rounded-pill ms-2">@conversa.MensagensNaoLidas</span>
+                                }
+                            </div>
+                        </a>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@functions {
+    string FormatarData(DateTime data)
+    {
+        var agora = DateTime.UtcNow;
+        var diff = agora - data;
+        
+        if (diff.TotalMinutes < 1) return "Agora";
+        if (diff.TotalMinutes < 60) return $"{(int)diff.TotalMinutes}min";
+        if (diff.TotalHours < 24) return $"{(int)diff.TotalHours}h";
+        if (diff.TotalDays < 7) return $"{(int)diff.TotalDays}d";
+        return data.ToString("dd/MM");
+    }
+}
+
+@section Scripts {
+    <script>
+        // Atualiza badge de mensagens
+        function atualizarBadgeMensagens() {
+            fetch('/Chat/NaoLidas')
+                .then(r => r.json())
+                .then(data => {
+                    const badge = document.getElementById('chat-badge');
+                    if (badge) {
+                        badge.textContent = data.count;
+                        badge.style.display = data.count > 0 ? 'inline' : 'none';
+                    }
+                });
+        }
+        
+        setInterval(atualizarBadgeMensagens, 30000);
+    </script>
+}

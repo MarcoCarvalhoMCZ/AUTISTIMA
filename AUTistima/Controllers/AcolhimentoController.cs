@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using AUTistima.Data;
 using AUTistima.Models;
@@ -13,11 +14,16 @@ namespace AUTistima.Controllers;
 public class AcolhimentoController : Controller
 {
     private readonly ApplicationDbContext _context;
+    private readonly UserManager<ApplicationUser> _userManager;
     private readonly ILogger<AcolhimentoController> _logger;
 
-    public AcolhimentoController(ApplicationDbContext context, ILogger<AcolhimentoController> logger)
+    public AcolhimentoController(
+        ApplicationDbContext context, 
+        UserManager<ApplicationUser> userManager,
+        ILogger<AcolhimentoController> logger)
     {
         _context = context;
+        _userManager = userManager;
         _logger = logger;
     }
 
@@ -107,6 +113,21 @@ public class AcolhimentoController : Controller
                 DataAcolhimento = DateTime.UtcNow
             };
             _context.PostAcolhimentos.Add(acolhimento);
+            
+            // Notificar autor do post
+            var post = await _context.Posts.FindAsync(postId);
+            if (post != null && post.UserId != userId)
+            {
+                var usuarioAcolheu = await _userManager.FindByIdAsync(userId);
+                await NotificacoesController.CriarNotificacao(
+                    _context,
+                    post.UserId,
+                    "💕 Alguém acolheu sua mensagem!",
+                    $"{usuarioAcolheu?.NomeCompleto ?? "Alguém"} enviou um acolhimento para você.",
+                    TipoNotificacao.Acolhimento,
+                    $"/Acolhimento/Details/{postId}"
+                );
+            }
         }
 
         await _context.SaveChangesAsync();
@@ -146,6 +167,21 @@ public class AcolhimentoController : Controller
 
         _context.PostComments.Add(comentario);
         await _context.SaveChangesAsync();
+        
+        // Notificar autor do post
+        var post = await _context.Posts.FindAsync(postId);
+        if (post != null && post.UserId != userId)
+        {
+            var usuarioComentou = await _userManager.FindByIdAsync(userId);
+            await NotificacoesController.CriarNotificacao(
+                _context,
+                post.UserId,
+                "💬 Novo comentário na sua mensagem",
+                $"{usuarioComentou?.NomeCompleto ?? "Alguém"} comentou: \"{(conteudo.Length > 50 ? conteudo.Substring(0, 50) + "..." : conteudo)}\"",
+                TipoNotificacao.Comentario,
+                $"/Acolhimento/Details/{postId}"
+            );
+        }
 
         TempData["Mensagem"] = "Seu apoio foi enviado! 💕";
         return RedirectToAction(nameof(Index));

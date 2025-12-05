@@ -27,6 +27,9 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<ScreeningRequest> ScreeningRequests { get; set; } = null!;
     public DbSet<Service> Services { get; set; } = null!;
     public DbSet<SystemConfiguration> SystemConfigurations { get; set; } = null!;
+    public DbSet<Notification> Notifications { get; set; } = null!;
+    public DbSet<ChatMessage> ChatMessages { get; set; } = null!;
+    public DbSet<Conversation> Conversations { get; set; } = null!;
     
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -195,11 +198,65 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
                 .OnDelete(DeleteBehavior.SetNull);
         });
         
+        // Notification
+        builder.Entity<Notification>(entity =>
+        {
+            entity.ToTable("Notifications");
+            entity.HasIndex(e => e.UserId);
+            entity.HasIndex(e => e.Lida);
+            entity.HasIndex(e => e.DataCriacao);
+            
+            entity.HasOne(e => e.Usuario)
+                .WithMany(u => u.Notificacoes)
+                .HasForeignKey(e => e.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+        
+        // ChatMessage
+        builder.Entity<ChatMessage>(entity =>
+        {
+            entity.ToTable("ChatMessages");
+            entity.HasIndex(e => e.RemetenteId);
+            entity.HasIndex(e => e.DestinatarioId);
+            entity.HasIndex(e => e.DataEnvio);
+            
+            entity.HasOne(e => e.Remetente)
+                .WithMany(u => u.MensagensEnviadas)
+                .HasForeignKey(e => e.RemetenteId)
+                .OnDelete(DeleteBehavior.Restrict);
+                
+            entity.HasOne(e => e.Destinatario)
+                .WithMany(u => u.MensagensRecebidas)
+                .HasForeignKey(e => e.DestinatarioId)
+                .OnDelete(DeleteBehavior.Restrict);
+        });
+        
+        // Conversation
+        builder.Entity<Conversation>(entity =>
+        {
+            entity.ToTable("Conversations");
+            entity.HasIndex(e => new { e.Usuario1Id, e.Usuario2Id }).IsUnique();
+            entity.HasIndex(e => e.UltimaMensagem);
+            
+            entity.HasOne(e => e.Usuario1)
+                .WithMany()
+                .HasForeignKey(e => e.Usuario1Id)
+                .OnDelete(DeleteBehavior.Restrict);
+                
+            entity.HasOne(e => e.Usuario2)
+                .WithMany()
+                .HasForeignKey(e => e.Usuario2Id)
+                .OnDelete(DeleteBehavior.Restrict);
+        });
+        
         // Seed de dados iniciais para o Glossário
         SeedGlossaryTerms(builder);
         
         // Seed de CAPS de Maceió
         SeedServicesCapsMaceio(builder);
+        
+        // Seed de Manejos Iniciais
+        SeedManejosIniciais(builder);
     }
     
     private void SeedGlossaryTerms(ModelBuilder builder)
@@ -1179,5 +1236,69 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
                 DataCadastro = DateTime.UtcNow
             }
         );
+    }
+    
+    private void SeedManejosIniciais(ModelBuilder builder)
+    {
+        // ID do usuário admin padrão - será criado automaticamente no Program.cs
+        // Os manejos serão associados à Lorena (admin) como autora inicial
+        // UserId será definido após a criação do banco via script SQL ou manualmente
+        
+        // NOTA: Como Manejo requer UserId (que é gerado dinamicamente),
+        // este seed será aplicado via script SQL após a criação do admin.
+        // Aqui deixamos a estrutura preparada para referência.
+        
+        /*
+        Os 29 manejos do documento "Manejos Iniciais.docx" são:
+        
+        CRISE SENSORIAL (5):
+        1. Cantinho do Silêncio - criar espaço com almofadas, luz baixa, abafadores
+        2. Kit de Emergência Sensorial - bolsa com objetos sensoriais favoritos
+        3. Técnica da Pressão Profunda - usar cobertor pesado ou abraço firme
+        4. Rotina de Descompressão - 15min de transição após atividades intensas
+        5. Mapa Sensorial do Ambiente - identificar gatilhos em cada cômodo
+        
+        ANSIEDADE (3):
+        6. Antecipação Visual - mostrar fotos/vídeos de lugares novos
+        7. Objeto de Transição - item favorito como âncora emocional
+        8. Respiração com Bolhas - soprar bolhas de sabão para acalmar
+        
+        BANHO (3):
+        9. Banho Gradual - começar pelos pés, termômetro visual de temperatura
+        10. Hora do Banho Musical - playlist que indica duração
+        11. Produtos Sensoriais - experimentar texturas e cheiros diferentes
+        
+        ALIMENTAÇÃO (3):
+        12. Prato da Descoberta - pequenas porções separadas, sem pressão
+        13. Participação na Cozinha - ajudar a preparar aumenta aceitação
+        14. Mapa de Texturas - registro visual de aceitação de texturas
+        
+        SONO (3):
+        15. Ritual do Sono - sequência fixa de atividades antes de dormir
+        16. Ambiente Sensorial Noturno - luz, temperatura, som adequados
+        17. História Personalizada - roteiro previsível com personagem favorito
+        
+        COMUNICAÇÃO (4):
+        18. Prancha de Emoções - imagens de sentimentos para apontar
+        19. Timer Visual - ampulheta ou app para espera e transições
+        20. Roteiro Social - script para situações específicas
+        21. Comunicação Alternativa - PECS, pranchas, aplicativos
+        
+        ROTINA (2):
+        22. Quadro de Rotina Visual - agenda com imagens do dia
+        23. Aviso de Mudança - preparar com antecedência alterações
+        
+        ESCOLA (3):
+        24. Pasta de Comunicação - caderno família-escola
+        25. Combinados Visuais - regras em imagens
+        26. Cantinho da Calma na Escola - espaço de autorregulação
+        
+        SOCIALIZAÇÃO (2):
+        27. Play Date Estruturado - brincadeiras com roteiro
+        28. Modelagem Social - ensaiar situações com bonecos
+        
+        AUTOCUIDADO (3):
+        29. Escovação Sensorial - escovas macias, sabores preferidos
+        */
     }
 }

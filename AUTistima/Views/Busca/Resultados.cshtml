@@ -1,0 +1,256 @@
+@model BuscaResultadosViewModel
+@{
+    ViewData["Title"] = $"Busca: {Model.Query}";
+}
+
+<div class="container py-4">
+    <div class="row">
+        <!-- Sidebar com filtros -->
+        <div class="col-lg-3 mb-4">
+            <div class="card shadow-sm border-0 sticky-top" style="top: 80px;">
+                <div class="card-header bg-primary text-white">
+                    <i class="bi bi-funnel"></i> Filtros
+                </div>
+                <div class="card-body">
+                    <form method="get" asp-action="Resultados">
+                        <input type="hidden" name="q" value="@Model.Query" />
+                        
+                        <div class="mb-3">
+                            <label class="form-label fw-bold small">Tipo de conteúdo</label>
+                            <div class="list-group list-group-flush">
+                                <a href="?q=@Model.Query" class="list-group-item list-group-item-action @(string.IsNullOrEmpty(Model.Tipo) ? "active" : "")">
+                                    <i class="bi bi-grid"></i> Todos
+                                </a>
+                                <a href="?q=@Model.Query&tipo=glossario" class="list-group-item list-group-item-action @(Model.Tipo == "glossario" ? "active" : "")">
+                                    <i class="bi bi-book"></i> Glossário (@Model.Glossario.Count)
+                                </a>
+                                <a href="?q=@Model.Query&tipo=manejos" class="list-group-item list-group-item-action @(Model.Tipo == "manejos" ? "active" : "")">
+                                    <i class="bi bi-lightbulb"></i> Manejos (@Model.Manejos.Count)
+                                </a>
+                                <a href="?q=@Model.Query&tipo=posts" class="list-group-item list-group-item-action @(Model.Tipo == "posts" ? "active" : "")">
+                                    <i class="bi bi-chat"></i> Posts (@Model.Posts.Count)
+                                </a>
+                                <a href="?q=@Model.Query&tipo=servicos" class="list-group-item list-group-item-action @(Model.Tipo == "servicos" ? "active" : "")">
+                                    <i class="bi bi-hospital"></i> Serviços (@Model.Servicos.Count)
+                                </a>
+                                <a href="?q=@Model.Query&tipo=escolas" class="list-group-item list-group-item-action @(Model.Tipo == "escolas" ? "active" : "")">
+                                    <i class="bi bi-building"></i> Escolas (@Model.Escolas.Count)
+                                </a>
+                                <a href="?q=@Model.Query&tipo=oportunidades" class="list-group-item list-group-item-action @(Model.Tipo == "oportunidades" ? "active" : "")">
+                                    <i class="bi bi-briefcase"></i> Oportunidades (@Model.Oportunidades.Count)
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Resultados -->
+        <div class="col-lg-9">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h4 class="mb-1">
+                        <i class="bi bi-search"></i> Resultados para "@Model.Query"
+                    </h4>
+                    <p class="text-muted mb-0">
+                        @Model.TotalResultados resultado(s) encontrado(s)
+                    </p>
+                </div>
+                <a asp-action="Index" class="btn btn-outline-primary">
+                    <i class="bi bi-arrow-left"></i> Nova busca
+                </a>
+            </div>
+
+            @if (Model.TotalResultados == 0)
+            {
+                <div class="card shadow-sm border-0">
+                    <div class="card-body text-center py-5">
+                        <i class="bi bi-emoji-frown display-1 text-muted"></i>
+                        <h4 class="mt-3 text-muted">Nenhum resultado encontrado</h4>
+                        <p class="text-muted">Tente buscar com outros termos ou filtros diferentes.</p>
+                        <a asp-action="Index" class="btn btn-primary mt-3">
+                            <i class="bi bi-search"></i> Nova busca
+                        </a>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <!-- Glossário -->
+                @if (Model.Glossario.Any() && (string.IsNullOrEmpty(Model.Tipo) || Model.Tipo == "glossario"))
+                {
+                    <div class="card shadow-sm border-0 mb-4">
+                        <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                            <span><i class="bi bi-book text-primary"></i> <strong>Glossário</strong></span>
+                            <span class="badge bg-primary">@Model.Glossario.Count</span>
+                        </div>
+                        <div class="list-group list-group-flush">
+                            @foreach (var termo in Model.Glossario.Take(5))
+                            {
+                                <a href="/Glossario/Details/@termo.Id" class="list-group-item list-group-item-action">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <h6 class="mb-1 text-primary">@termo.TermoTecnico</h6>
+                                            <p class="mb-0 text-muted small">@(termo.ExplicacaoSimples.Length > 150 ? termo.ExplicacaoSimples.Substring(0, 150) + "..." : termo.ExplicacaoSimples)</p>
+                                        </div>
+                                        <span class="badge bg-secondary align-self-start">@termo.Categoria</span>
+                                    </div>
+                                </a>
+                            }
+                        </div>
+                        @if (Model.Glossario.Count > 5)
+                        {
+                            <div class="card-footer text-center">
+                                <a href="?q=@Model.Query&tipo=glossario" class="text-primary">Ver todos os @Model.Glossario.Count resultados →</a>
+                            </div>
+                        }
+                    </div>
+                }
+
+                <!-- Manejos -->
+                @if (Model.Manejos.Any() && (string.IsNullOrEmpty(Model.Tipo) || Model.Tipo == "manejos"))
+                {
+                    <div class="card shadow-sm border-0 mb-4">
+                        <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                            <span><i class="bi bi-lightbulb text-warning"></i> <strong>Manejos</strong></span>
+                            <span class="badge bg-warning text-dark">@Model.Manejos.Count</span>
+                        </div>
+                        <div class="list-group list-group-flush">
+                            @foreach (var manejo in Model.Manejos.Take(5))
+                            {
+                                <a href="/Manejos/Details/@manejo.Id" class="list-group-item list-group-item-action">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <h6 class="mb-1">
+                                                @manejo.Titulo
+                                                @if (manejo.ValidadoPorEspecialista)
+                                                {
+                                                    <i class="bi bi-patch-check-fill text-success" title="Validado por especialista"></i>
+                                                }
+                                            </h6>
+                                            <p class="mb-0 text-muted small">@(manejo.Descricao.Length > 150 ? manejo.Descricao.Substring(0, 150) + "..." : manejo.Descricao)</p>
+                                        </div>
+                                        <span class="badge bg-warning text-dark align-self-start">@manejo.Categoria</span>
+                                    </div>
+                                </a>
+                            }
+                        </div>
+                        @if (Model.Manejos.Count > 5)
+                        {
+                            <div class="card-footer text-center">
+                                <a href="?q=@Model.Query&tipo=manejos" class="text-warning">Ver todos os @Model.Manejos.Count resultados →</a>
+                            </div>
+                        }
+                    </div>
+                }
+
+                <!-- Posts -->
+                @if (Model.Posts.Any() && (string.IsNullOrEmpty(Model.Tipo) || Model.Tipo == "posts"))
+                {
+                    <div class="card shadow-sm border-0 mb-4">
+                        <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                            <span><i class="bi bi-chat-heart text-danger"></i> <strong>Posts</strong></span>
+                            <span class="badge bg-danger">@Model.Posts.Count</span>
+                        </div>
+                        <div class="list-group list-group-flush">
+                            @foreach (var post in Model.Posts.Take(5))
+                            {
+                                <a href="/Acolhimento/Details/@post.Id" class="list-group-item list-group-item-action">
+                                    <p class="mb-1">@(post.Conteudo.Length > 150 ? post.Conteudo.Substring(0, 150) + "..." : post.Conteudo)</p>
+                                    <small class="text-muted">Por @post.Autor?.NomeCompleto • @post.DataCriacao.ToString("dd/MM/yyyy")</small>
+                                </a>
+                            }
+                        </div>
+                    </div>
+                }
+
+                <!-- Serviços -->
+                @if (Model.Servicos.Any() && (string.IsNullOrEmpty(Model.Tipo) || Model.Tipo == "servicos"))
+                {
+                    <div class="card shadow-sm border-0 mb-4">
+                        <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                            <span><i class="bi bi-hospital text-success"></i> <strong>Serviços de Saúde</strong></span>
+                            <span class="badge bg-success">@Model.Servicos.Count</span>
+                        </div>
+                        <div class="list-group list-group-flush">
+                            @foreach (var servico in Model.Servicos.Take(5))
+                            {
+                                <a href="/Saude/Details/@servico.Id" class="list-group-item list-group-item-action">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <h6 class="mb-1">
+                                                @servico.NomeProfissional
+                                                @if (servico.Verificado)
+                                                {
+                                                    <i class="bi bi-patch-check-fill text-primary" title="Verificado"></i>
+                                                }
+                                            </h6>
+                                            <p class="mb-0 text-muted small">
+                                                <i class="bi bi-geo-alt"></i> @servico.Bairro, @servico.Cidade
+                                            </p>
+                                        </div>
+                                        <span class="badge bg-success align-self-start">@servico.Especialidade</span>
+                                    </div>
+                                </a>
+                            }
+                        </div>
+                    </div>
+                }
+
+                <!-- Escolas -->
+                @if (Model.Escolas.Any() && (string.IsNullOrEmpty(Model.Tipo) || Model.Tipo == "escolas"))
+                {
+                    <div class="card shadow-sm border-0 mb-4">
+                        <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                            <span><i class="bi bi-building text-info"></i> <strong>Escolas</strong></span>
+                            <span class="badge bg-info">@Model.Escolas.Count</span>
+                        </div>
+                        <div class="list-group list-group-flush">
+                            @foreach (var escola in Model.Escolas.Take(5))
+                            {
+                                <a href="/Escolas/Details/@escola.Id" class="list-group-item list-group-item-action">
+                                    <h6 class="mb-1">@escola.Nome</h6>
+                                    <p class="mb-0 text-muted small">
+                                        <i class="bi bi-geo-alt"></i> @escola.Bairro, @escola.Cidade
+                                        @if (escola.PossuiSalaRecursos)
+                                        {
+                                            <span class="badge bg-success ms-2">Sala de Recursos</span>
+                                        }
+                                    </p>
+                                </a>
+                            }
+                        </div>
+                    </div>
+                }
+
+                <!-- Oportunidades -->
+                @if (Model.Oportunidades.Any() && (string.IsNullOrEmpty(Model.Tipo) || Model.Tipo == "oportunidades"))
+                {
+                    <div class="card shadow-sm border-0 mb-4">
+                        <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                            <span><i class="bi bi-briefcase text-purple"></i> <strong>Oportunidades</strong></span>
+                            <span class="badge bg-secondary">@Model.Oportunidades.Count</span>
+                        </div>
+                        <div class="list-group list-group-flush">
+                            @foreach (var op in Model.Oportunidades.Take(5))
+                            {
+                                <a href="/Oportunidades/Details/@op.Id" class="list-group-item list-group-item-action">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <h6 class="mb-1">@op.Titulo</h6>
+                                            <p class="mb-0 text-muted small">
+                                                <i class="bi bi-building"></i> @(op.Criador?.NomeEmpresa ?? "Não informado")
+                                            </p>
+                                        </div>
+                                        <span class="badge bg-secondary align-self-start">@op.Tipo</span>
+                                    </div>
+                                </a>
+                            }
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>

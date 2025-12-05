@@ -95,4 +95,7 @@ public class ApplicationUser : IdentityUser
     public virtual ICollection<PostAcolhimento> Acolhimentos { get; set; } = new List<PostAcolhimento>();
     public virtual ICollection<Opportunity> OportunidadesCriadas { get; set; } = new List<Opportunity>();
     public virtual ICollection<Service> Servicos { get; set; } = new List<Service>();
+    public virtual ICollection<Notification> Notificacoes { get; set; } = new List<Notification>();
+    public virtual ICollection<ChatMessage> MensagensEnviadas { get; set; } = new List<ChatMessage>();
+    public virtual ICollection<ChatMessage> MensagensRecebidas { get; set; } = new List<ChatMessage>();
 }

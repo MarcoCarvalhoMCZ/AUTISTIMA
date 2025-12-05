@@ -69,10 +69,33 @@
                                 <i class="bi bi-book me-1"></i> Mini Dicionário
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Busca" asp-action="Index">
+                                <i class="bi bi-search me-1"></i> Busca
+                            </a>
+                        </li>
                     </ul>
                     <ul class="navbar-nav">
                         @if (User.Identity?.IsAuthenticated == true)
                         {
+                            <!-- Ícone de Notificações -->
+                            <li class="nav-item">
+                                <a class="nav-link position-relative" asp-controller="Notificacoes" asp-action="Index" title="Notificações">
+                                    <i class="bi bi-bell fs-5"></i>
+                                    <span id="notificacao-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="display: none; font-size: 0.6rem;">
+                                        0
+                                    </span>
+                                </a>
+                            </li>
+                            <!-- Ícone de Chat -->
+                            <li class="nav-item">
+                                <a class="nav-link position-relative" asp-controller="Chat" asp-action="Index" title="Mensagens">
+                                    <i class="bi bi-chat-dots fs-5"></i>
+                                    <span id="chat-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary" style="display: none; font-size: 0.6rem;">
+                                        0
+                                    </span>
+                                </a>
+                            </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" 
                                    data-bs-toggle="dropdown" aria-expanded="false">
@@ -214,6 +237,43 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    
+    @if (User.Identity?.IsAuthenticated == true)
+    {
+        <script>
+            // Atualiza badges de notificações e mensagens
+            function atualizarBadges() {
+                // Notificações
+                fetch('/Notificacoes/NaoLidas')
+                    .then(r => r.json())
+                    .then(data => {
+                        const badge = document.getElementById('notificacao-badge');
+                        if (badge && data.count !== undefined) {
+                            badge.textContent = data.count > 9 ? '9+' : data.count;
+                            badge.style.display = data.count > 0 ? 'inline' : 'none';
+                        }
+                    })
+                    .catch(() => {});
+                
+                // Mensagens
+                fetch('/Chat/NaoLidas')
+                    .then(r => r.json())
+                    .then(data => {
+                        const badge = document.getElementById('chat-badge');
+                        if (badge && data.count !== undefined) {
+                            badge.textContent = data.count > 9 ? '9+' : data.count;
+                            badge.style.display = data.count > 0 ? 'inline' : 'none';
+                        }
+                    })
+                    .catch(() => {});
+            }
+            
+            // Atualizar ao carregar e a cada 30 segundos
+            document.addEventListener('DOMContentLoaded', atualizarBadges);
+            setInterval(atualizarBadges, 30000);
+        </script>
+    }
+    
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
