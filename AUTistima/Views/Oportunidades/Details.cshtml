@@ -1,0 +1,157 @@
+@model AUTistima.Models.Opportunity
+@{
+    ViewData["Title"] = Model.Titulo;
+}
+@using AUTistima.Models.Enums
+
+<div class="container py-4">
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-action="Index">Oportunidades</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@Model.Titulo</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-4">
+                        <div>
+                            <h2 class="fw-bold mb-2">@Model.Titulo</h2>
+                            @{
+                                var badgeClass = Model.Tipo switch
+                                {
+                                    TipoOportunidade.EmpregoParaMae => "bg-success",
+                                    TipoOportunidade.EmpregoParaFilho => "bg-primary",
+                                    TipoOportunidade.ServicoMae => "bg-warning text-dark",
+                                    TipoOportunidade.Capacitacao => "bg-info",
+                                    _ => "bg-secondary"
+                                };
+                            }
+                            <span class="badge @badgeClass fs-6">@Model.Tipo</span>
+                        </div>
+                        @if (!Model.Ativo)
+                        {
+                            <span class="badge bg-secondary">Inativa</span>
+                        }
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(Model.Cidade))
+                    {
+                        <p class="text-muted mb-3">
+                            <i class="bi bi-geo-alt me-1"></i>
+                            @Model.Cidade@(string.IsNullOrEmpty(Model.Estado) ? "" : $" - {Model.Estado}")
+                        </p>
+                    }
+
+                    <div class="d-flex flex-wrap gap-2 mb-4">
+                        @if (Model.PermiteHomeOffice)
+                        {
+                            <span class="badge bg-success">
+                                <i class="bi bi-house me-1"></i>
+                                Home Office
+                            </span>
+                        }
+                        @if (Model.HorarioFlexivel)
+                        {
+                            <span class="badge bg-info">
+                                <i class="bi bi-clock me-1"></i>
+                                Horário Flexível
+                            </span>
+                        }
+                    </div>
+
+                    <div class="mb-4">
+                        <h5 class="fw-semibold mb-3">Descrição</h5>
+                        <p style="white-space: pre-line;">@Model.Descricao</p>
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(Model.Requisitos))
+                    {
+                        <div class="mb-4">
+                            <h5 class="fw-semibold mb-3">Requisitos</h5>
+                            <p style="white-space: pre-line;">@Model.Requisitos</p>
+                        </div>
+                    }
+
+                    @if (!string.IsNullOrEmpty(Model.Beneficios))
+                    {
+                        <div class="mb-4">
+                            <h5 class="fw-semibold mb-3">Benefícios</h5>
+                            <p style="white-space: pre-line;">@Model.Beneficios</p>
+                        </div>
+                    }
+
+                    @if (!string.IsNullOrEmpty(Model.ValorSalario))
+                    {
+                        <div class="alert alert-success border-0 mb-4">
+                            <strong>Valor/Salário:</strong> @Model.ValorSalario
+                        </div>
+                    }
+
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <div class="card border-0 bg-light">
+                                <div class="card-body">
+                                    <h6 class="text-muted mb-2">Publicado em</h6>
+                                    <p class="mb-0">@Model.DataCriacao.ToString("dd/MM/yyyy")</p>
+                                </div>
+                            </div>
+                        </div>
+                        @if (Model.DataExpiracao.HasValue)
+                        {
+                            <div class="col-md-6">
+                                <div class="card border-0 bg-light">
+                                    <div class="card-body">
+                                        <h6 class="text-muted mb-2">Válido até</h6>
+                                        <p class="mb-0">@Model.DataExpiracao.Value.ToString("dd/MM/yyyy")</p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(Model.Contato))
+                    {
+                        <div class="mb-4">
+                            <h6 class="fw-semibold">Contato</h6>
+                            <p>@Model.Contato</p>
+                        </div>
+                    }
+                </div>
+                <div class="card-footer bg-white">
+                    <div class="d-flex justify-content-between">
+                        <a asp-action="Index" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left me-1"></i>
+                            Voltar
+                        </a>
+                        @if (!string.IsNullOrEmpty(Model.LinkExterno))
+                        {
+                            <a href="@Model.LinkExterno" target="_blank" class="btn btn-yellow">
+                                <i class="bi bi-box-arrow-up-right me-1"></i>
+                                Acessar Link
+                            </a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <h6 class="fw-semibold mb-3">
+                        <i class="bi bi-lightbulb me-1"></i>
+                        Dicas para se candidatar
+                    </h6>
+                    <ul class="small text-secondary mb-0">
+                        <li class="mb-2">Prepare um currículo atualizado destacando suas experiências.</li>
+                        <li class="mb-2">Mencione suas habilidades desenvolvidas como mãe atípica.</li>
+                        <li>Seja clara sobre suas necessidades de flexibilidade.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

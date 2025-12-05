@@ -1,0 +1,155 @@
+@model AUTistima.Models.Post
+@{
+    ViewData["Title"] = "Post - Central de Acolhimento";
+}
+
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <!-- Breadcrumb -->
+            <nav aria-label="breadcrumb" class="mb-4">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-action="Index">Central de Acolhimento</a></li>
+                    <li class="breadcrumb-item active">Post</li>
+                </ol>
+            </nav>
+
+            <!-- Post principal -->
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-body p-4">
+                    <!-- Autor -->
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="avatar-circle bg-salmon text-white me-3">
+                            @(Model.Autor?.NomeCompleto?.Substring(0, 1).ToUpper() ?? "A")
+                        </div>
+                        <div>
+                            <h6 class="mb-0 fw-semibold">@(Model.Autor?.NomeCompleto ?? "Mãe Anônima")</h6>
+                            <small class="text-muted">
+                                <i class="bi bi-clock me-1"></i>
+                                @Model.DataCriacao.ToString("dd/MM/yyyy 'às' HH:mm")
+                            </small>
+                        </div>
+                    </div>
+
+                    <!-- Conteúdo -->
+                    <div class="post-content mb-4">
+                        <p class="fs-5 mb-0" style="white-space: pre-wrap;">@Model.Conteudo</p>
+                    </div>
+
+                    <!-- Ações -->
+                    <div class="d-flex align-items-center gap-3 pt-3 border-top">
+                        <button class="btn btn-acolher" onclick="acolherPost(@Model.Id, this)">
+                            <span class="acolher-icon">🤍</span>
+                            Acolher
+                            <span id="count-@Model.Id" class="ms-1">(@Model.Acolhimentos?.Count)</span>
+                        </button>
+                        <span class="text-muted">
+                            <i class="bi bi-chat-heart me-1"></i>
+                            @Model.Comentarios?.Count comentário(s)
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Seção de comentários -->
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-light py-3">
+                    <h5 class="mb-0">
+                        <i class="bi bi-chat-heart me-2"></i>
+                        Mensagens de Apoio (@Model.Comentarios?.Count)
+                    </h5>
+                </div>
+                <div class="card-body">
+                    @if (Model.PermitirComentarios)
+                    {
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            <form asp-action="Comentar" method="post" class="mb-4">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="postId" value="@Model.Id" />
+                                <div class="mb-3">
+                                    <textarea name="conteudo" class="form-control" rows="3" 
+                                              placeholder="Escreva uma mensagem de apoio..." required></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-salmon">
+                                    <i class="bi bi-heart me-1"></i>
+                                    Enviar Apoio
+                                </button>
+                            </form>
+                        }
+                        else
+                        {
+                            <div class="alert alert-info mb-4">
+                                <a asp-controller="Account" asp-action="Login">Faça login</a> para deixar uma mensagem de apoio.
+                            </div>
+                        }
+                    }
+
+                    <!-- Lista de comentários -->
+                    @if (Model.Comentarios?.Any() == true)
+                    {
+                        <div class="comments-list">
+                            @foreach (var comentario in Model.Comentarios.OrderByDescending(c => c.DataCriacao))
+                            {
+                                <div class="comment-item p-3 mb-3 bg-light rounded">
+                                    <div class="d-flex align-items-start">
+                                        <div class="avatar-circle-sm bg-blue text-white me-2">
+                                            @(comentario.Autor?.NomeCompleto?.Substring(0, 1).ToUpper() ?? "A")
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                                <strong>@(comentario.Autor?.NomeCompleto ?? "Mãe Anônima")</strong>
+                                                <small class="text-muted">
+                                                    @comentario.DataCriacao.ToString("dd/MM 'às' HH:mm")
+                                                </small>
+                                            </div>
+                                            <p class="mb-0">@comentario.Conteudo</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="text-center py-4 text-muted">
+                            <i class="bi bi-chat-heart fs-1 mb-2 d-block"></i>
+                            <p>Seja a primeira a oferecer apoio!</p>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <!-- Voltar -->
+            <div class="mt-4">
+                <a asp-action="Index" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left me-1"></i>
+                    Voltar para a Central
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .avatar-circle {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 1.25rem;
+    }
+    .avatar-circle-sm {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 0.875rem;
+    }
+</style>

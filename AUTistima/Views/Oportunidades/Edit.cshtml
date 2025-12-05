@@ -1,0 +1,167 @@
+@model AUTistima.Models.Opportunity
+@{
+    ViewData["Title"] = "Editar - " + Model.Titulo;
+}
+
+<div class="container py-4">
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-action="Index">Oportunidades</a></li>
+            <li class="breadcrumb-item"><a asp-action="Details" asp-route-id="@Model.Id">@Model.Titulo</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Editar</li>
+        </ol>
+    </nav>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-yellow py-3">
+                    <h4 class="mb-0">
+                        <i class="bi bi-pencil-square me-2"></i>
+                        Editar Oportunidade
+                    </h4>
+                </div>
+                <div class="card-body p-4">
+                    <form asp-action="Edit" method="post">
+                        <input type="hidden" asp-for="Id" />
+                        <input type="hidden" asp-for="DataCriacao" />
+                        <input type="hidden" asp-for="UserId" />
+
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label asp-for="Titulo" class="form-label fw-semibold">Título *</label>
+                                <input asp-for="Titulo" class="form-control" />
+                                <span asp-validation-for="Titulo" class="text-danger small"></span>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label asp-for="Tipo" class="form-label fw-semibold">Tipo *</label>
+                                <select asp-for="Tipo" asp-items="Html.GetEnumSelectList<AUTistima.Models.Enums.TipoOportunidade>()" class="form-select">
+                                </select>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label asp-for="ValorSalario" class="form-label fw-semibold">Valor/Salário</label>
+                                <input asp-for="ValorSalario" class="form-control" />
+                            </div>
+
+                            <div class="col-12">
+                                <label asp-for="Descricao" class="form-label fw-semibold">Descrição *</label>
+                                <textarea asp-for="Descricao" class="form-control" rows="5"></textarea>
+                                <span asp-validation-for="Descricao" class="text-danger small"></span>
+                            </div>
+
+                            <div class="col-12">
+                                <label asp-for="Requisitos" class="form-label fw-semibold">Requisitos</label>
+                                <textarea asp-for="Requisitos" class="form-control" rows="3"></textarea>
+                            </div>
+
+                            <div class="col-12">
+                                <label asp-for="Beneficios" class="form-label fw-semibold">Benefícios</label>
+                                <textarea asp-for="Beneficios" class="form-control" rows="3"></textarea>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label asp-for="Cidade" class="form-label fw-semibold">Cidade</label>
+                                <input asp-for="Cidade" class="form-control" />
+                            </div>
+
+                            <div class="col-md-6">
+                                <label asp-for="Estado" class="form-label fw-semibold">Estado</label>
+                                <select asp-for="Estado" class="form-select">
+                                    <option value="">Selecione...</option>
+                                    <option value="AC">Acre</option>
+                                    <option value="AL">Alagoas</option>
+                                    <option value="AP">Amapá</option>
+                                    <option value="AM">Amazonas</option>
+                                    <option value="BA">Bahia</option>
+                                    <option value="CE">Ceará</option>
+                                    <option value="DF">Distrito Federal</option>
+                                    <option value="ES">Espírito Santo</option>
+                                    <option value="GO">Goiás</option>
+                                    <option value="MA">Maranhão</option>
+                                    <option value="MT">Mato Grosso</option>
+                                    <option value="MS">Mato Grosso do Sul</option>
+                                    <option value="MG">Minas Gerais</option>
+                                    <option value="PA">Pará</option>
+                                    <option value="PB">Paraíba</option>
+                                    <option value="PR">Paraná</option>
+                                    <option value="PE">Pernambuco</option>
+                                    <option value="PI">Piauí</option>
+                                    <option value="RJ">Rio de Janeiro</option>
+                                    <option value="RN">Rio Grande do Norte</option>
+                                    <option value="RS">Rio Grande do Sul</option>
+                                    <option value="RO">Rondônia</option>
+                                    <option value="RR">Roraima</option>
+                                    <option value="SC">Santa Catarina</option>
+                                    <option value="SP">São Paulo</option>
+                                    <option value="SE">Sergipe</option>
+                                    <option value="TO">Tocantins</option>
+                                </select>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="form-check">
+                                    <input asp-for="PermiteHomeOffice" class="form-check-input" type="checkbox" />
+                                    <label asp-for="PermiteHomeOffice" class="form-check-label">
+                                        Permite Home Office
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="form-check">
+                                    <input asp-for="HorarioFlexivel" class="form-check-input" type="checkbox" />
+                                    <label asp-for="HorarioFlexivel" class="form-check-label">
+                                        Horário Flexível
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <label asp-for="Contato" class="form-label fw-semibold">Contato</label>
+                                <input asp-for="Contato" class="form-control" />
+                            </div>
+
+                            <div class="col-12">
+                                <label asp-for="LinkExterno" class="form-label fw-semibold">Link Externo</label>
+                                <input asp-for="LinkExterno" class="form-control" />
+                            </div>
+
+                            <div class="col-md-6">
+                                <label asp-for="DataExpiracao" class="form-label fw-semibold">Data de Expiração</label>
+                                <input asp-for="DataExpiracao" type="date" class="form-control" />
+                            </div>
+
+                            <div class="col-12">
+                                <div class="form-check">
+                                    <input asp-for="Ativo" class="form-check-input" type="checkbox" />
+                                    <label asp-for="Ativo" class="form-check-label">
+                                        Oportunidade Ativa
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="my-4" />
+
+                        <div class="d-flex justify-content-between">
+                            <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-outline-secondary">
+                                <i class="bi bi-arrow-left me-1"></i>
+                                Cancelar
+                            </a>
+                            <button type="submit" class="btn btn-yellow">
+                                <i class="bi bi-check-lg me-1"></i>
+                                Salvar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

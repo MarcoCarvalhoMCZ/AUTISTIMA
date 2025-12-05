@@ -1,0 +1,114 @@
+@model IEnumerable<AUTistima.Models.Child>
+@{
+    ViewData["Title"] = "Meus Filhos";
+}
+
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="fw-bold">
+            <i class="bi bi-people-fill text-salmon me-2"></i>
+            Meus Filhos
+        </h1>
+        <a asp-action="Create" class="btn btn-salmon">
+            <i class="bi bi-plus-lg me-1"></i>
+            Cadastrar Filho(a)
+        </a>
+    </div>
+
+    @if (TempData["Sucesso"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle me-2"></i>@TempData["Sucesso"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    @if (!Model.Any())
+    {
+        <div class="card shadow-sm border-0">
+            <div class="card-body text-center py-5">
+                <i class="bi bi-person-hearts display-1 text-muted mb-3"></i>
+                <h4 class="text-muted">Nenhum filho cadastrado ainda</h4>
+                <p class="text-secondary mb-4">
+                    Cadastre seus filhos para personalizar os manejos e acompanhar o desenvolvimento.
+                </p>
+                <a asp-action="Create" class="btn btn-salmon">
+                    <i class="bi bi-plus-lg me-1"></i>
+                    Cadastrar Primeiro Filho(a)
+                </a>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row g-4">
+            @foreach (var filho in Model)
+            {
+                <div class="col-md-6 col-lg-4">
+                    <div class="card shadow-sm border-0 h-100">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="rounded-circle bg-salmon-light p-3 me-3">
+                                    <i class="bi bi-person-fill text-salmon fs-3"></i>
+                                </div>
+                                <div>
+                                    <h5 class="fw-semibold mb-1">@filho.Nome</h5>
+                                    @if (filho.DataNascimento.HasValue)
+                                    {
+                                        var idade = DateTime.Now.Year - filho.DataNascimento.Value.Year;
+                                        <small class="text-muted">@idade anos</small>
+                                    }
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                @if (filho.NivelSuporte.HasValue)
+                                {
+                                    var badgeClass = filho.NivelSuporte switch
+                                    {
+                                        AUTistima.Models.Enums.NivelSuporte.Nivel1 => "bg-success",
+                                        AUTistima.Models.Enums.NivelSuporte.Nivel2 => "bg-warning text-dark",
+                                        AUTistima.Models.Enums.NivelSuporte.Nivel3 => "bg-danger",
+                                        _ => "bg-secondary"
+                                    };
+                                    <span class="badge @badgeClass me-1">@filho.NivelSuporte</span>
+                                }
+                                
+                                @if (filho.PossuiDiagnostico)
+                                {
+                                    <span class="badge bg-info me-1">
+                                        <i class="bi bi-check-circle me-1"></i>Diagnóstico
+                                    </span>
+                                }
+
+                                @if (filho.PossuiPAE)
+                                {
+                                    <span class="badge bg-primary">
+                                        <i class="bi bi-mortarboard me-1"></i>PAE
+                                    </span>
+                                }
+                            </div>
+
+                            @if (!string.IsNullOrEmpty(filho.EscolaNome))
+                            {
+                                <p class="text-muted small mb-2">
+                                    <i class="bi bi-building me-1"></i>@filho.EscolaNome
+                                </p>
+                            }
+                        </div>
+                        <div class="card-footer bg-white border-top-0">
+                            <div class="d-flex gap-2">
+                                <a asp-action="Details" asp-route-id="@filho.Id" class="btn btn-outline-salmon btn-sm flex-fill">
+                                    <i class="bi bi-eye me-1"></i>Ver
+                                </a>
+                                <a asp-action="Edit" asp-route-id="@filho.Id" class="btn btn-outline-secondary btn-sm flex-fill">
+                                    <i class="bi bi-pencil me-1"></i>Editar
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

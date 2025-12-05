@@ -1,0 +1,62 @@
+@model AUTistima.Models.Child
+@{
+    ViewData["Title"] = "Excluir - " + Model.Nome;
+}
+
+<div class="container py-4">
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-action="Index">Meus Filhos</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Excluir</li>
+        </ol>
+    </nav>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-danger text-white py-3">
+                    <h4 class="mb-0">
+                        <i class="bi bi-exclamation-triangle me-2"></i>
+                        Confirmar Exclusão
+                    </h4>
+                </div>
+                <div class="card-body p-4 text-center">
+                    <div class="mb-4">
+                        <i class="bi bi-person-x display-1 text-danger"></i>
+                    </div>
+                    <h5 class="mb-3">Tem certeza que deseja excluir?</h5>
+                    <p class="text-secondary mb-4">
+                        Você está prestes a remover os dados de <strong>@Model.Nome</strong>.
+                        Esta ação não pode ser desfeita.
+                    </p>
+
+                    <div class="card bg-light border-0 mb-4">
+                        <div class="card-body">
+                            <h6 class="fw-semibold">@Model.Nome</h6>
+                            @if (Model.DataNascimento.HasValue)
+                            {
+                                <p class="text-muted small mb-0">
+                                    Nascimento: @Model.DataNascimento.Value.ToString("dd/MM/yyyy")
+                                </p>
+                            }
+                        </div>
+                    </div>
+
+                    <form asp-action="Delete" method="post">
+                        <input type="hidden" asp-for="Id" />
+                        <div class="d-flex justify-content-center gap-3">
+                            <a asp-action="Index" class="btn btn-outline-secondary">
+                                <i class="bi bi-arrow-left me-1"></i>
+                                Cancelar
+                            </a>
+                            <button type="submit" class="btn btn-danger">
+                                <i class="bi bi-trash me-1"></i>
+                                Sim, Excluir
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

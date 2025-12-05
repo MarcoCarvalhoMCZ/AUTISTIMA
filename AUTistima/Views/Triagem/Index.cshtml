@@ -1,0 +1,188 @@
+@model IEnumerable<AUTistima.Models.ScreeningRequest>
+@using AUTistima.Models.Enums
+@{
+    ViewData["Title"] = "Triagem Educacional";
+    var tipoPerfil = ViewBag.TipoPerfil as TipoPerfil?;
+    var statusAtual = ViewBag.StatusAtual as StatusTriagem?;
+}
+
+<div class="container py-4">
+    <!-- Cabeçalho -->
+    <div class="row mb-4">
+        <div class="col">
+            <h1 class="display-5 fw-bold">
+                <i class="bi bi-clipboard2-pulse text-blue me-2"></i>
+                Triagem Educacional
+            </h1>
+            <p class="lead text-secondary">
+                Fluxo para identificação precoce de sinais de TEA no ambiente escolar
+            </p>
+        </div>
+        @if (tipoPerfil == TipoPerfil.ProfissionalEducacao)
+        {
+            <div class="col-auto">
+                <a asp-action="Create" class="btn btn-salmon btn-lg">
+                    <i class="bi bi-plus-lg me-1"></i>
+                    Nova Solicitação
+                </a>
+            </div>
+        }
+    </div>
+
+    <!-- Alertas -->
+    @if (TempData["Mensagem"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle me-2"></i>
+            @TempData["Mensagem"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+    @if (TempData["Erro"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-circle me-2"></i>
+            @TempData["Erro"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <!-- Filtros -->
+    <div class="card mb-4 border-0 shadow-sm">
+        <div class="card-body">
+            <div class="row g-3 align-items-end">
+                <div class="col-md-4">
+                    <label class="form-label fw-semibold">Filtrar por Status</label>
+                    <select class="form-select" onchange="window.location.href='?status=' + this.value">
+                        <option value="">Todos os Status</option>
+                        @{
+                            var isPendente = statusAtual == StatusTriagem.Pendente;
+                            var isEmAvaliacao = statusAtual == StatusTriagem.EmAvaliacao;
+                            var isEncaminhado = statusAtual == StatusTriagem.Encaminhado;
+                            var isConcluido = statusAtual == StatusTriagem.Concluido;
+                        }
+                        <option value="Pendente" selected="@isPendente">🟡 Pendente</option>
+                        <option value="EmAvaliacao" selected="@isEmAvaliacao">🔵 Em Avaliação</option>
+                        <option value="Encaminhado" selected="@isEncaminhado">🟢 Encaminhado</option>
+                        <option value="Concluido" selected="@isConcluido">⚪ Concluído</option>
+                    </select>
+                </div>
+                @if (tipoPerfil == TipoPerfil.ProfissionalSaude)
+                {
+                    <div class="col-auto">
+                        <a asp-action="Fila" class="btn btn-blue">
+                            <i class="bi bi-list-check me-1"></i>
+                            Ver Fila de Pendentes
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Estatísticas rápidas -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-3">
+            <div class="card text-center border-warning">
+                <div class="card-body py-3">
+                    <h3 class="mb-0 text-warning">@Model.Count(t => t.Status == StatusTriagem.Pendente)</h3>
+                    <small class="text-muted">Pendentes</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center border-info">
+                <div class="card-body py-3">
+                    <h3 class="mb-0 text-info">@Model.Count(t => t.Status == StatusTriagem.EmAvaliacao)</h3>
+                    <small class="text-muted">Em Avaliação</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center border-success">
+                <div class="card-body py-3">
+                    <h3 class="mb-0 text-success">@Model.Count(t => t.Status == StatusTriagem.Encaminhado)</h3>
+                    <small class="text-muted">Encaminhados</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center border-secondary">
+                <div class="card-body py-3">
+                    <h3 class="mb-0 text-secondary">@Model.Count(t => t.Status == StatusTriagem.Concluido)</h3>
+                    <small class="text-muted">Concluídos</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lista de Triagens -->
+    @if (!Model.Any())
+    {
+        <div class="text-center py-5">
+            <i class="bi bi-inbox fs-1 text-muted mb-3 d-block"></i>
+            <h4 class="text-muted">Nenhuma triagem encontrada</h4>
+            @if (tipoPerfil == TipoPerfil.ProfissionalEducacao)
+            {
+                <p class="text-muted">Clique em "Nova Solicitação" para criar uma triagem.</p>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Código</th>
+                        <th>Aluno (anônimo)</th>
+                        <th>Idade</th>
+                        <th>Escola</th>
+                        <th>Data</th>
+                        <th>Status</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var triagem in Model)
+                    {
+                        <tr>
+                            <td>
+                                <code>@triagem.CodigoIdentificador</code>
+                            </td>
+                            <td>
+                                <strong>@triagem.NomeAluno</strong>
+                                <br><small class="text-muted">@triagem.SerieAno</small>
+                            </td>
+                            <td>@triagem.IdadeAluno anos</td>
+                            <td>@(triagem.Escola?.Nome ?? "N/A")</td>
+                            <td>@triagem.DataSolicitacao.ToString("dd/MM/yyyy")</td>
+                            <td>
+                                @switch (triagem.Status)
+                                {
+                                    case StatusTriagem.Pendente:
+                                        <span class="badge bg-warning text-dark">🟡 Pendente</span>
+                                        break;
+                                    case StatusTriagem.EmAvaliacao:
+                                        <span class="badge bg-info">🔵 Em Avaliação</span>
+                                        break;
+                                    case StatusTriagem.Encaminhado:
+                                        <span class="badge bg-success">🟢 Encaminhado</span>
+                                        break;
+                                    case StatusTriagem.Concluido:
+                                        <span class="badge bg-secondary">⚪ Concluído</span>
+                                        break;
+                                }
+                            </td>
+                            <td>
+                                <a asp-action="Details" asp-route-id="@triagem.Id" class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-eye"></i> Ver
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

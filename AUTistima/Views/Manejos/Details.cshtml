@@ -1,0 +1,165 @@
+@model AUTistima.Models.Manejo
+@{
+    ViewData["Title"] = Model.Titulo;
+}
+@using AUTistima.Models.Enums
+
+<div class="container py-4">
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-action="Index">Manejos</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@Model.Titulo</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-4">
+                        <div>
+                            <h2 class="fw-bold mb-3">@Model.Titulo</h2>
+                            @{
+                                var badgeClass = Model.Categoria switch
+                                {
+                                    CategoriaManejo.Ansiedade => "bg-danger",
+                                    CategoriaManejo.Banho => "bg-info",
+                                    CategoriaManejo.Alimentacao => "bg-warning text-dark",
+                                    CategoriaManejo.Sono => "bg-primary",
+                                    CategoriaManejo.CriseSensorial => "bg-danger",
+                                    CategoriaManejo.Comunicacao => "bg-success",
+                                    CategoriaManejo.Socializacao => "bg-primary",
+                                    CategoriaManejo.Escola => "bg-info",
+                                    CategoriaManejo.Rotina => "bg-secondary",
+                                    _ => "bg-secondary"
+                                };
+                            }
+                            <span class="badge @badgeClass fs-6">@Model.Categoria</span>
+                        </div>
+                        @if (Model.ValidadoPorEspecialista)
+                        {
+                            <span class="badge bg-success">
+                                <i class="bi bi-patch-check-fill me-1"></i>
+                                Validado por Especialista
+                            </span>
+                        }
+                    </div>
+
+                    <div class="mb-4">
+                        <h5 class="fw-semibold mb-3">
+                            <i class="bi bi-journal-text me-2"></i>
+                            Descrição
+                        </h5>
+                        <p class="lead" style="white-space: pre-line;">@Model.Descricao</p>
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(Model.DicaPratica))
+                    {
+                        <div class="alert alert-salmon-light border-0 mb-4">
+                            <h5 class="fw-semibold mb-3">
+                                <i class="bi bi-lightbulb me-2"></i>
+                                Dica Prática
+                            </h5>
+                            <p class="mb-0" style="white-space: pre-line;">@Model.DicaPratica</p>
+                        </div>
+                    }
+
+                    <div class="row g-3 mb-4">
+                        @if (!string.IsNullOrEmpty(Model.FaixaEtariaIndicada))
+                        {
+                            <div class="col-md-6">
+                                <div class="card border-0 bg-light">
+                                    <div class="card-body">
+                                        <h6 class="text-muted mb-2">
+                                            <i class="bi bi-people me-1"></i>
+                                            Faixa Etária Indicada
+                                        </h6>
+                                        <p class="mb-0 fw-semibold">@Model.FaixaEtariaIndicada</p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                        @if (Model.NivelSuporteIndicado.HasValue)
+                        {
+                            <div class="col-md-6">
+                                <div class="card border-0 bg-light">
+                                    <div class="card-body">
+                                        <h6 class="text-muted mb-2">
+                                            <i class="bi bi-heart me-1"></i>
+                                            Nível de Suporte
+                                        </h6>
+                                        @{
+                                            var nivelBadgeClass = Model.NivelSuporteIndicado switch
+                                            {
+                                                NivelSuporte.Nivel1 => "bg-success",
+                                                NivelSuporte.Nivel2 => "bg-warning text-dark",
+                                                NivelSuporte.Nivel3 => "bg-danger",
+                                                _ => "bg-secondary"
+                                            };
+                                        }
+                                        <span class="badge @nivelBadgeClass">@Model.NivelSuporteIndicado</span>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                    <div class="text-muted small">
+                        <i class="bi bi-calendar me-1"></i>
+                        Publicado em @Model.DataCriacao.ToString("dd/MM/yyyy")
+                        @if (Model.DataAtualizacao.HasValue)
+                        {
+                            <span class="ms-3">
+                                <i class="bi bi-pencil me-1"></i>
+                                Atualizado em @Model.DataAtualizacao.Value.ToString("dd/MM/yyyy")
+                            </span>
+                        }
+                    </div>
+                </div>
+                <div class="card-footer bg-white">
+                    <div class="d-flex justify-content-between">
+                        <a asp-action="Index" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left me-1"></i>
+                            Voltar
+                        </a>
+                        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-salmon">
+                            <i class="bi bi-pencil me-1"></i>
+                            Editar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-body">
+                    <h6 class="fw-semibold mb-3">
+                        <i class="bi bi-info-circle me-1"></i>
+                        Sobre os Manejos
+                    </h6>
+                    <p class="small text-secondary mb-0">
+                        Os manejos são "saberes não cientificizados" - conhecimentos práticos desenvolvidos 
+                        pelas próprias mães no dia a dia com seus filhos. São estratégias que funcionaram 
+                        para elas e podem ajudar outras famílias.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <h6 class="fw-semibold mb-3">
+                        <i class="bi bi-exclamation-triangle me-1"></i>
+                        Importante
+                    </h6>
+                    <p class="small text-secondary mb-0">
+                        Cada criança é única. O que funciona para uma pode não funcionar para outra. 
+                        Adapte as sugestões conforme as necessidades do seu filho e consulte profissionais 
+                        de saúde quando necessário.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

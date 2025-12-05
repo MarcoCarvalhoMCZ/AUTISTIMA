@@ -1,0 +1,111 @@
+@model AUTistima.Models.Post
+@{
+    ViewData["Title"] = "Compartilhar Momento";
+}
+
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <!-- Cabeçalho acolhedor -->
+            <div class="text-center mb-4">
+                <h1 class="display-5 fw-bold">
+                    <i class="bi bi-heart-fill text-salmon me-2"></i>
+                    Compartilhe seu Momento
+                </h1>
+                <p class="lead text-secondary">
+                    Este é um espaço seguro. Aqui você pode desabafar, pedir ajuda ou simplesmente 
+                    compartilhar sua jornada. Você não está sozinha. 💕
+                </p>
+            </div>
+
+            <!-- Card do formulário -->
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-salmon-light py-3">
+                    <h5 class="mb-0">
+                        <i class="bi bi-pencil-heart me-2"></i>
+                        Escreva sua mensagem
+                    </h5>
+                </div>
+                <div class="card-body p-4">
+                    <form asp-action="Create" method="post">
+                        @Html.AntiForgeryToken()
+                        
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+                        
+                        <div class="mb-4">
+                            <label asp-for="Conteudo" class="form-label fw-semibold">
+                                <i class="bi bi-chat-heart me-1"></i>
+                                O que você gostaria de compartilhar?
+                            </label>
+                            <textarea asp-for="Conteudo" 
+                                      class="form-control form-control-lg" 
+                                      rows="6" 
+                                      placeholder="Escreva aqui... Este é um espaço acolhedor onde outras mães vão te entender e apoiar."
+                                      required></textarea>
+                            <span asp-validation-for="Conteudo" class="text-danger"></span>
+                            <div class="form-text">
+                                <i class="bi bi-shield-check me-1"></i>
+                                Sua mensagem será compartilhada anonimamente se você preferir.
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <div class="form-check form-switch">
+                                <input asp-for="PermitirComentarios" class="form-check-input" type="checkbox" checked>
+                                <label asp-for="PermitirComentarios" class="form-check-label">
+                                    <i class="bi bi-chat-dots me-1"></i>
+                                    Permitir que outras mães comentem e ofereçam apoio
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Dica de acolhimento -->
+                        <div class="alert alert-info border-0 mb-4">
+                            <div class="d-flex">
+                                <div class="me-3">
+                                    <i class="bi bi-lightbulb fs-4"></i>
+                                </div>
+                                <div>
+                                    <strong>Dica:</strong> Compartilhar nossas experiências ajuda outras mães 
+                                    que podem estar passando pela mesma situação. Juntas somos mais fortes!
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex gap-3">
+                            <button type="submit" class="btn btn-salmon btn-lg flex-grow-1">
+                                <i class="bi bi-heart-fill me-2"></i>
+                                Compartilhar com Amor
+                            </button>
+                            <a asp-action="Index" class="btn btn-outline-secondary btn-lg">
+                                <i class="bi bi-arrow-left me-1"></i>
+                                Voltar
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Lembrete importante -->
+            <div class="card mt-4 border-warning">
+                <div class="card-body">
+                    <h6 class="card-title text-warning">
+                        <i class="bi bi-exclamation-triangle me-1"></i>
+                        Precisa de ajuda urgente?
+                    </h6>
+                    <p class="card-text mb-2">
+                        Se você está em uma situação de crise, entre em contato:
+                    </p>
+                    <ul class="mb-0">
+                        <li><strong>CVV:</strong> Ligue 188 (24 horas)</li>
+                        <li><strong>CAPS:</strong> Centro de Atenção Psicossocial - Procure a unidade mais próxima</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,160 @@
+@model AUTistima.Models.Manejo
+@using AUTistima.Models.Enums
+@{
+    ViewData["Title"] = "Compartilhar Manejo";
+}
+
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <!-- Breadcrumb -->
+            <nav aria-label="breadcrumb" class="mb-4">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-action="Index">Manejos</a></li>
+                    <li class="breadcrumb-item active">Compartilhar</li>
+                </ol>
+            </nav>
+
+            <!-- Cabeçalho -->
+            <div class="text-center mb-4">
+                <h1 class="display-6 fw-bold">
+                    <i class="bi bi-lightbulb text-yellow me-2"></i>
+                    Compartilhe seu Manejo
+                </h1>
+                <p class="lead text-secondary">
+                    Sua experiência pode ajudar outras mães! Compartilhe estratégias e dicas 
+                    que funcionaram para você e sua família.
+                </p>
+            </div>
+
+            <!-- Formulário -->
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-yellow-light py-3">
+                    <h5 class="mb-0">
+                        <i class="bi bi-pencil me-2"></i>
+                        Descreva sua dica
+                    </h5>
+                </div>
+                <div class="card-body p-4">
+                    <form asp-action="Create" method="post">
+                        @Html.AntiForgeryToken()
+                        
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+                        <!-- Título -->
+                        <div class="mb-4">
+                            <label asp-for="Titulo" class="form-label fw-semibold">
+                                Título da Dica <span class="text-danger">*</span>
+                            </label>
+                            <input asp-for="Titulo" class="form-control form-control-lg" 
+                                   placeholder="Ex: Como acalmar durante crises sensoriais" required />
+                            <span asp-validation-for="Titulo" class="text-danger"></span>
+                        </div>
+
+                        <!-- Categoria -->
+                        <div class="mb-4">
+                            <label asp-for="Categoria" class="form-label fw-semibold">
+                                Categoria <span class="text-danger">*</span>
+                            </label>
+                            <select asp-for="Categoria" class="form-select" required>
+                                <option value="">Selecione a categoria...</option>
+                                <option value="Alimentacao">🍎 Alimentação</option>
+                                <option value="Sono">🌙 Sono</option>
+                                <option value="Comunicacao">💬 Comunicação</option>
+                                <option value="Comportamento">🎭 Comportamento</option>
+                                <option value="Sensorial">🎨 Sensorial</option>
+                                <option value="Social">👥 Social</option>
+                                <option value="Escola">🏫 Escola</option>
+                                <option value="Rotina">📅 Rotina</option>
+                                <option value="Ansiedade">😰 Ansiedade</option>
+                                <option value="Higiene">🚿 Higiene</option>
+                                <option value="Outros">📦 Outros</option>
+                            </select>
+                            <span asp-validation-for="Categoria" class="text-danger"></span>
+                        </div>
+
+                        <!-- Descrição -->
+                        <div class="mb-4">
+                            <label asp-for="Descricao" class="form-label fw-semibold">
+                                <i class="bi bi-journal-text me-1"></i>
+                                Descrição do Contexto <span class="text-danger">*</span>
+                            </label>
+                            <textarea asp-for="Descricao" class="form-control" rows="4" 
+                                      placeholder="Descreva a situação ou desafio que você enfrentava..." required></textarea>
+                            <span asp-validation-for="Descricao" class="text-danger"></span>
+                        </div>
+
+                        <!-- Dica Prática -->
+                        <div class="mb-4">
+                            <label asp-for="DicaPratica" class="form-label fw-semibold">
+                                <i class="bi bi-lightbulb me-1"></i>
+                                Dica Prática <span class="text-danger">*</span>
+                            </label>
+                            <textarea asp-for="DicaPratica" class="form-control" rows="5" 
+                                      placeholder="Explique passo a passo o que você fez e como funcionou..." required></textarea>
+                            <span asp-validation-for="DicaPratica" class="text-danger"></span>
+                            <div class="form-text">
+                                Seja específica! Quanto mais detalhes, mais útil será para outras mães.
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mb-4">
+                            <!-- Faixa Etária -->
+                            <div class="col-md-6">
+                                <label asp-for="FaixaEtariaIndicada" class="form-label fw-semibold">
+                                    Faixa Etária Indicada
+                                </label>
+                                <input asp-for="FaixaEtariaIndicada" class="form-control" 
+                                       placeholder="Ex: 3-6 anos" />
+                                <span asp-validation-for="FaixaEtariaIndicada" class="text-danger"></span>
+                            </div>
+
+                            <!-- Nível de Suporte -->
+                            <div class="col-md-6">
+                                <label asp-for="NivelSuporteIndicado" class="form-label fw-semibold">
+                                    Nível de Suporte
+                                </label>
+                                <select asp-for="NivelSuporteIndicado" class="form-select">
+                                    <option value="">Qualquer nível</option>
+                                    <option value="Nivel1">Nível 1 - Necessita de Apoio</option>
+                                    <option value="Nivel2">Nível 2 - Necessita de Apoio Substancial</option>
+                                    <option value="Nivel3">Nível 3 - Necessita de Apoio Muito Substancial</option>
+                                </select>
+                                <span asp-validation-for="NivelSuporteIndicado" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <!-- Informativo -->
+                        <div class="alert alert-info border-0 mb-4">
+                            <div class="d-flex">
+                                <div class="me-3">
+                                    <i class="bi bi-shield-check fs-4"></i>
+                                </div>
+                                <div>
+                                    <strong>Nota:</strong> Seu manejo poderá ser validado por um profissional 
+                                    de saúde, recebendo um selo de verificação. Isso ajuda outras mães a 
+                                    identificarem dicas que foram aprovadas por especialistas.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex gap-3">
+                            <button type="submit" class="btn btn-yellow btn-lg flex-grow-1">
+                                <i class="bi bi-share me-2"></i>
+                                Compartilhar Manejo
+                            </button>
+                            <a asp-action="Index" class="btn btn-outline-secondary btn-lg">
+                                <i class="bi bi-arrow-left me-1"></i>
+                                Voltar
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

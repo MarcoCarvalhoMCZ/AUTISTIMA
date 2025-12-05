@@ -1,0 +1,173 @@
+@model AUTistima.Models.Child
+@{
+    ViewData["Title"] = Model.Nome;
+}
+
+<div class="container py-4">
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-action="Index">Meus Filhos</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@Model.Nome</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-4">
+                        <div class="rounded-circle bg-salmon-light p-4 me-4">
+                            <i class="bi bi-person-fill text-salmon display-4"></i>
+                        </div>
+                        <div>
+                            <h2 class="fw-bold mb-2">@Model.Nome</h2>
+                            @if (Model.DataNascimento.HasValue)
+                            {
+                                var idade = DateTime.Now.Year - Model.DataNascimento.Value.Year;
+                                if (DateTime.Now.DayOfYear < Model.DataNascimento.Value.DayOfYear) idade--;
+                                <p class="lead text-muted mb-0">
+                                    @idade anos (@Model.DataNascimento.Value.ToString("dd/MM/yyyy"))
+                                </p>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-4">
+                        @if (Model.NivelSuporte.HasValue)
+                        {
+                            var badgeClass = Model.NivelSuporte switch
+                            {
+                                AUTistima.Models.Enums.NivelSuporte.Nivel1 => "bg-success",
+                                AUTistima.Models.Enums.NivelSuporte.Nivel2 => "bg-warning text-dark",
+                                AUTistima.Models.Enums.NivelSuporte.Nivel3 => "bg-danger",
+                                _ => "bg-secondary"
+                            };
+                            var nivelDesc = Model.NivelSuporte switch
+                            {
+                                AUTistima.Models.Enums.NivelSuporte.Nivel1 => "Necessita de pouco suporte",
+                                AUTistima.Models.Enums.NivelSuporte.Nivel2 => "Necessita de suporte substancial",
+                                AUTistima.Models.Enums.NivelSuporte.Nivel3 => "Necessita de suporte muito substancial",
+                                _ => ""
+                            };
+                            <div class="col-md-6">
+                                <div class="card border-0 bg-light">
+                                    <div class="card-body">
+                                        <h6 class="text-muted mb-2">Nível de Suporte</h6>
+                                        <span class="badge @badgeClass fs-6">@Model.NivelSuporte</span>
+                                        <p class="small text-muted mt-2 mb-0">@nivelDesc</p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                        <div class="col-md-6">
+                            <div class="card border-0 bg-light">
+                                <div class="card-body">
+                                    <h6 class="text-muted mb-2">Diagnóstico</h6>
+                                    @if (Model.PossuiDiagnostico)
+                                    {
+                                        <span class="badge bg-info fs-6">
+                                            <i class="bi bi-check-circle me-1"></i>Diagnosticado
+                                        </span>
+                                        @if (Model.DataDiagnostico.HasValue)
+                                        {
+                                            <p class="small text-muted mt-2 mb-0">
+                                                Em @Model.DataDiagnostico.Value.ToString("MM/yyyy")
+                                            </p>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">Em investigação</span>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(Model.EscolaNome))
+                    {
+                        <div class="card border-0 bg-light mb-4">
+                            <div class="card-body">
+                                <h6 class="text-muted mb-2">
+                                    <i class="bi bi-building me-1"></i>
+                                    Escola
+                                </h6>
+                                <p class="mb-1 fw-semibold">@Model.EscolaNome</p>
+                                @if (Model.PossuiPAE)
+                                {
+                                    <span class="badge bg-primary">
+                                        <i class="bi bi-mortarboard me-1"></i>
+                                        Possui PAE
+                                    </span>
+                                }
+                            </div>
+                        </div>
+                    }
+
+                    @if (!string.IsNullOrEmpty(Model.EstrategiasCrise))
+                    {
+                        <div class="alert alert-salmon-light border-0 mb-4">
+                            <h6 class="fw-semibold mb-2">
+                                <i class="bi bi-heart-pulse me-1"></i>
+                                Estratégias para Momentos de Crise
+                            </h6>
+                            <p class="mb-0" style="white-space: pre-line;">@Model.EstrategiasCrise</p>
+                        </div>
+                    }
+
+                    @if (!string.IsNullOrEmpty(Model.Observacoes))
+                    {
+                        <div class="mb-4">
+                            <h6 class="fw-semibold mb-2">Observações</h6>
+                            <p class="text-secondary" style="white-space: pre-line;">@Model.Observacoes</p>
+                        </div>
+                    }
+                </div>
+                <div class="card-footer bg-white">
+                    <div class="d-flex justify-content-between">
+                        <a asp-action="Index" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left me-1"></i>
+                            Voltar
+                        </a>
+                        <div class="d-flex gap-2">
+                            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-salmon">
+                                <i class="bi bi-pencil me-1"></i>
+                                Editar
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-danger">
+                                <i class="bi bi-trash me-1"></i>
+                                Excluir
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-body">
+                    <h6 class="fw-semibold mb-3">
+                        <i class="bi bi-lightbulb me-1"></i>
+                        Ações Rápidas
+                    </h6>
+                    <div class="d-grid gap-2">
+                        <a asp-controller="Manejos" asp-action="Index" class="btn btn-outline-salmon">
+                            <i class="bi bi-journal-medical me-1"></i>
+                            Ver Manejos
+                        </a>
+                        <a asp-controller="Triagem" asp-action="Create" class="btn btn-outline-salmon">
+                            <i class="bi bi-clipboard-plus me-1"></i>
+                            Solicitar Triagem
+                        </a>
+                        <a asp-controller="Acolhimento" asp-action="Index" class="btn btn-outline-salmon">
+                            <i class="bi bi-chat-heart me-1"></i>
+                            Rede de Apoio
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

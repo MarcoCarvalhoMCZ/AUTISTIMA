@@ -1,0 +1,134 @@
+@model AUTistima.Models.Manejo
+@using AUTistima.Models.Enums
+@{
+    ViewData["Title"] = "Editar Manejo";
+}
+
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <!-- Breadcrumb -->
+            <nav aria-label="breadcrumb" class="mb-4">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-action="Index">Manejos</a></li>
+                    <li class="breadcrumb-item"><a asp-action="Details" asp-route-id="@Model.Id">@Model.Titulo</a></li>
+                    <li class="breadcrumb-item active">Editar</li>
+                </ol>
+            </nav>
+
+            <!-- Cabeçalho -->
+            <div class="text-center mb-4">
+                <h1 class="display-6 fw-bold">
+                    <i class="bi bi-pencil text-yellow me-2"></i>
+                    Editar Manejo
+                </h1>
+            </div>
+
+            <!-- Formulário -->
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-yellow-light py-3">
+                    <h5 class="mb-0">
+                        <i class="bi bi-pencil-square me-2"></i>
+                        Atualize sua dica
+                    </h5>
+                </div>
+                <div class="card-body p-4">
+                    <form asp-action="Edit" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" asp-for="Id" />
+                        
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+                        <!-- Título -->
+                        <div class="mb-4">
+                            <label asp-for="Titulo" class="form-label fw-semibold">
+                                Título da Dica <span class="text-danger">*</span>
+                            </label>
+                            <input asp-for="Titulo" class="form-control form-control-lg" required />
+                            <span asp-validation-for="Titulo" class="text-danger"></span>
+                        </div>
+
+                        <!-- Categoria -->
+                        <div class="mb-4">
+                            <label asp-for="Categoria" class="form-label fw-semibold">
+                                Categoria <span class="text-danger">*</span>
+                            </label>
+                            <select asp-for="Categoria" class="form-select" required>
+                                <option value="Alimentacao">🍎 Alimentação</option>
+                                <option value="Sono">🌙 Sono</option>
+                                <option value="Comunicacao">💬 Comunicação</option>
+                                <option value="Comportamento">🎭 Comportamento</option>
+                                <option value="Sensorial">🎨 Sensorial</option>
+                                <option value="Social">👥 Social</option>
+                                <option value="Escola">🏫 Escola</option>
+                                <option value="Rotina">📅 Rotina</option>
+                                <option value="Ansiedade">😰 Ansiedade</option>
+                                <option value="Higiene">🚿 Higiene</option>
+                                <option value="Outros">📦 Outros</option>
+                            </select>
+                            <span asp-validation-for="Categoria" class="text-danger"></span>
+                        </div>
+
+                        <!-- Descrição -->
+                        <div class="mb-4">
+                            <label asp-for="Descricao" class="form-label fw-semibold">
+                                Descrição do Contexto <span class="text-danger">*</span>
+                            </label>
+                            <textarea asp-for="Descricao" class="form-control" rows="4" required></textarea>
+                            <span asp-validation-for="Descricao" class="text-danger"></span>
+                        </div>
+
+                        <!-- Dica Prática -->
+                        <div class="mb-4">
+                            <label asp-for="DicaPratica" class="form-label fw-semibold">
+                                Dica Prática <span class="text-danger">*</span>
+                            </label>
+                            <textarea asp-for="DicaPratica" class="form-control" rows="5" required></textarea>
+                            <span asp-validation-for="DicaPratica" class="text-danger"></span>
+                        </div>
+
+                        <div class="row g-3 mb-4">
+                            <!-- Faixa Etária -->
+                            <div class="col-md-6">
+                                <label asp-for="FaixaEtariaIndicada" class="form-label fw-semibold">
+                                    Faixa Etária Indicada
+                                </label>
+                                <input asp-for="FaixaEtariaIndicada" class="form-control" />
+                                <span asp-validation-for="FaixaEtariaIndicada" class="text-danger"></span>
+                            </div>
+
+                            <!-- Nível de Suporte -->
+                            <div class="col-md-6">
+                                <label asp-for="NivelSuporteIndicado" class="form-label fw-semibold">
+                                    Nível de Suporte
+                                </label>
+                                <select asp-for="NivelSuporteIndicado" class="form-select">
+                                    <option value="">Qualquer nível</option>
+                                    <option value="Nivel1">Nível 1 - Necessita de Apoio</option>
+                                    <option value="Nivel2">Nível 2 - Necessita de Apoio Substancial</option>
+                                    <option value="Nivel3">Nível 3 - Necessita de Apoio Muito Substancial</option>
+                                </select>
+                                <span asp-validation-for="NivelSuporteIndicado" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="d-flex gap-3">
+                            <button type="submit" class="btn btn-yellow btn-lg flex-grow-1">
+                                <i class="bi bi-check-lg me-2"></i>
+                                Salvar Alterações
+                            </button>
+                            <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-outline-secondary btn-lg">
+                                <i class="bi bi-x-lg me-1"></i>
+                                Cancelar
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

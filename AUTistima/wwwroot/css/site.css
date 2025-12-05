@@ -65,6 +65,7 @@
     --font-family-heading: var(--font-family-base);
     
     /* Tamanhos grandes para acessibilidade */
+    --font-size-xs: 0.875rem;        /* 14px */
     --font-size-base: 1.125rem;      /* 18px - maior que o padrão */
     --font-size-sm: 1rem;            /* 16px */
     --font-size-lg: 1.25rem;         /* 20px */
@@ -180,12 +181,26 @@ a:hover {
    BOTÕES PERSONALIZADOS
 ============================================ */
 .btn {
-    font-size: var(--font-size-base);
+    font-size: var(--font-size-sm);
     font-weight: var(--font-weight-semibold);
-    padding: var(--spacing-sm) var(--spacing-lg);
+    padding: var(--spacing-xs) var(--spacing-md);
     border-radius: var(--border-radius-md);
     transition: all var(--transition-base);
     border: var(--border-width) solid transparent;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 100%;
+}
+
+.btn-lg {
+    font-size: var(--font-size-base);
+    padding: var(--spacing-sm) var(--spacing-lg);
+}
+
+.btn-sm {
+    font-size: var(--font-size-xs);
+    padding: var(--spacing-xs) var(--spacing-sm);
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
@@ -259,11 +274,12 @@ a:hover {
     background-color: var(--color-salmon-light);
     color: var(--color-salmon-hover);
     border-color: var(--color-salmon);
-    padding: var(--spacing-sm) var(--spacing-lg);
-    font-size: var(--font-size-lg);
+    padding: var(--spacing-xs) var(--spacing-md);
+    font-size: var(--font-size-sm);
     display: inline-flex;
     align-items: center;
-    gap: var(--spacing-sm);
+    gap: var(--spacing-xs);
+    white-space: nowrap;
 }
 
 .btn-acolher:hover, .btn-acolher:focus {
@@ -437,12 +453,13 @@ a:hover {
 }
 
 .navbar-autistima .nav-link {
-    font-size: var(--font-size-base);
+    font-size: var(--font-size-sm);
     font-weight: var(--font-weight-medium);
     color: var(--color-text);
-    padding: var(--spacing-sm) var(--spacing-md) !important;
+    padding: var(--spacing-xs) var(--spacing-sm) !important;
     border-radius: var(--border-radius-sm);
     transition: all var(--transition-fast);
+    white-space: nowrap;
 }
 
 .navbar-autistima .nav-link:hover,
@@ -698,6 +715,8 @@ a:hover {
 ============================================ */
 @media (max-width: 768px) {
     :root {
+        --font-size-xs: 0.75rem;
+        --font-size-sm: 0.875rem;
         --font-size-base: 1rem;
         --font-size-4xl: 2rem;
         --font-size-3xl: 1.75rem;
@@ -715,6 +734,47 @@ a:hover {
     .post-actions {
         flex-direction: column;
         align-items: flex-start;
+    }
+    
+    /* Botões menores em mobile */
+    .btn {
+        font-size: var(--font-size-xs);
+        padding: var(--spacing-xs) var(--spacing-sm);
+    }
+    
+    .btn-lg {
+        font-size: var(--font-size-sm);
+        padding: var(--spacing-xs) var(--spacing-md);
+    }
+    
+    .navbar-autistima .nav-link {
+        font-size: var(--font-size-sm);
+        padding: var(--spacing-xs) var(--spacing-sm) !important;
+    }
+    
+    .btn-acolher {
+        font-size: var(--font-size-xs);
+        padding: var(--spacing-xs) var(--spacing-sm);
+    }
+}
+
+@media (max-width: 576px) {
+    :root {
+        --font-size-xs: 0.7rem;
+        --font-size-sm: 0.8rem;
+    }
+    
+    .btn {
+        font-size: var(--font-size-xs);
+        padding: 0.2rem 0.5rem;
+    }
+    
+    .navbar-autistima .navbar-brand {
+        font-size: var(--font-size-lg);
+    }
+    
+    .navbar-autistima .navbar-brand img {
+        height: 30px;
     }
 }
 

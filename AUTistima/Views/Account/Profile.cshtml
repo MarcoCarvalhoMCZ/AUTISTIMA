@@ -1,0 +1,253 @@
+@model AUTistima.Models.ApplicationUser
+@using AUTistima.Models.Enums
+@{
+    ViewData["Title"] = "Meu Perfil";
+}
+
+<div class="container py-4">
+    <div class="row">
+        <div class="col-lg-4 mb-4">
+            <!-- Card do Perfil -->
+            <div class="card shadow-sm border-0">
+                <div class="card-body text-center p-4">
+                    <div class="avatar-large bg-salmon text-white mx-auto mb-3">
+                        @(Model.NomeCompleto?.Substring(0, 1).ToUpper() ?? "U")
+                    </div>
+                    <h4 class="fw-bold mb-1">@Model.NomeCompleto</h4>
+                    <p class="text-muted mb-3">
+                        @switch (Model.TipoPerfil)
+                        {
+                            case TipoPerfil.Mae: <text>👩 Mãe Atípica</text> break;
+                            case TipoPerfil.ProfissionalSaude: <text>🩺 Profissional de Saúde</text> break;
+                            case TipoPerfil.ProfissionalEducacao: <text>📚 Profissional de Educação</text> break;
+                            case TipoPerfil.Empresa: <text>🏢 Empresa</text> break;
+                            case TipoPerfil.Governo: <text>🏛️ Governo</text> break;
+                        }
+                    </p>
+                    
+                    @if (Model.TipoPerfil == TipoPerfil.Empresa && !string.IsNullOrEmpty(Model.NomeEmpresa))
+                    {
+                        <p class="mb-2"><strong>@Model.NomeEmpresa</strong></p>
+                        @if (!string.IsNullOrEmpty(Model.CNPJ))
+                        {
+                            <small class="text-muted">CNPJ: @Model.CNPJ</small>
+                        }
+                    }
+                    
+                    @if ((Model.TipoPerfil == TipoPerfil.ProfissionalSaude || Model.TipoPerfil == TipoPerfil.ProfissionalEducacao) 
+                         && !string.IsNullOrEmpty(Model.RegistroProfissional))
+                    {
+                        <p class="mb-0">
+                            <span class="badge bg-success">
+                                <i class="bi bi-patch-check me-1"></i>
+                                @Model.RegistroProfissional
+                            </span>
+                        </p>
+                    }
+                </div>
+                <div class="card-footer bg-transparent border-0 text-center pb-4">
+                    <a href="#" class="btn btn-outline-salmon">
+                        <i class="bi bi-pencil me-1"></i>
+                        Editar Perfil
+                    </a>
+                </div>
+            </div>
+
+            <!-- Informações de Contato -->
+            <div class="card shadow-sm border-0 mt-4">
+                <div class="card-header bg-light py-3">
+                    <h6 class="mb-0">
+                        <i class="bi bi-person-lines-fill me-2"></i>
+                        Informações
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <small class="text-muted">E-mail</small>
+                        <p class="mb-0">@Model.Email</p>
+                    </div>
+                    @if (!string.IsNullOrEmpty(Model.PhoneNumber))
+                    {
+                        <div class="mb-3">
+                            <small class="text-muted">Telefone</small>
+                            <p class="mb-0">@Model.PhoneNumber</p>
+                        </div>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.Cidade))
+                    {
+                        <div class="mb-0">
+                            <small class="text-muted">Localização</small>
+                            <p class="mb-0">@Model.Cidade @(!string.IsNullOrEmpty(Model.Estado) ? $"- {Model.Estado}" : "")</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-8">
+            <!-- Estatísticas -->
+            @if (Model.TipoPerfil == TipoPerfil.Mae)
+            {
+                <div class="row g-3 mb-4">
+                    <div class="col-md-4">
+                        <div class="card text-center border-salmon">
+                            <div class="card-body py-3">
+                                <h3 class="mb-0 text-salmon">@(ViewBag.TotalPosts ?? 0)</h3>
+                                <small class="text-muted">Posts</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card text-center border-yellow">
+                            <div class="card-body py-3">
+                                <h3 class="mb-0 text-warning">@(ViewBag.TotalManejos ?? 0)</h3>
+                                <small class="text-muted">Manejos</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card text-center border-info">
+                            <div class="card-body py-3">
+                                <h3 class="mb-0 text-info">@(ViewBag.TotalAcolhimentos ?? 0)</h3>
+                                <small class="text-muted">Acolhimentos</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <!-- Minhas atividades -->
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-light py-3">
+                    <h5 class="mb-0">
+                        <i class="bi bi-activity me-2"></i>
+                        Minhas Atividades
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <!-- Tabs -->
+                    <ul class="nav nav-tabs mb-4" role="tablist">
+                        @if (Model.TipoPerfil == TipoPerfil.Mae)
+                        {
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#posts">
+                                    <i class="bi bi-chat-heart me-1"></i>
+                                    Meus Posts
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#manejos">
+                                    <i class="bi bi-lightbulb me-1"></i>
+                                    Meus Manejos
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#filhos">
+                                    <i class="bi bi-people me-1"></i>
+                                    Meus Filhos
+                                </button>
+                            </li>
+                        }
+                        @if (Model.TipoPerfil == TipoPerfil.ProfissionalSaude)
+                        {
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#triagens">
+                                    <i class="bi bi-clipboard2-pulse me-1"></i>
+                                    Triagens
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#validacoes">
+                                    <i class="bi bi-patch-check me-1"></i>
+                                    Validações
+                                </button>
+                            </li>
+                        }
+                        @if (Model.TipoPerfil == TipoPerfil.Empresa)
+                        {
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#oportunidades">
+                                    <i class="bi bi-briefcase me-1"></i>
+                                    Oportunidades
+                                </button>
+                            </li>
+                        }
+                    </ul>
+
+                    <!-- Tab Content -->
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="posts">
+                            <div class="text-center py-4 text-muted">
+                                <i class="bi bi-chat-heart fs-1 mb-2 d-block"></i>
+                                <p>Seus posts aparecerão aqui.</p>
+                                <a asp-controller="Acolhimento" asp-action="Create" class="btn btn-salmon">
+                                    <i class="bi bi-plus-lg me-1"></i>
+                                    Criar Post
+                                </a>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="manejos">
+                            <div class="text-center py-4 text-muted">
+                                <i class="bi bi-lightbulb fs-1 mb-2 d-block"></i>
+                                <p>Seus manejos aparecerão aqui.</p>
+                                <a asp-controller="Manejos" asp-action="Create" class="btn btn-yellow">
+                                    <i class="bi bi-plus-lg me-1"></i>
+                                    Compartilhar Manejo
+                                </a>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="filhos">
+                            <div class="text-center py-4 text-muted">
+                                <i class="bi bi-people fs-1 mb-2 d-block"></i>
+                                <p>Cadastre seus filhos para acompanhar seu desenvolvimento.</p>
+                                <a href="#" class="btn btn-blue">
+                                    <i class="bi bi-plus-lg me-1"></i>
+                                    Adicionar Filho
+                                </a>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="triagens">
+                            <div class="text-center py-4 text-muted">
+                                <i class="bi bi-clipboard2-pulse fs-1 mb-2 d-block"></i>
+                                <p>Suas triagens aparecerão aqui.</p>
+                                <a asp-controller="Triagem" asp-action="Fila" class="btn btn-blue">
+                                    <i class="bi bi-list-check me-1"></i>
+                                    Ver Fila de Triagens
+                                </a>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="validacoes">
+                            <div class="text-center py-4 text-muted">
+                                <i class="bi bi-patch-check fs-1 mb-2 d-block"></i>
+                                <p>Manejos que você validou aparecerão aqui.</p>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="oportunidades">
+                            <div class="text-center py-4 text-muted">
+                                <i class="bi bi-briefcase fs-1 mb-2 d-block"></i>
+                                <p>Suas oportunidades aparecerão aqui.</p>
+                                <a asp-controller="Oportunidades" asp-action="Create" class="btn btn-salmon">
+                                    <i class="bi bi-plus-lg me-1"></i>
+                                    Publicar Oportunidade
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .avatar-large {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.5rem;
+        font-weight: bold;
+    }
+</style>

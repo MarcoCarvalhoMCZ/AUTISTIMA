@@ -1,0 +1,117 @@
+@{
+    ViewData["Title"] = "Contato";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <!-- Cabeçalho -->
+            <div class="text-center mb-5">
+                <h1 class="display-5 fw-bold">
+                    <i class="bi bi-envelope-heart text-salmon me-2"></i>
+                    Entre em Contato
+                </h1>
+                <p class="lead text-secondary">
+                    Tem dúvidas, sugestões ou quer fazer parte do AUTistima? Fale conosco!
+                </p>
+            </div>
+
+            <div class="row g-4">
+                <!-- Formulário -->
+                <div class="col-md-7">
+                    <div class="card shadow-sm border-0">
+                        <div class="card-body p-4">
+                            <h5 class="fw-semibold mb-4">Envie sua mensagem</h5>
+                            <form>
+                                <div class="mb-3">
+                                    <label class="form-label fw-semibold">Nome</label>
+                                    <input type="text" class="form-control" placeholder="Seu nome completo" required />
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label fw-semibold">E-mail</label>
+                                    <input type="email" class="form-control" placeholder="seu@@email.com" required />
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label fw-semibold">Assunto</label>
+                                    <select class="form-select">
+                                        <option value="">Selecione...</option>
+                                        <option value="duvida">Dúvida</option>
+                                        <option value="sugestao">Sugestão</option>
+                                        <option value="parceria">Parceria</option>
+                                        <option value="imprensa">Imprensa</option>
+                                        <option value="outro">Outro</option>
+                                    </select>
+                                </div>
+                                <div class="mb-4">
+                                    <label class="form-label fw-semibold">Mensagem</label>
+                                    <textarea class="form-control" rows="5" placeholder="Escreva sua mensagem..." required></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-salmon w-100">
+                                    <i class="bi bi-send me-1"></i>
+                                    Enviar Mensagem
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Informações de Contato -->
+                <div class="col-md-5">
+                    <div class="card shadow-sm border-0 mb-4 bg-salmon-light">
+                        <div class="card-body p-4">
+                            <h5 class="fw-semibold mb-3">
+                                <i class="bi bi-chat-heart me-2"></i>
+                                Canais de Atendimento
+                            </h5>
+                            <div class="mb-3">
+                                <strong>E-mail:</strong><br />
+                                <a href="mailto:contato@@autistima.app.br" class="text-decoration-none">
+                                    contato@@autistima.app.br
+                                </a>
+                            </div>
+                            <div class="mb-3">
+                                <strong>Instagram:</strong><br />
+                                <a href="https://instagram.com/autistima" target="_blank" class="text-decoration-none">
+                                    @@autistima
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card shadow-sm border-0 mb-4">
+                        <div class="card-body p-4">
+                            <h5 class="fw-semibold mb-3">
+                                <i class="bi bi-building me-2"></i>
+                                Para Empresas
+                            </h5>
+                            <p class="mb-3">
+                                Quer contratar mães atípicas ou oferecer benefícios para famílias neurodiversas?
+                            </p>
+                            <a href="mailto:empresas@@autistima.app.br" class="btn btn-outline-salmon w-100">
+                                <i class="bi bi-briefcase me-1"></i>
+                                Fale com nosso time
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="card shadow-sm border-0">
+                        <div class="card-body p-4">
+                            <h5 class="fw-semibold mb-3">
+                                <i class="bi bi-heart-fill text-danger me-2"></i>
+                                Precisa de Ajuda Urgente?
+                            </h5>
+                            <p class="mb-2">
+                                <strong>CVV - Centro de Valorização da Vida</strong><br />
+                                Ligue <strong>188</strong> (24 horas)
+                            </p>
+                            <p class="mb-0">
+                                <strong>CAPS</strong><br />
+                                Centro de Atenção Psicossocial - Procure a unidade mais próxima
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

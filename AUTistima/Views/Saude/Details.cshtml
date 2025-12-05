@@ -1,0 +1,157 @@
+@model AUTistima.Models.Service
+@{
+    ViewData["Title"] = Model.NomeProfissional;
+}
+@using AUTistima.Models.Enums
+
+<div class="container py-4">
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-action="Index">Saúde</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@Model.NomeProfissional</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-4">
+                        <div>
+                            <h2 class="fw-bold mb-2">@Model.NomeProfissional</h2>
+                            <span class="badge bg-primary fs-6">@Model.Especialidade</span>
+                            <span class="badge bg-secondary fs-6">@Model.TipoAtendimento</span>
+                        </div>
+                        @if (Model.Verificado)
+                        {
+                            <span class="badge bg-success">
+                                <i class="bi bi-patch-check-fill me-1"></i>
+                                Verificado
+                            </span>
+                        }
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(Model.RegistroProfissional))
+                    {
+                        <p class="text-muted mb-3">
+                            <i class="bi bi-card-text me-1"></i>
+                            Registro: @Model.RegistroProfissional
+                        </p>
+                    }
+
+                    @if (!string.IsNullOrEmpty(Model.Descricao))
+                    {
+                        <div class="mb-4">
+                            <h5 class="fw-semibold mb-3">Sobre</h5>
+                            <p style="white-space: pre-line;">@Model.Descricao</p>
+                        </div>
+                    }
+
+                    <div class="row g-4 mb-4">
+                        @if (!string.IsNullOrEmpty(Model.Cidade))
+                        {
+                            <div class="col-md-6">
+                                <div class="card border-0 bg-light h-100">
+                                    <div class="card-body">
+                                        <h6 class="text-muted mb-2">
+                                            <i class="bi bi-geo-alt me-1"></i>
+                                            Localização
+                                        </h6>
+                                        @if (!string.IsNullOrEmpty(Model.Endereco))
+                                        {
+                                            <p class="mb-1">@Model.Endereco</p>
+                                        }
+                                        @if (!string.IsNullOrEmpty(Model.Bairro))
+                                        {
+                                            <p class="mb-1">@Model.Bairro</p>
+                                        }
+                                        <p class="mb-0">@Model.Cidade - @Model.Estado</p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                        <div class="col-md-6">
+                            <div class="card border-0 bg-light h-100">
+                                <div class="card-body">
+                                    <h6 class="text-muted mb-2">
+                                        <i class="bi bi-telephone me-1"></i>
+                                        Contato
+                                    </h6>
+                                    @if (!string.IsNullOrEmpty(Model.Telefone))
+                                    {
+                                        <p class="mb-1">
+                                            <strong>Tel:</strong> @Model.Telefone
+                                        </p>
+                                    }
+                                    @if (!string.IsNullOrEmpty(Model.Email))
+                                    {
+                                        <p class="mb-0">
+                                            <a href="mailto:@Model.Email">@Model.Email</a>
+                                        </p>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex flex-wrap gap-2 mb-4">
+                        @if (Model.AtendeOnline)
+                        {
+                            <span class="badge bg-info">
+                                <i class="bi bi-camera-video me-1"></i>
+                                Atende Online
+                            </span>
+                        }
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(Model.ValorConsulta))
+                    {
+                        <div class="alert alert-light border mb-4">
+                            <strong>Valor da Consulta:</strong> @Model.ValorConsulta
+                        </div>
+                    }
+
+                    @if (!string.IsNullOrEmpty(Model.Observacoes))
+                    {
+                        <div class="mb-4">
+                            <h6 class="fw-semibold">Observações</h6>
+                            <p class="text-secondary" style="white-space: pre-line;">@Model.Observacoes</p>
+                        </div>
+                    }
+                </div>
+                <div class="card-footer bg-white">
+                    <div class="d-flex justify-content-between">
+                        <a asp-action="Index" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left me-1"></i>
+                            Voltar
+                        </a>
+                        @if (!string.IsNullOrEmpty(Model.Website))
+                        {
+                            <a href="@Model.Website" target="_blank" class="btn btn-salmon">
+                                <i class="bi bi-globe me-1"></i>
+                                Visitar Site
+                            </a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <h6 class="fw-semibold mb-3">
+                        <i class="bi bi-info-circle me-1"></i>
+                        Dicas
+                    </h6>
+                    <ul class="small text-secondary mb-0">
+                        <li class="mb-2">Antes da consulta, prepare uma lista de dúvidas e comportamentos que deseja relatar.</li>
+                        <li class="mb-2">Leve relatórios anteriores, laudos e exames se tiver.</li>
+                        <li>Pergunte sobre a experiência do profissional com TEA.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

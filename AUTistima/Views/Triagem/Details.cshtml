@@ -1,0 +1,310 @@
+@model AUTistima.Models.ScreeningRequest
+@using AUTistima.Models.Enums
+@{
+    ViewData["Title"] = $"Triagem {Model.CodigoIdentificador}";
+    var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+    var isResponsavel = Model.ProfissionalResponsavelId == userId;
+}
+
+<div class="container py-4">
+    <div class="row">
+        <div class="col-lg-8">
+            <!-- Breadcrumb -->
+            <nav aria-label="breadcrumb" class="mb-4">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-action="Index">Triagem Educacional</a></li>
+                    <li class="breadcrumb-item active">@Model.CodigoIdentificador</li>
+                </ol>
+            </nav>
+
+            <!-- Alertas -->
+            @if (TempData["Mensagem"] != null)
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="bi bi-check-circle me-2"></i>
+                    @TempData["Mensagem"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            }
+            @if (TempData["Erro"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="bi bi-exclamation-circle me-2"></i>
+                    @TempData["Erro"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            }
+
+            <!-- Cabeçalho -->
+            <div class="d-flex justify-content-between align-items-start mb-4">
+                <div>
+                    <h1 class="display-6 fw-bold mb-2">
+                        <i class="bi bi-clipboard2-pulse text-blue me-2"></i>
+                        Triagem @Model.CodigoIdentificador
+                    </h1>
+                    <p class="text-muted mb-0">
+                        Solicitada em @Model.DataSolicitacao.ToString("dd/MM/yyyy 'às' HH:mm")
+                    </p>
+                </div>
+                <div>
+                    @switch (Model.Status)
+                    {
+                        case StatusTriagem.Pendente:
+                            <span class="badge bg-warning text-dark fs-6 px-3 py-2">🟡 Pendente</span>
+                            break;
+                        case StatusTriagem.EmAvaliacao:
+                            <span class="badge bg-info fs-6 px-3 py-2">🔵 Em Avaliação</span>
+                            break;
+                        case StatusTriagem.Encaminhado:
+                            <span class="badge bg-success fs-6 px-3 py-2">🟢 Encaminhado</span>
+                            break;
+                        case StatusTriagem.Concluido:
+                            <span class="badge bg-secondary fs-6 px-3 py-2">⚪ Concluído</span>
+                            break;
+                    }
+                </div>
+            </div>
+
+            <!-- Dados do Aluno -->
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-header bg-light py-3">
+                    <h5 class="mb-0">
+                        <i class="bi bi-person me-2"></i>
+                        Dados do Aluno
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label text-muted small">Nome</label>
+                            <p class="fw-semibold mb-0">@Model.NomeAluno</p>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label text-muted small">Idade</label>
+                            <p class="fw-semibold mb-0">@Model.IdadeAluno anos</p>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label text-muted small">Série/Ano</label>
+                            <p class="fw-semibold mb-0">@Model.SerieAno</p>
+                        </div>
+                        @if (Model.Escola != null)
+                        {
+                            <div class="col-12">
+                                <label class="form-label text-muted small">Escola</label>
+                                <p class="fw-semibold mb-0">@Model.Escola.Nome - @Model.Escola.Cidade</p>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sinais Observados -->
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-header bg-warning bg-opacity-25 py-3">
+                    <h5 class="mb-0">
+                        <i class="bi bi-eye me-2"></i>
+                        Sinais Observados
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <p class="mb-0" style="white-space: pre-wrap;">@Model.SinaisObservados</p>
+                </div>
+            </div>
+
+            @if (!string.IsNullOrEmpty(Model.ContextoObservacao))
+            {
+                <div class="card shadow-sm border-0 mb-4">
+                    <div class="card-header bg-light py-3">
+                        <h5 class="mb-0">
+                            <i class="bi bi-journal-text me-2"></i>
+                            Contexto da Observação
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="mb-0" style="white-space: pre-wrap;">@Model.ContextoObservacao</p>
+                    </div>
+                </div>
+            }
+
+            <!-- Parecer Profissional (se existir) -->
+            @if (!string.IsNullOrEmpty(Model.ParecerProfissional))
+            {
+                <div class="card shadow-sm border-0 mb-4">
+                    <div class="card-header bg-success bg-opacity-25 py-3">
+                        <h5 class="mb-0">
+                            <i class="bi bi-clipboard2-check me-2"></i>
+                            Parecer Profissional
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="mb-3" style="white-space: pre-wrap;">@Model.ParecerProfissional</p>
+                        
+                        @if (!string.IsNullOrEmpty(Model.Recomendacoes))
+                        {
+                            <hr />
+                            <h6 class="fw-semibold mb-2">Recomendações:</h6>
+                            <p class="mb-0" style="white-space: pre-wrap;">@Model.Recomendacoes</p>
+                        }
+                        
+                        @if (!string.IsNullOrEmpty(Model.Encaminhamento))
+                        {
+                            <hr />
+                            <h6 class="fw-semibold mb-2">Encaminhamento:</h6>
+                            <p class="mb-0" style="white-space: pre-wrap;">@Model.Encaminhamento</p>
+                        }
+                        
+                        @if (Model.DataConclusao.HasValue)
+                        {
+                            <hr />
+                            <small class="text-muted">
+                                Avaliado em @Model.DataConclusao.Value.ToString("dd/MM/yyyy 'às' HH:mm")
+                                @if (Model.ProfissionalResponsavel != null)
+                                {
+                                    <text> por @Model.ProfissionalResponsavel.NomeCompleto</text>
+                                }
+                            </small>
+                        }
+                    </div>
+                </div>
+            }
+
+            <!-- Ações -->
+            <div class="d-flex gap-3 mb-4">
+                @if (Model.Status == StatusTriagem.Pendente && User.IsInRole("ProfissionalSaude") || 
+                     (User.Identity?.IsAuthenticated == true && Model.Status == StatusTriagem.Pendente))
+                {
+                    <form asp-action="Assumir" asp-route-id="@Model.Id" method="post" class="d-inline">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-blue btn-lg">
+                            <i class="bi bi-person-check me-1"></i>
+                            Assumir Triagem
+                        </button>
+                    </form>
+                }
+                
+                @if (isResponsavel && Model.Status == StatusTriagem.EmAvaliacao)
+                {
+                    <a asp-action="Avaliar" asp-route-id="@Model.Id" class="btn btn-success btn-lg">
+                        <i class="bi bi-clipboard2-check me-1"></i>
+                        Fazer Avaliação
+                    </a>
+                }
+                
+                <a asp-action="Index" class="btn btn-outline-secondary btn-lg">
+                    <i class="bi bi-arrow-left me-1"></i>
+                    Voltar
+                </a>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+            <!-- Timeline -->
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-header bg-light py-3">
+                    <h6 class="mb-0">
+                        <i class="bi bi-clock-history me-2"></i>
+                        Histórico
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-marker bg-primary"></div>
+                            <div class="timeline-content">
+                                <strong>Solicitação Criada</strong>
+                                <p class="text-muted small mb-0">@Model.DataSolicitacao.ToString("dd/MM/yyyy HH:mm")</p>
+                                @if (Model.ProfessorSolicitante != null)
+                                {
+                                    <small class="text-muted">Por: @Model.ProfessorSolicitante.NomeCompleto</small>
+                                }
+                            </div>
+                        </div>
+                        
+                        @if (Model.DataAvaliacao.HasValue)
+                        {
+                            <div class="timeline-item">
+                                <div class="timeline-marker bg-info"></div>
+                                <div class="timeline-content">
+                                    <strong>Assumida para Avaliação</strong>
+                                    <p class="text-muted small mb-0">@Model.DataAvaliacao.Value.ToString("dd/MM/yyyy HH:mm")</p>
+                                    @if (Model.ProfissionalResponsavel != null)
+                                    {
+                                        <small class="text-muted">Por: @Model.ProfissionalResponsavel.NomeCompleto</small>
+                                    }
+                                </div>
+                            </div>
+                        }
+                        
+                        @if (Model.DataConclusao.HasValue)
+                        {
+                            <div class="timeline-item">
+                                <div class="timeline-marker bg-success"></div>
+                                <div class="timeline-content">
+                                    <strong>@(Model.Status == StatusTriagem.Encaminhado ? "Encaminhado" : "Concluído")</strong>
+                                    <p class="text-muted small mb-0">@Model.DataConclusao.Value.ToString("dd/MM/yyyy HH:mm")</p>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- Informações do Profissional -->
+            @if (Model.ProfissionalResponsavel != null)
+            {
+                <div class="card shadow-sm border-0">
+                    <div class="card-header bg-light py-3">
+                        <h6 class="mb-0">
+                            <i class="bi bi-person-badge me-2"></i>
+                            Profissional Responsável
+                        </h6>
+                    </div>
+                    <div class="card-body">
+                        <p class="fw-semibold mb-1">@Model.ProfissionalResponsavel.NomeCompleto</p>
+                        @if (!string.IsNullOrEmpty(Model.ProfissionalResponsavel.RegistroProfissional))
+                        {
+                            <small class="text-muted">Registro: @Model.ProfissionalResponsavel.RegistroProfissional</small>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<style>
+    .timeline {
+        position: relative;
+        padding-left: 30px;
+    }
+    .timeline-item {
+        position: relative;
+        padding-bottom: 20px;
+    }
+    .timeline-item:last-child {
+        padding-bottom: 0;
+    }
+    .timeline-item::before {
+        content: '';
+        position: absolute;
+        left: -24px;
+        top: 8px;
+        bottom: -12px;
+        width: 2px;
+        background-color: #dee2e6;
+    }
+    .timeline-item:last-child::before {
+        display: none;
+    }
+    .timeline-marker {
+        position: absolute;
+        left: -30px;
+        top: 4px;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        border: 2px solid #fff;
+        box-shadow: 0 0 0 2px currentColor;
+    }
+</style>

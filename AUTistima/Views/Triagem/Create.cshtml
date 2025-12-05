@@ -1,0 +1,147 @@
+@model AUTistima.Models.ScreeningRequest
+@{
+    ViewData["Title"] = "Nova Solicitação de Triagem";
+    var escolas = ViewBag.Escolas as List<AUTistima.Models.School> ?? new List<AUTistima.Models.School>();
+}
+
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <!-- Breadcrumb -->
+            <nav aria-label="breadcrumb" class="mb-4">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-action="Index">Triagem Educacional</a></li>
+                    <li class="breadcrumb-item active">Nova Solicitação</li>
+                </ol>
+            </nav>
+
+            <!-- Cabeçalho -->
+            <div class="text-center mb-4">
+                <h1 class="display-6 fw-bold">
+                    <i class="bi bi-clipboard2-plus text-blue me-2"></i>
+                    Nova Solicitação de Triagem
+                </h1>
+                <p class="lead text-secondary">
+                    Preencha as informações sobre o aluno que apresenta sinais que possam indicar TEA.
+                    Os dados serão tratados com sigilo e anonimato.
+                </p>
+            </div>
+
+            <!-- Formulário -->
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-blue-light py-3">
+                    <h5 class="mb-0">
+                        <i class="bi bi-person-badge me-2"></i>
+                        Dados do Aluno
+                    </h5>
+                </div>
+                <div class="card-body p-4">
+                    <form asp-action="Create" method="post">
+                        @Html.AntiForgeryToken()
+                        
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+                        <!-- Informações básicas -->
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label asp-for="NomeAluno" class="form-label fw-semibold">
+                                    Nome do Aluno <span class="text-danger">*</span>
+                                </label>
+                                <input asp-for="NomeAluno" class="form-control" placeholder="Nome completo" required />
+                                <span asp-validation-for="NomeAluno" class="text-danger"></span>
+                                <div class="form-text">
+                                    <i class="bi bi-shield-lock me-1"></i>
+                                    O nome será tratado com sigilo.
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label asp-for="IdadeAluno" class="form-label fw-semibold">
+                                    Idade <span class="text-danger">*</span>
+                                </label>
+                                <input asp-for="IdadeAluno" type="number" min="1" max="18" class="form-control" required />
+                                <span asp-validation-for="IdadeAluno" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-3">
+                                <label asp-for="SerieAno" class="form-label fw-semibold">
+                                    Série/Ano <span class="text-danger">*</span>
+                                </label>
+                                <input asp-for="SerieAno" class="form-control" placeholder="Ex: 3º Ano" required />
+                                <span asp-validation-for="SerieAno" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <!-- Escola -->
+                        <div class="mb-4">
+                            <label asp-for="EscolaId" class="form-label fw-semibold">
+                                Escola
+                            </label>
+                            <select asp-for="EscolaId" class="form-select">
+                                <option value="">Selecione a escola (opcional)</option>
+                                @foreach (var escola in escolas)
+                                {
+                                    <option value="@escola.Id">@escola.Nome - @escola.Cidade</option>
+                                }
+                            </select>
+                            <span asp-validation-for="EscolaId" class="text-danger"></span>
+                        </div>
+
+                        <!-- Sinais Observados -->
+                        <div class="mb-4">
+                            <label asp-for="SinaisObservados" class="form-label fw-semibold">
+                                <i class="bi bi-eye me-1"></i>
+                                Sinais Observados <span class="text-danger">*</span>
+                            </label>
+                            <textarea asp-for="SinaisObservados" class="form-control" rows="5" 
+                                      placeholder="Descreva os comportamentos e sinais observados no aluno que chamaram sua atenção..." required></textarea>
+                            <span asp-validation-for="SinaisObservados" class="text-danger"></span>
+                            <div class="form-text">
+                                Exemplos: dificuldade de interação social, movimentos repetitivos, sensibilidade sensorial, 
+                                dificuldade com mudanças de rotina, interesses intensos em temas específicos.
+                            </div>
+                        </div>
+
+                        <!-- Contexto da Observação -->
+                        <div class="mb-4">
+                            <label asp-for="ContextoObservacao" class="form-label fw-semibold">
+                                <i class="bi bi-journal-text me-1"></i>
+                                Contexto da Observação
+                            </label>
+                            <textarea asp-for="ContextoObservacao" class="form-control" rows="4" 
+                                      placeholder="Em quais situações você observou esses sinais? (sala de aula, recreio, atividades em grupo, etc.)"></textarea>
+                            <span asp-validation-for="ContextoObservacao" class="text-danger"></span>
+                        </div>
+
+                        <!-- Informativo -->
+                        <div class="alert alert-info border-0 mb-4">
+                            <div class="d-flex">
+                                <div class="me-3">
+                                    <i class="bi bi-info-circle fs-4"></i>
+                                </div>
+                                <div>
+                                    <strong>Importante:</strong> Esta solicitação será analisada por um profissional de saúde 
+                                    qualificado. A triagem educacional é apenas um primeiro passo para identificação precoce, 
+                                    não constitui diagnóstico.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex gap-3">
+                            <button type="submit" class="btn btn-blue btn-lg flex-grow-1">
+                                <i class="bi bi-send me-2"></i>
+                                Enviar Solicitação
+                            </button>
+                            <a asp-action="Index" class="btn btn-outline-secondary btn-lg">
+                                <i class="bi bi-arrow-left me-1"></i>
+                                Voltar
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

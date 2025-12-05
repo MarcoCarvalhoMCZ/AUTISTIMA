@@ -1,0 +1,119 @@
+@model IEnumerable<AUTistima.Models.ScreeningRequest>
+@{
+    ViewData["Title"] = "Fila de Triagens Pendentes";
+}
+
+<div class="container py-4">
+    <!-- Cabeçalho -->
+    <div class="row mb-4">
+        <div class="col">
+            <h1 class="display-5 fw-bold">
+                <i class="bi bi-list-check text-warning me-2"></i>
+                Fila de Triagens Pendentes
+            </h1>
+            <p class="lead text-secondary">
+                Solicitações aguardando avaliação de profissional de saúde
+            </p>
+        </div>
+        <div class="col-auto">
+            <a asp-action="Index" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left me-1"></i>
+                Voltar
+            </a>
+        </div>
+    </div>
+
+    <!-- Alertas -->
+    @if (TempData["Mensagem"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle me-2"></i>
+            @TempData["Mensagem"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <!-- Lista -->
+    @if (!Model.Any())
+    {
+        <div class="text-center py-5">
+            <i class="bi bi-check-circle fs-1 text-success mb-3 d-block"></i>
+            <h4 class="text-muted">Nenhuma triagem pendente!</h4>
+            <p class="text-muted">Todas as solicitações foram atendidas. 🎉</p>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info mb-4">
+            <i class="bi bi-info-circle me-2"></i>
+            <strong>@Model.Count()</strong> solicitação(ões) aguardando avaliação. 
+            Clique em "Assumir" para se tornar responsável pela triagem.
+        </div>
+
+        <div class="row g-4">
+            @foreach (var triagem in Model)
+            {
+                <div class="col-md-6">
+                    <div class="card shadow-sm border-warning h-100">
+                        <div class="card-header bg-warning bg-opacity-25 d-flex justify-content-between align-items-center">
+                            <code>@triagem.CodigoIdentificador</code>
+                            <span class="badge bg-warning text-dark">🟡 Pendente</span>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">@triagem.NomeAluno</h5>
+                            <p class="card-text">
+                                <small class="text-muted">
+                                    <i class="bi bi-calendar me-1"></i>
+                                    @triagem.IdadeAluno anos • @triagem.SerieAno
+                                </small>
+                            </p>
+                            
+                            @if (triagem.Escola != null)
+                            {
+                                <p class="card-text">
+                                    <small class="text-muted">
+                                        <i class="bi bi-building me-1"></i>
+                                        @triagem.Escola.Nome
+                                    </small>
+                                </p>
+                            }
+
+                            <p class="card-text">
+                                <strong>Sinais:</strong><br />
+                                <span class="text-truncate-3">@triagem.SinaisObservados</span>
+                            </p>
+
+                            <p class="card-text">
+                                <small class="text-muted">
+                                    <i class="bi bi-clock me-1"></i>
+                                    Aguardando há @((DateTime.UtcNow - triagem.DataSolicitacao).Days) dia(s)
+                                </small>
+                            </p>
+                        </div>
+                        <div class="card-footer bg-transparent border-0 d-flex gap-2">
+                            <form asp-action="Assumir" asp-route-id="@triagem.Id" method="post" class="flex-grow-1">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn btn-blue w-100">
+                                    <i class="bi bi-person-check me-1"></i>
+                                    Assumir Triagem
+                                </button>
+                            </form>
+                            <a asp-action="Details" asp-route-id="@triagem.Id" class="btn btn-outline-secondary">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+<style>
+    .text-truncate-3 {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+</style>

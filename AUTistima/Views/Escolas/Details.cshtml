@@ -1,0 +1,164 @@
+@model AUTistima.Models.School
+@{
+    ViewData["Title"] = Model.Nome;
+}
+
+<div class="container py-4">
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-action="Index">Escolas</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@Model.Nome</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-4">
+                        <div>
+                            <h2 class="fw-bold mb-2">@Model.Nome</h2>
+                            @if (Model.EscolaPublica)
+                            {
+                                <span class="badge bg-success fs-6">Escola Pública</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-info fs-6">Escola Particular</span>
+                            }
+                        </div>
+                        <div class="rounded-circle bg-blue-light p-3">
+                            <i class="bi bi-building text-primary fs-1"></i>
+                        </div>
+                    </div>
+
+                    @if (Model.PossuiSalaRecursos)
+                    {
+                        <div class="alert alert-success border-0 mb-4">
+                            <i class="bi bi-universal-access me-2"></i>
+                            <strong>Possui Sala de Recursos Multifuncionais (AEE)</strong>
+                            <p class="mb-0 small mt-1">
+                                Esta escola oferece Atendimento Educacional Especializado para alunos com necessidades especiais.
+                            </p>
+                        </div>
+                    }
+
+                    <div class="row g-4 mb-4">
+                        @if (!string.IsNullOrEmpty(Model.Endereco) || !string.IsNullOrEmpty(Model.Cidade))
+                        {
+                            <div class="col-md-6">
+                                <div class="card border-0 bg-light h-100">
+                                    <div class="card-body">
+                                        <h6 class="text-muted mb-2">
+                                            <i class="bi bi-geo-alt me-1"></i>
+                                            Endereço
+                                        </h6>
+                                        @if (!string.IsNullOrEmpty(Model.Endereco))
+                                        {
+                                            <p class="mb-1">@Model.Endereco</p>
+                                        }
+                                        @if (!string.IsNullOrEmpty(Model.Bairro))
+                                        {
+                                            <p class="mb-1">@Model.Bairro</p>
+                                        }
+                                        <p class="mb-0">
+                                            @Model.Cidade@(string.IsNullOrEmpty(Model.Estado) ? "" : $" - {Model.Estado}")
+                                            @if (!string.IsNullOrEmpty(Model.CEP))
+                                            {
+                                                <span class="text-muted">- @Model.CEP</span>
+                                            }
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                        <div class="col-md-6">
+                            <div class="card border-0 bg-light h-100">
+                                <div class="card-body">
+                                    <h6 class="text-muted mb-2">
+                                        <i class="bi bi-telephone me-1"></i>
+                                        Contato
+                                    </h6>
+                                    @if (!string.IsNullOrEmpty(Model.Telefone))
+                                    {
+                                        <p class="mb-1">
+                                            <strong>Telefone:</strong> @Model.Telefone
+                                        </p>
+                                    }
+                                    @if (!string.IsNullOrEmpty(Model.Email))
+                                    {
+                                        <p class="mb-0">
+                                            <strong>E-mail:</strong>
+                                            <a href="mailto:@Model.Email" class="text-decoration-none">@Model.Email</a>
+                                        </p>
+                                    }
+                                    @if (string.IsNullOrEmpty(Model.Telefone) && string.IsNullOrEmpty(Model.Email))
+                                    {
+                                        <p class="text-muted mb-0">Não informado</p>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(Model.CNPJ))
+                    {
+                        <p class="text-muted small">
+                            <strong>CNPJ:</strong> @Model.CNPJ
+                        </p>
+                    }
+                </div>
+                <div class="card-footer bg-white">
+                    <div class="d-flex justify-content-between">
+                        <a asp-action="Index" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left me-1"></i>
+                            Voltar
+                        </a>
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-blue">
+                                <i class="bi bi-pencil me-1"></i>
+                                Editar
+                            </a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-body">
+                    <h6 class="fw-semibold mb-3">
+                        <i class="bi bi-info-circle me-1"></i>
+                        Sobre o AEE
+                    </h6>
+                    <p class="small text-secondary">
+                        O Atendimento Educacional Especializado (AEE) é um serviço da educação especial 
+                        que organiza recursos pedagógicos e de acessibilidade para eliminar barreiras 
+                        à aprendizagem de estudantes com deficiência, transtornos globais do desenvolvimento 
+                        e altas habilidades/superdotação.
+                    </p>
+                    <a href="http://portal.mec.gov.br/aee/" target="_blank" class="btn btn-outline-blue btn-sm w-100">
+                        <i class="bi bi-box-arrow-up-right me-1"></i>
+                        Saiba mais no MEC
+                    </a>
+                </div>
+            </div>
+
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <h6 class="fw-semibold mb-3">
+                        <i class="bi bi-lightbulb me-1"></i>
+                        Dica
+                    </h6>
+                    <p class="small text-secondary mb-0">
+                        Ao matricular seu filho, solicite o PAE (Plano de Atendimento Educacional Individualizado) 
+                        e converse com a coordenação sobre as adaptações necessárias.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
