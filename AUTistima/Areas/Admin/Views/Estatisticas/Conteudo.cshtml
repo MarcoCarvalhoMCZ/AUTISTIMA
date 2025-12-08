@@ -1,0 +1,272 @@
+@model AUTistima.Services.ContentMetrics
+@using AUTistima.Extensions
+@{
+    ViewData["Title"] = "Métricas de Conteúdo";
+    var dias = ViewBag.DiasAnalise ?? 30;
+}
+
+<div class="container-fluid py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="text-salmon mb-1">
+                <i class="bi bi-file-richtext me-2"></i>Métricas de Conteúdo
+            </h2>
+            <p class="text-muted mb-0">
+                Período: @Model.PeriodoInicio.ToString("dd/MM/yyyy") a @Model.PeriodoFim.ToString("dd/MM/yyyy")
+            </p>
+        </div>
+        <div class="d-flex gap-2">
+            <a asp-action="Conteudo" asp-route-dias="7" class="btn @(dias == 7 ? "btn-salmon" : "btn-outline-salmon")">7 dias</a>
+            <a asp-action="Conteudo" asp-route-dias="30" class="btn @(dias == 30 ? "btn-salmon" : "btn-outline-salmon")">30 dias</a>
+            <a asp-action="Conteudo" asp-route-dias="90" class="btn @(dias == 90 ? "btn-salmon" : "btn-outline-salmon")">90 dias</a>
+            <a asp-action="Index" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left"></i> Voltar
+            </a>
+        </div>
+    </div>
+
+    <!-- Cards Principais -->
+    <div class="row g-3 mb-4">
+        <div class="col-12 col-md-4">
+            <div class="card border-0 shadow-sm h-100 bg-salmon-light">
+                <div class="card-body text-center">
+                    <i class="bi bi-chat-square-text display-4 text-salmon"></i>
+                    <h3 class="display-4 fw-bold text-salmon mt-2">@Model.TotalPostsNoPeriodo</h3>
+                    <p class="mb-0 text-muted">Posts Criados</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-center">
+                    <i class="bi bi-lightbulb display-4 text-warning"></i>
+                    <h3 class="display-4 fw-bold text-warning mt-2">@Model.TotalManejosNoPeriodo</h3>
+                    <p class="mb-0 text-muted">Manejos Compartilhados</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-center">
+                    <i class="bi bi-briefcase display-4 text-success"></i>
+                    <h3 class="display-4 fw-bold text-success mt-2">@Model.TotalOportunidadesNoPeriodo</h3>
+                    <p class="mb-0 text-muted">Oportunidades Publicadas</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gráficos -->
+    <div class="row g-3 mb-4">
+        <div class="col-12 col-lg-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0"><i class="bi bi-pie-chart me-2"></i>Manejos por Categoria</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="graficoManejosCat" height="300"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0"><i class="bi bi-check-circle me-2"></i>Status de Validação dos Manejos</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row h-100 align-items-center">
+                        <div class="col-6">
+                            <canvas id="graficoValidacao" height="200"></canvas>
+                        </div>
+                        <div class="col-6">
+                            <div class="mb-3">
+                                <div class="d-flex align-items-center mb-2">
+                                    <span class="badge bg-success me-2" style="width: 40px;">@Model.ManejosValidados</span>
+                                    <span>Validados por especialistas</span>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <span class="badge bg-secondary me-2" style="width: 40px;">@Model.ManejosNaoValidados</span>
+                                    <span>Aguardando validação</span>
+                                </div>
+                            </div>
+                            @if (Model.ManejosValidados + Model.ManejosNaoValidados > 0)
+                            {
+                                var taxaValidacao = Math.Round((decimal)Model.ManejosValidados / (Model.ManejosValidados + Model.ManejosNaoValidados) * 100, 1);
+                                <div class="progress" style="height: 25px;">
+                                    <div class="progress-bar bg-success" role="progressbar" style="width: @taxaValidacao.ToString(System.Globalization.CultureInfo.InvariantCulture)%">
+                                        @taxaValidacao% validados
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Oportunidades por Tipo -->
+    @if (Model.OportunidadesPorTipo.Any())
+    {
+        <div class="row g-3 mb-4">
+            <div class="col-12">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white">
+                        <h5 class="mb-0"><i class="bi bi-briefcase me-2"></i>Oportunidades por Tipo</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="graficoOportunidades" height="150"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <!-- Posts Mais Acolhidos -->
+    @if (Model.PostsMaisAcolhidos.Any())
+    {
+        <div class="row g-3">
+            <div class="col-12">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white">
+                        <h5 class="mb-0"><i class="bi bi-heart me-2"></i>Posts Mais Acolhidos no Período</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Conteúdo</th>
+                                        <th>Autor</th>
+                                        <th class="text-center">💕 Acolhimentos</th>
+                                        <th class="text-center">💬 Comentários</th>
+                                        <th>Data</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{var pos = 1;}
+                                    @foreach (var post in Model.PostsMaisAcolhidos)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @if (pos <= 3)
+                                                {
+                                                    <span class="badge @(pos == 1 ? "bg-warning" : pos == 2 ? "bg-secondary" : "bg-salmon")">
+                                                        @pos
+                                                    </span>
+                                                }
+                                                else
+                                                {
+                                                    @pos
+                                                }
+                                            </td>
+                                            <td>
+                                                <a asp-area="" asp-controller="Acolhimento" asp-action="Details" asp-route-id="@post.Id" class="text-decoration-none">
+                                                    @post.ConteudoResumido
+                                                </a>
+                                            </td>
+                                            <td>@post.Autor</td>
+                                            <td class="text-center">
+                                                <span class="badge bg-danger">@post.TotalAcolhimentos</span>
+                                            </td>
+                                            <td class="text-center">
+                                                <span class="badge bg-info">@post.TotalComentarios</span>
+                                            </td>
+                                            <td>@post.DataCriacao.ToString("dd/MM/yyyy")</td>
+                                        </tr>
+                                        pos++;
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Dados
+        const manejosPorCategoria = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.ManejosPorCategoria.Select(x => new { cat = x.Key.ToString(), total = x.Value })));
+        const oportunidadesPorTipo = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.OportunidadesPorTipo.Select(x => new { tipo = x.Key.ToString(), total = x.Value })));
+
+        // Labels traduzidos
+        const catLabels = {
+            'Alimentacao': 'Alimentação', 'Comunicacao': 'Comunicação', 'Sensorial': 'Sensorial',
+            'Rotina': 'Rotina', 'Social': 'Social', 'Escola': 'Escola', 'Sono': 'Sono',
+            'Comportamento': 'Comportamento', 'Outros': 'Outros'
+        };
+
+        // Gráfico Manejos por Categoria
+        const ctxManejos = document.getElementById('graficoManejosCat').getContext('2d');
+        new Chart(ctxManejos, {
+            type: 'doughnut',
+            data: {
+                labels: manejosPorCategoria.map(m => catLabels[m.cat] || m.cat),
+                datasets: [{
+                    data: manejosPorCategoria.map(m => m.total),
+                    backgroundColor: [
+                        '#F28B82', '#4FC3F7', '#FFD54F', '#81C784', '#9575CD',
+                        '#FF8A65', '#A5D6A7', '#90CAF9', '#CE93D8'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { position: 'right' } }
+            }
+        });
+
+        // Gráfico Validação
+        const ctxVal = document.getElementById('graficoValidacao').getContext('2d');
+        new Chart(ctxVal, {
+            type: 'doughnut',
+            data: {
+                labels: ['Validados', 'Aguardando'],
+                datasets: [{
+                    data: [@Model.ManejosValidados, @Model.ManejosNaoValidados],
+                    backgroundColor: ['#81C784', '#BDBDBD']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } }
+            }
+        });
+
+        // Gráfico Oportunidades
+        @if (Model.OportunidadesPorTipo.Any())
+        {
+            <text>
+            const tipoLabels = {
+                'Emprego': 'Emprego', 'Estagio': 'Estágio', 'Voluntariado': 'Voluntariado',
+                'Capacitacao': 'Capacitação', 'Beneficio': 'Benefício', 'Outro': 'Outro'
+            };
+            const ctxOp = document.getElementById('graficoOportunidades').getContext('2d');
+            new Chart(ctxOp, {
+                type: 'bar',
+                data: {
+                    labels: oportunidadesPorTipo.map(o => tipoLabels[o.tipo] || o.tipo),
+                    datasets: [{
+                        label: 'Oportunidades',
+                        data: oportunidadesPorTipo.map(o => o.total),
+                        backgroundColor: '#81C784'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { y: { beginAtZero: true } }
+                }
+            });
+            </text>
+        }
+    </script>
+}

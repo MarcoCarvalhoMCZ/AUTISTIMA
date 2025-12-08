@@ -1,6 +1,6 @@
 // Service Worker para AUTistima PWA
 // Versão do cache - incrementar a cada deploy
-const CACHE_VERSION = 'v1.0.0';
+const CACHE_VERSION = 'v1.0.2';
 const CACHE_NAME = `autistima-${CACHE_VERSION}`;
 
 // Arquivos essenciais para cache offline

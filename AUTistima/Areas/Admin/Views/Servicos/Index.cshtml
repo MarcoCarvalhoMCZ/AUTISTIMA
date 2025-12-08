@@ -35,78 +35,139 @@
     </div>
 
     <div class="card border-0 shadow-sm">
-        <div class="table-responsive">
-            <table class="table table-hover mb-0">
-                <thead class="table-light">
-                    <tr>
-                        <th>Profissional</th>
-                        <th>Especialidade</th>
-                        <th>Atendimento</th>
-                        <th>Cidade/UF</th>
-                        <th>Valor</th>
-                        <th>Status</th>
-                        <th width="120">Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var servico in Model)
-                    {
-                        <tr>
-                            <td>
-                                <strong>@servico.NomeProfissional</strong>
-                                <br><small class="text-muted">@servico.Profissional?.Email</small>
-                            </td>
-                            <td><span class="badge bg-info">@servico.Especialidade</span></td>
-                            <td>
-                                @servico.TipoAtendimento
+        <div class="table-responsive-cards">
+            <!-- Desktop: Tabela -->
+            <div class="desktop-table">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Profissional</th>
+                                <th>Especialidade</th>
+                                <th>Atendimento</th>
+                                <th>Cidade/UF</th>
+                                <th>Valor</th>
+                                <th>Status</th>
+                                <th width="120">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var servico in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        <strong>@servico.NomeProfissional</strong>
+                                        <br><small class="text-muted">@servico.Profissional?.Email</small>
+                                    </td>
+                                    <td><span class="badge bg-info">@servico.Especialidade</span></td>
+                                    <td>
+                                        @servico.TipoAtendimento
+                                        @if (servico.AtendeOnline)
+                                        {
+                                            <span class="badge bg-success ms-1">Online</span>
+                                        }
+                                    </td>
+                                    <td>@servico.Cidade / @servico.Estado</td>
+                                    <td>
+                                        @if (!string.IsNullOrEmpty(servico.ValorConsulta))
+                                        {
+                                            <span>@servico.ValorConsulta</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">-</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (servico.Ativo)
+                                        {
+                                            <span class="badge bg-success">Ativo</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-danger">Inativo</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm">
+                                            <a asp-action="Edit" asp-route-id="@servico.Id" class="btn btn-outline-secondary" title="Editar">
+                                                <i class="bi bi-pencil"></i>
+                                            </a>
+                                            <button type="button" class="btn btn-outline-warning" title="Toggle Status"
+                                                    onclick="toggleAtivo(@servico.Id)">
+                                                <i class="bi bi-toggle-on"></i>
+                                            </button>
+                                            <form asp-action="Delete" asp-route-id="@servico.Id" method="post" class="d-inline"
+                                                  onsubmit="return confirmarExclusao(this, 'Excluir este serviço?');">
+                                                @Html.AntiForgeryToken()
+                                                <button type="submit" class="btn btn-outline-danger" title="Excluir">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Mobile: Cards -->
+            <div class="mobile-cards p-3">
+                @foreach (var servico in Model)
+                {
+                    <div class="mobile-card">
+                        <div class="mobile-card-header">
+                            <div>
+                                <h6 class="mobile-card-title">@servico.NomeProfissional</h6>
+                                <span class="badge bg-info">@servico.Especialidade</span>
                                 @if (servico.AtendeOnline)
                                 {
-                                    <span class="badge bg-success ms-1">Online</span>
+                                    <span class="badge bg-success">Online</span>
                                 }
-                            </td>
-                            <td>@servico.Cidade / @servico.Estado</td>
-                            <td>
-                                @if (!string.IsNullOrEmpty(servico.ValorConsulta))
-                                {
-                                    <span>@servico.ValorConsulta</span>
-                                }
-                                else
-                                {
-                                    <span class="text-muted">-</span>
-                                }
-                            </td>
-                            <td>
-                                @if (servico.Ativo)
-                                {
-                                    <span class="badge bg-success">Ativo</span>
-                                }
-                                else
-                                {
-                                    <span class="badge bg-danger">Inativo</span>
-                                }
-                            </td>
-                            <td>
-                                <div class="btn-group btn-group-sm">
-                                    <a asp-action="Edit" asp-route-id="@servico.Id" class="btn btn-outline-secondary" title="Editar">
-                                        <i class="bi bi-pencil"></i>
-                                    </a>
-                                    <button type="button" class="btn btn-outline-warning" title="Toggle Status"
-                                            onclick="toggleAtivo(@servico.Id)">
-                                        <i class="bi bi-toggle-on"></i>
-                                    </button>
-                                    <form asp-action="Delete" asp-route-id="@servico.Id" method="post" class="d-inline"
-                                          onsubmit="return confirm('Excluir este serviço?');">
-                                        @Html.AntiForgeryToken()
-                                        <button type="submit" class="btn btn-outline-danger" title="Excluir">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+                            </div>
+                            @if (servico.Ativo)
+                            {
+                                <span class="badge bg-success">Ativo</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger">Inativo</span>
+                            }
+                        </div>
+                        <div class="mobile-card-body">
+                            <div class="mobile-card-row">
+                                <span class="mobile-card-label">Atendimento</span>
+                                <span class="mobile-card-value">@servico.TipoAtendimento</span>
+                            </div>
+                            <div class="mobile-card-row">
+                                <span class="mobile-card-label">Localização</span>
+                                <span class="mobile-card-value">@servico.Cidade / @servico.Estado</span>
+                            </div>
+                            <div class="mobile-card-row">
+                                <span class="mobile-card-label">Valor</span>
+                                <span class="mobile-card-value">@(servico.ValorConsulta ?? "-")</span>
+                            </div>
+                        </div>
+                        <div class="mobile-card-footer">
+                            <a asp-action="Edit" asp-route-id="@servico.Id" class="btn btn-sm btn-outline-secondary">
+                                <i class="bi bi-pencil"></i> Editar
+                            </a>
+                            <button type="button" class="btn btn-sm btn-outline-warning" onclick="toggleAtivo(@servico.Id)">
+                                <i class="bi bi-toggle-on"></i> Status
+                            </button>
+                            <form asp-action="Delete" asp-route-id="@servico.Id" method="post" class="d-inline"
+                                  onsubmit="return confirmarExclusao(this, 'Excluir este serviço?');">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn btn-sm btn-outline-danger">
+                                    <i class="bi bi-trash"></i> Excluir
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                }
+            </div>
         </div>
 
         @if (ViewBag.TotalPaginas > 1)

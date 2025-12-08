@@ -44,71 +44,134 @@
     </div>
 
     <div class="card border-0 shadow-sm">
-        <div class="table-responsive">
-            <table class="table table-hover mb-0">
-                <thead class="table-light">
-                    <tr>
-                        <th>Título</th>
-                        <th>Categoria</th>
-                        <th>Autor</th>
-                        <th>Data</th>
-                        <th>Status</th>
-                        <th width="180">Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var manejo in Model)
-                    {
-                        <tr>
-                            <td>
-                                <strong>@manejo.Titulo</strong>
-                                <br><small class="text-muted">@manejo.Descricao?.Substring(0, Math.Min(50, manejo.Descricao?.Length ?? 0))...</small>
-                            </td>
-                            <td><span class="badge bg-info">@manejo.Categoria</span></td>
-                            <td>@manejo.Autor?.NomeCompleto</td>
-                            <td>@manejo.DataCriacao.ToString("dd/MM/yyyy")</td>
-                            <td>
-                                @if (manejo.ValidadoPorEspecialista)
-                                {
-                                    <span class="badge bg-success">Aprovado</span>
-                                }
-                                else
-                                {
-                                    <span class="badge bg-warning text-dark">Pendente</span>
-                                }
-                            </td>
-                            <td>
-                                <div class="btn-group btn-group-sm">
-                                    @if (!manejo.ValidadoPorEspecialista)
-                                    {
-                                        <button type="button" class="btn btn-outline-success" title="Aprovar"
-                                                onclick="aprovarManejo(@manejo.Id, this)">
-                                            <i class="bi bi-check-lg"></i>
-                                        </button>
-                                    }
-                                    else
-                                    {
-                                        <button type="button" class="btn btn-outline-warning" title="Reprovar"
-                                                onclick="reprovarManejo(@manejo.Id, this)">
-                                            <i class="bi bi-x-lg"></i>
-                                        </button>
-                                    }
-                                    <a asp-action="Edit" asp-route-id="@manejo.Id" class="btn btn-outline-secondary" title="Editar">
-                                        <i class="bi bi-pencil"></i>
-                                    </a>
-                                    <form asp-action="Delete" asp-route-id="@manejo.Id" method="post" class="d-inline"
-                                          onsubmit="return confirm('Excluir este manejo?');">
-                                        @Html.AntiForgeryToken()
-                                        <button type="submit" class="btn btn-outline-danger" title="Excluir">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+        <div class="table-responsive-cards">
+            <!-- Desktop: Tabela -->
+            <div class="desktop-table">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Título</th>
+                                <th>Categoria</th>
+                                <th>Autor</th>
+                                <th>Data</th>
+                                <th>Status</th>
+                                <th width="180">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var manejo in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        <strong>@manejo.Titulo</strong>
+                                        <br><small class="text-muted">@manejo.Descricao?.Substring(0, Math.Min(50, manejo.Descricao?.Length ?? 0))...</small>
+                                    </td>
+                                    <td><span class="badge bg-info">@manejo.Categoria</span></td>
+                                    <td>@manejo.Autor?.NomeCompleto</td>
+                                    <td>@manejo.DataCriacao.ToString("dd/MM/yyyy")</td>
+                                    <td>
+                                        @if (manejo.ValidadoPorEspecialista)
+                                        {
+                                            <span class="badge bg-success">Aprovado</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-warning text-dark">Pendente</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm">
+                                            @if (!manejo.ValidadoPorEspecialista)
+                                            {
+                                                <button type="button" class="btn btn-outline-success" title="Aprovar"
+                                                        onclick="aprovarManejo(@manejo.Id, this)">
+                                                    <i class="bi bi-check-lg"></i>
+                                                </button>
+                                            }
+                                            else
+                                            {
+                                                <button type="button" class="btn btn-outline-warning" title="Reprovar"
+                                                        onclick="reprovarManejo(@manejo.Id, this)">
+                                                    <i class="bi bi-x-lg"></i>
+                                                </button>
+                                            }
+                                            <a asp-action="Edit" asp-route-id="@manejo.Id" class="btn btn-outline-secondary" title="Editar">
+                                                <i class="bi bi-pencil"></i>
+                                            </a>
+                                            <form asp-action="Delete" asp-route-id="@manejo.Id" method="post" class="d-inline"
+                                                  onsubmit="return confirmarExclusao(this, 'Excluir este manejo?');">
+                                                @Html.AntiForgeryToken()
+                                                <button type="submit" class="btn btn-outline-danger" title="Excluir">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Mobile: Cards -->
+            <div class="mobile-cards p-3">
+                @foreach (var manejo in Model)
+                {
+                    <div class="mobile-card">
+                        <div class="mobile-card-header">
+                            <div>
+                                <h6 class="mobile-card-title">@manejo.Titulo</h6>
+                                <span class="badge bg-info">@manejo.Categoria</span>
+                            </div>
+                            @if (manejo.ValidadoPorEspecialista)
+                            {
+                                <span class="badge bg-success">Aprovado</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-warning text-dark">Pendente</span>
+                            }
+                        </div>
+                        <div class="mobile-card-body">
+                            <p class="text-muted small mb-2">@manejo.Descricao?.Substring(0, Math.Min(100, manejo.Descricao?.Length ?? 0))...</p>
+                            <div class="mobile-card-row">
+                                <span class="mobile-card-label">Autor</span>
+                                <span class="mobile-card-value">@(manejo.Autor?.NomeCompleto ?? "-")</span>
+                            </div>
+                            <div class="mobile-card-row">
+                                <span class="mobile-card-label">Data</span>
+                                <span class="mobile-card-value">@manejo.DataCriacao.ToString("dd/MM/yyyy")</span>
+                            </div>
+                        </div>
+                        <div class="mobile-card-footer">
+                            @if (!manejo.ValidadoPorEspecialista)
+                            {
+                                <button type="button" class="btn btn-sm btn-outline-success" onclick="aprovarManejo(@manejo.Id, this)">
+                                    <i class="bi bi-check-lg"></i> Aprovar
+                                </button>
+                            }
+                            else
+                            {
+                                <button type="button" class="btn btn-sm btn-outline-warning" onclick="reprovarManejo(@manejo.Id, this)">
+                                    <i class="bi bi-x-lg"></i> Reprovar
+                                </button>
+                            }
+                            <a asp-action="Edit" asp-route-id="@manejo.Id" class="btn btn-sm btn-outline-secondary">
+                                <i class="bi bi-pencil"></i> Editar
+                            </a>
+                            <form asp-action="Delete" asp-route-id="@manejo.Id" method="post" class="d-inline"
+                                  onsubmit="return confirmarExclusao(this, 'Excluir este manejo?');">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn btn-sm btn-outline-danger">
+                                    <i class="bi bi-trash"></i> Excluir
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                }
+            </div>
         </div>
 
         @if (ViewBag.TotalPaginas > 1)

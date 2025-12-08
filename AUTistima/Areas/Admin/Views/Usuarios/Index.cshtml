@@ -46,79 +46,150 @@
         </div>
     </div>
 
-    <!-- Tabela -->
+    <!-- Lista de Usuários -->
     <div class="card border-0 shadow-sm">
-        <div class="table-responsive">
-            <table class="table table-hover mb-0">
-                <thead class="table-light">
-                    <tr>
-                        <th>Nome</th>
-                        <th>Email</th>
-                        <th>Perfil</th>
-                        <th>Cidade/UF</th>
-                        <th>Cadastro</th>
-                        <th>Status</th>
-                        <th width="150">Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var usuario in Model)
-                    {
-                        <tr>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <div class="bg-salmon-light rounded-circle p-2 me-2">
-                                        <i class="bi bi-person text-salmon"></i>
-                                    </div>
-                                    <div>
-                                        <strong>@usuario.NomeCompleto</strong>
-                                        @if (usuario.TipoPerfil == TipoPerfil.Administrador)
+        <div class="table-responsive-cards">
+            <!-- Desktop: Tabela -->
+            <div class="desktop-table">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Nome</th>
+                                <th>Email</th>
+                                <th>Perfil</th>
+                                <th>Cidade/UF</th>
+                                <th>Cadastro</th>
+                                <th>Status</th>
+                                <th width="150">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var usuario in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="bg-salmon-light rounded-circle p-2 me-2">
+                                                <i class="bi bi-person text-salmon"></i>
+                                            </div>
+                                            <div>
+                                                <strong>@usuario.NomeCompleto</strong>
+                                                @if (usuario.TipoPerfil == TipoPerfil.Administrador)
+                                                {
+                                                    <span class="badge bg-danger ms-1">Admin</span>
+                                                }
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>@usuario.Email</td>
+                                    <td>
+                                        <span class="badge bg-secondary">@usuario.TipoPerfil</span>
+                                    </td>
+                                    <td>@(usuario.Cidade ?? "-") @(usuario.Estado != null ? $"/ {usuario.Estado}" : "")</td>
+                                    <td>@usuario.DataCadastro.ToString("dd/MM/yyyy")</td>
+                                    <td>
+                                        @if (usuario.Ativo)
                                         {
-                                            <span class="badge bg-danger ms-1">Admin</span>
+                                            <span class="badge bg-success">Ativo</span>
                                         }
-                                    </div>
+                                        else
+                                        {
+                                            <span class="badge bg-danger">Inativo</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm">
+                                            <a asp-action="Details" asp-route-id="@usuario.Id" class="btn btn-outline-primary" title="Detalhes">
+                                                <i class="bi bi-eye"></i>
+                                            </a>
+                                            <a asp-action="Edit" asp-route-id="@usuario.Id" class="btn btn-outline-secondary" title="Editar">
+                                                <i class="bi bi-pencil"></i>
+                                            </a>
+                                            @if (usuario.TipoPerfil != TipoPerfil.Administrador)
+                                            {
+                                                <form asp-action="Delete" asp-route-id="@usuario.Id" method="post" class="d-inline" 
+                                                      onsubmit="return confirmarExclusao(this, 'Tem certeza que deseja excluir este usuário?');">
+                                                    @Html.AntiForgeryToken()
+                                                    <button type="submit" class="btn btn-outline-danger" title="Excluir">
+                                                        <i class="bi bi-trash"></i>
+                                                    </button>
+                                                </form>
+                                            }
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Mobile: Cards -->
+            <div class="mobile-cards p-3">
+                @foreach (var usuario in Model)
+                {
+                    <div class="mobile-card">
+                        <div class="mobile-card-header">
+                            <div class="mobile-card-header-content">
+                                <div class="mobile-card-avatar">
+                                    <i class="bi bi-person"></i>
                                 </div>
-                            </td>
-                            <td>@usuario.Email</td>
-                            <td>
-                                <span class="badge bg-secondary">@usuario.TipoPerfil</span>
-                            </td>
-                            <td>@(usuario.Cidade ?? "-") @(usuario.Estado != null ? $"/ {usuario.Estado}" : "")</td>
-                            <td>@usuario.DataCadastro.ToString("dd/MM/yyyy")</td>
-                            <td>
-                                @if (usuario.Ativo)
-                                {
-                                    <span class="badge bg-success">Ativo</span>
-                                }
-                                else
-                                {
-                                    <span class="badge bg-danger">Inativo</span>
-                                }
-                            </td>
-                            <td>
-                                <div class="btn-group btn-group-sm">
-                                    <a asp-action="Details" asp-route-id="@usuario.Id" class="btn btn-outline-primary" title="Detalhes">
-                                        <i class="bi bi-eye"></i>
-                                    </a>
-                                    <a asp-action="Edit" asp-route-id="@usuario.Id" class="btn btn-outline-secondary" title="Editar">
-                                        <i class="bi bi-pencil"></i>
-                                    </a>
-                                    @if (usuario.TipoPerfil != TipoPerfil.Administrador)
+                                <div>
+                                    <h6 class="mobile-card-title">@usuario.NomeCompleto</h6>
+                                    <small class="text-muted">@usuario.Email</small>
+                                </div>
+                            </div>
+                            @if (usuario.Ativo)
+                            {
+                                <span class="badge bg-success">Ativo</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger">Inativo</span>
+                            }
+                        </div>
+                        <div class="mobile-card-body">
+                            <div class="mobile-card-row">
+                                <span class="mobile-card-label">Perfil</span>
+                                <span class="mobile-card-value">
+                                    <span class="badge bg-secondary">@usuario.TipoPerfil</span>
+                                    @if (usuario.TipoPerfil == TipoPerfil.Administrador)
                                     {
-                                        <form asp-action="Delete" asp-route-id="@usuario.Id" method="post" class="d-inline" 
-                                              onsubmit="return confirm('Tem certeza que deseja excluir este usuário?');">
-                                            @Html.AntiForgeryToken()
-                                            <button type="submit" class="btn btn-outline-danger" title="Excluir">
-                                                <i class="bi bi-trash"></i>
-                                            </button>
-                                        </form>
+                                        <span class="badge bg-danger">Admin</span>
                                     }
-                                </div>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+                                </span>
+                            </div>
+                            <div class="mobile-card-row">
+                                <span class="mobile-card-label">Localização</span>
+                                <span class="mobile-card-value">@(usuario.Cidade ?? "-") @(usuario.Estado != null ? $"/ {usuario.Estado}" : "")</span>
+                            </div>
+                            <div class="mobile-card-row">
+                                <span class="mobile-card-label">Cadastro</span>
+                                <span class="mobile-card-value">@usuario.DataCadastro.ToString("dd/MM/yyyy")</span>
+                            </div>
+                        </div>
+                        <div class="mobile-card-footer">
+                            <a asp-action="Details" asp-route-id="@usuario.Id" class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-eye"></i> Ver
+                            </a>
+                            <a asp-action="Edit" asp-route-id="@usuario.Id" class="btn btn-sm btn-outline-secondary">
+                                <i class="bi bi-pencil"></i> Editar
+                            </a>
+                            @if (usuario.TipoPerfil != TipoPerfil.Administrador)
+                            {
+                                <form asp-action="Delete" asp-route-id="@usuario.Id" method="post" class="d-inline" 
+                                      onsubmit="return confirmarExclusao(this, 'Tem certeza que deseja excluir este usuário?');">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">
+                                        <i class="bi bi-trash"></i> Excluir
+                                    </button>
+                                </form>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
         </div>
         
         @if (ViewBag.TotalPaginas > 1)

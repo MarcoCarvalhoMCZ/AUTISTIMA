@@ -1,4 +1,5 @@
 @model IEnumerable<Opportunity>
+@using AUTistima.Extensions
 @{
     ViewData["Title"] = "Gerenciar Oportunidades";
 }
@@ -25,7 +26,7 @@
                         <option value="">Todos os tipos</option>
                         @foreach (TipoOportunidade tipo in Enum.GetValues(typeof(TipoOportunidade)))
                         {
-                            <option value="@tipo" selected="@(ViewBag.Tipo == tipo)">@tipo</option>
+                            <option value="@tipo" selected="@(ViewBag.Tipo == tipo)">@tipo.GetDisplayName()</option>
                         }
                     </select>
                 </div>
@@ -38,77 +39,149 @@
     </div>
 
     <div class="card border-0 shadow-sm">
-        <div class="table-responsive">
-            <table class="table table-hover mb-0">
-                <thead class="table-light">
-                    <tr>
-                        <th>Título</th>
-                        <th>Tipo</th>
-                        <th>Criador</th>
-                        <th>Data</th>
-                        <th>Expira</th>
-                        <th>Status</th>
-                        <th width="150">Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var oportunidade in Model)
-                    {
-                        <tr>
-                            <td>
-                                <strong>@oportunidade.Titulo</strong>
+        <div class="table-responsive-cards">
+            <!-- Desktop: Tabela -->
+            <div class="desktop-table">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Título</th>
+                                <th>Tipo</th>
+                                <th>Criador</th>
+                                <th>Data</th>
+                                <th>Expira</th>
+                                <th>Status</th>
+                                <th width="150">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var oportunidade in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        <strong>@oportunidade.Titulo</strong>
+                                        @if (oportunidade.PermiteHomeOffice)
+                                        {
+                                            <span class="badge bg-info ms-1">Home Office</span>
+                                        }
+                                    </td>
+                                    <td><span class="badge bg-secondary">@oportunidade.Tipo.GetDisplayName()</span></td>
+                                    <td>@oportunidade.Criador?.NomeCompleto</td>
+                                    <td>@oportunidade.DataCriacao.ToString("dd/MM/yyyy")</td>
+                                    <td>
+                                        @if (oportunidade.DataExpiracao.HasValue)
+                                        {
+                                            <span class="@(oportunidade.DataExpiracao < DateTime.Now ? "text-danger" : "")">
+                                                @oportunidade.DataExpiracao.Value.ToString("dd/MM/yyyy")
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">-</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (oportunidade.Ativo)
+                                        {
+                                            <span class="badge bg-success">Ativa</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-danger">Inativa</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm">
+                                            <a asp-action="Edit" asp-route-id="@oportunidade.Id" class="btn btn-outline-secondary" title="Editar">
+                                                <i class="bi bi-pencil"></i>
+                                            </a>
+                                            <button type="button" class="btn btn-outline-warning" title="Toggle Status"
+                                                    onclick="toggleAtiva(@oportunidade.Id)">
+                                                <i class="bi bi-toggle-on"></i>
+                                            </button>
+                                            <form asp-action="Delete" asp-route-id="@oportunidade.Id" method="post" class="d-inline"
+                                                  onsubmit="return confirmarExclusao(this, 'Excluir esta oportunidade?');">
+                                                @Html.AntiForgeryToken()
+                                                <button type="submit" class="btn btn-outline-danger" title="Excluir">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Mobile: Cards -->
+            <div class="mobile-cards p-3">
+                @foreach (var oportunidade in Model)
+                {
+                    <div class="mobile-card">
+                        <div class="mobile-card-header">
+                            <div>
+                                <h6 class="mobile-card-title">@oportunidade.Titulo</h6>
+                                <span class="badge bg-secondary">@oportunidade.Tipo.GetDisplayName()</span>
                                 @if (oportunidade.PermiteHomeOffice)
                                 {
-                                    <span class="badge bg-info ms-1">Home Office</span>
+                                    <span class="badge bg-info">Home Office</span>
                                 }
-                            </td>
-                            <td><span class="badge bg-secondary">@oportunidade.Tipo</span></td>
-                            <td>@oportunidade.Criador?.NomeCompleto</td>
-                            <td>@oportunidade.DataCriacao.ToString("dd/MM/yyyy")</td>
-                            <td>
-                                @if (oportunidade.DataExpiracao.HasValue)
-                                {
-                                    <span class="@(oportunidade.DataExpiracao < DateTime.Now ? "text-danger" : "")">
-                                        @oportunidade.DataExpiracao.Value.ToString("dd/MM/yyyy")
-                                    </span>
-                                }
-                                else
-                                {
-                                    <span class="text-muted">-</span>
-                                }
-                            </td>
-                            <td>
-                                @if (oportunidade.Ativo)
-                                {
-                                    <span class="badge bg-success">Ativa</span>
-                                }
-                                else
-                                {
-                                    <span class="badge bg-danger">Inativa</span>
-                                }
-                            </td>
-                            <td>
-                                <div class="btn-group btn-group-sm">
-                                    <a asp-action="Edit" asp-route-id="@oportunidade.Id" class="btn btn-outline-secondary" title="Editar">
-                                        <i class="bi bi-pencil"></i>
-                                    </a>
-                                    <button type="button" class="btn btn-outline-warning" title="Toggle Status"
-                                            onclick="toggleAtiva(@oportunidade.Id)">
-                                        <i class="bi bi-toggle-on"></i>
-                                    </button>
-                                    <form asp-action="Delete" asp-route-id="@oportunidade.Id" method="post" class="d-inline"
-                                          onsubmit="return confirm('Excluir esta oportunidade?');">
-                                        @Html.AntiForgeryToken()
-                                        <button type="submit" class="btn btn-outline-danger" title="Excluir">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+                            </div>
+                            @if (oportunidade.Ativo)
+                            {
+                                <span class="badge bg-success">Ativa</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger">Inativa</span>
+                            }
+                        </div>
+                        <div class="mobile-card-body">
+                            <div class="mobile-card-row">
+                                <span class="mobile-card-label">Criador</span>
+                                <span class="mobile-card-value">@(oportunidade.Criador?.NomeCompleto ?? "-")</span>
+                            </div>
+                            <div class="mobile-card-row">
+                                <span class="mobile-card-label">Criada em</span>
+                                <span class="mobile-card-value">@oportunidade.DataCriacao.ToString("dd/MM/yyyy")</span>
+                            </div>
+                            <div class="mobile-card-row">
+                                <span class="mobile-card-label">Expira em</span>
+                                <span class="mobile-card-value">
+                                    @if (oportunidade.DataExpiracao.HasValue)
+                                    {
+                                        <span class="@(oportunidade.DataExpiracao < DateTime.Now ? "text-danger fw-bold" : "")">
+                                            @oportunidade.DataExpiracao.Value.ToString("dd/MM/yyyy")
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">Sem prazo</span>
+                                    }
+                                </span>
+                            </div>
+                        </div>
+                        <div class="mobile-card-footer">
+                            <a asp-action="Edit" asp-route-id="@oportunidade.Id" class="btn btn-sm btn-outline-secondary">
+                                <i class="bi bi-pencil"></i> Editar
+                            </a>
+                            <button type="button" class="btn btn-sm btn-outline-warning" onclick="toggleAtiva(@oportunidade.Id)">
+                                <i class="bi bi-toggle-on"></i> Status
+                            </button>
+                            <form asp-action="Delete" asp-route-id="@oportunidade.Id" method="post" class="d-inline"
+                                  onsubmit="return confirmarExclusao(this, 'Excluir esta oportunidade?');">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn btn-sm btn-outline-danger">
+                                    <i class="bi bi-trash"></i> Excluir
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                }
+            </div>
         </div>
 
         @if (ViewBag.TotalPaginas > 1)

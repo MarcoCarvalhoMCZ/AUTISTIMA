@@ -1,0 +1,367 @@
+@model AUTistima.Services.DashboardMetrics
+@{
+    ViewData["Title"] = "Dashboard de Estatísticas";
+}
+
+<div class="container-fluid py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="text-salmon mb-1">
+                <i class="bi bi-bar-chart-line me-2"></i>Dashboard de Estatísticas
+            </h2>
+            <p class="text-muted mb-0">Visão geral do desempenho da plataforma AUTistima</p>
+        </div>
+        <div>
+            <a asp-action="Exportar" asp-route-formato="csv" asp-route-dias="30" class="btn btn-outline-success me-2">
+                <i class="bi bi-file-earmark-spreadsheet me-1"></i>Exportar CSV
+            </a>
+            <a asp-action="Exportar" asp-route-formato="json" asp-route-dias="30" class="btn btn-outline-primary">
+                <i class="bi bi-filetype-json me-1"></i>Exportar JSON
+            </a>
+        </div>
+    </div>
+
+    <!-- Cards de Totais -->
+    <div class="row g-3 mb-4">
+        <div class="col-12 col-sm-6 col-lg-3">
+            <div class="card border-0 shadow-sm h-100 bg-salmon-light">
+                <div class="card-body text-center">
+                    <i class="bi bi-people-fill display-4 text-salmon"></i>
+                    <h3 class="display-5 fw-bold text-salmon mt-2">@Model.TotalUsuarios</h3>
+                    <p class="mb-0 text-muted">Total de Usuários</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-lg-3">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-center">
+                    <i class="bi bi-heart-fill display-4 text-danger"></i>
+                    <h3 class="display-5 fw-bold text-danger mt-2">@Model.TotalMaes</h3>
+                    <p class="mb-0 text-muted">Mães Cadastradas</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-lg-3">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-center">
+                    <i class="bi bi-chat-heart-fill display-4 text-primary"></i>
+                    <h3 class="display-5 fw-bold text-primary mt-2">@Model.TotalAcolhimentos</h3>
+                    <p class="mb-0 text-muted">Acolhimentos</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-lg-3">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-center">
+                    <i class="bi bi-clipboard-check display-4 text-success"></i>
+                    <h3 class="display-5 fw-bold text-success mt-2">@Model.TotalTriagens</h3>
+                    <p class="mb-0 text-muted">Triagens Realizadas</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cards de Usuários por Perfil -->
+    <div class="row g-3 mb-4">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0"><i class="bi bi-person-badge me-2"></i>Usuários por Tipo de Perfil</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-6 col-md-4 col-lg-2">
+                            <div class="text-center p-3 rounded bg-light">
+                                <i class="bi bi-heart text-danger fs-4"></i>
+                                <h4 class="mb-0 mt-2">@Model.TotalMaes</h4>
+                                <small class="text-muted">Mães</small>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-4 col-lg-2">
+                            <div class="text-center p-3 rounded bg-light">
+                                <i class="bi bi-hospital text-info fs-4"></i>
+                                <h4 class="mb-0 mt-2">@Model.TotalProfissionaisSaude</h4>
+                                <small class="text-muted">Prof. Saúde</small>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-4 col-lg-2">
+                            <div class="text-center p-3 rounded bg-light">
+                                <i class="bi bi-mortarboard text-warning fs-4"></i>
+                                <h4 class="mb-0 mt-2">@Model.TotalProfissionaisEducacao</h4>
+                                <small class="text-muted">Prof. Educação</small>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-4 col-lg-2">
+                            <div class="text-center p-3 rounded bg-light">
+                                <i class="bi bi-building text-purple fs-4"></i>
+                                <h4 class="mb-0 mt-2">@Model.TotalEmpresas</h4>
+                                <small class="text-muted">Empresas</small>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-4 col-lg-2">
+                            <div class="text-center p-3 rounded bg-light">
+                                <i class="bi bi-bank text-secondary fs-4"></i>
+                                <h4 class="mb-0 mt-2">@Model.TotalGoverno</h4>
+                                <small class="text-muted">Governo</small>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-4 col-lg-2">
+                            <div class="text-center p-3 rounded bg-salmon-light">
+                                <i class="bi bi-person-plus text-salmon fs-4"></i>
+                                <h4 class="mb-0 mt-2">@Model.NovosUsuariosMes</h4>
+                                <small class="text-muted">Novos (mês)</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gráficos -->
+    <div class="row g-3 mb-4">
+        <div class="col-12 col-lg-8">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="bi bi-graph-up me-2"></i>Evolução de Usuários (30 dias)</h5>
+                    <select id="metricaGrafico" class="form-select form-select-sm w-auto">
+                        <option value="novos">Novos Usuários</option>
+                        <option value="ativos">Usuários Ativos</option>
+                        <option value="posts">Posts Criados</option>
+                        <option value="acolhimentos">Acolhimentos</option>
+                        <option value="logins">Logins</option>
+                    </select>
+                </div>
+                <div class="card-body">
+                    <canvas id="graficoEvolucao" height="250"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0"><i class="bi bi-pie-chart me-2"></i>Distribuição por Perfil</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="graficoPizza" height="250"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cards de Conteúdo -->
+    <div class="row g-3 mb-4">
+        <div class="col-6 col-md-4 col-lg-2">
+            <div class="card border-0 shadow-sm text-center h-100">
+                <div class="card-body">
+                    <i class="bi bi-chat-square-text fs-2 text-primary"></i>
+                    <h4 class="mb-0 mt-2">@Model.TotalPosts</h4>
+                    <small class="text-muted">Posts</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-2">
+            <div class="card border-0 shadow-sm text-center h-100">
+                <div class="card-body">
+                    <i class="bi bi-lightbulb fs-2 text-warning"></i>
+                    <h4 class="mb-0 mt-2">@Model.TotalManejos</h4>
+                    <small class="text-muted">Manejos</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-2">
+            <div class="card border-0 shadow-sm text-center h-100">
+                <div class="card-body">
+                    <i class="bi bi-chat-dots fs-2 text-info"></i>
+                    <h4 class="mb-0 mt-2">@Model.TotalComentarios</h4>
+                    <small class="text-muted">Comentários</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-2">
+            <div class="card border-0 shadow-sm text-center h-100">
+                <div class="card-body">
+                    <i class="bi bi-briefcase fs-2 text-success"></i>
+                    <h4 class="mb-0 mt-2">@Model.TotalOportunidades</h4>
+                    <small class="text-muted">Oportunidades</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-2">
+            <div class="card border-0 shadow-sm text-center h-100">
+                <div class="card-body">
+                    <i class="bi bi-building fs-2 text-secondary"></i>
+                    <h4 class="mb-0 mt-2">@Model.TotalEscolas</h4>
+                    <small class="text-muted">Escolas</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-2">
+            <div class="card border-0 shadow-sm text-center h-100">
+                <div class="card-body">
+                    <i class="bi bi-geo-alt fs-2 text-danger"></i>
+                    <h4 class="mb-0 mt-2">@Model.TotalServicos</h4>
+                    <small class="text-muted">Serviços</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Novos Cadastros -->
+    <div class="row g-3 mb-4">
+        <div class="col-12 col-md-4">
+            <div class="card border-0 shadow-sm bg-success text-white h-100">
+                <div class="card-body text-center">
+                    <h6 class="text-white-50">Novos Hoje</h6>
+                    <h2 class="display-4 mb-0">@Model.NovosUsuariosHoje</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="card border-0 shadow-sm bg-info text-white h-100">
+                <div class="card-body text-center">
+                    <h6 class="text-white-50">Novos na Semana</h6>
+                    <h2 class="display-4 mb-0">@Model.NovosUsuariosSemana</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="card border-0 shadow-sm bg-primary text-white h-100">
+                <div class="card-body text-center">
+                    <h6 class="text-white-50">Novos no Mês</h6>
+                    <h2 class="display-4 mb-0">@Model.NovosUsuariosMes</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Links para Relatórios Detalhados -->
+    <div class="row g-3">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0"><i class="bi bi-file-earmark-text me-2"></i>Relatórios Detalhados</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-12 col-md-6 col-lg-3">
+                            <a asp-action="Engajamento" class="btn btn-outline-salmon w-100 py-3">
+                                <i class="bi bi-activity fs-4 d-block mb-2"></i>
+                                Engajamento
+                            </a>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-3">
+                            <a asp-action="Usuarios" class="btn btn-outline-primary w-100 py-3">
+                                <i class="bi bi-people fs-4 d-block mb-2"></i>
+                                Usuários
+                            </a>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-3">
+                            <a asp-action="Conteudo" class="btn btn-outline-success w-100 py-3">
+                                <i class="bi bi-file-richtext fs-4 d-block mb-2"></i>
+                                Conteúdo
+                            </a>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-3">
+                            <a asp-action="Triagens" class="btn btn-outline-warning w-100 py-3">
+                                <i class="bi bi-clipboard-data fs-4 d-block mb-2"></i>
+                                Triagens
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row g-3 mt-2">
+                        <div class="col-12 col-md-6">
+                            <a asp-action="Atividades" class="btn btn-outline-secondary w-100 py-3">
+                                <i class="bi bi-list-check fs-4 d-block mb-2"></i>
+                                Log de Atividades
+                            </a>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <a asp-action="Historico" class="btn btn-outline-info w-100 py-3">
+                                <i class="bi bi-clock-history fs-4 d-block mb-2"></i>
+                                Histórico de Snapshots
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Gráfico de Evolução
+        let graficoEvolucao = null;
+
+        async function carregarGrafico(metrica) {
+            const response = await fetch(`/Admin/Estatisticas/ApiDadosGrafico?metrica=${metrica}&dias=30`);
+            const dados = await response.json();
+
+            const ctx = document.getElementById('graficoEvolucao').getContext('2d');
+
+            if (graficoEvolucao) {
+                graficoEvolucao.destroy();
+            }
+
+            graficoEvolucao = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: dados.map(d => d.label),
+                    datasets: [{
+                        label: document.getElementById('metricaGrafico').options[document.getElementById('metricaGrafico').selectedIndex].text,
+                        data: dados.map(d => d.value),
+                        borderColor: '#F28B82',
+                        backgroundColor: 'rgba(242, 139, 130, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
+        }
+
+        document.getElementById('metricaGrafico').addEventListener('change', function() {
+            carregarGrafico(this.value);
+        });
+
+        // Gráfico de Pizza
+        const ctxPizza = document.getElementById('graficoPizza').getContext('2d');
+        new Chart(ctxPizza, {
+            type: 'doughnut',
+            data: {
+                labels: ['Mães', 'Prof. Saúde', 'Prof. Educação', 'Empresas', 'Governo'],
+                datasets: [{
+                    data: [@Model.TotalMaes, @Model.TotalProfissionaisSaude, @Model.TotalProfissionaisEducacao, @Model.TotalEmpresas, @Model.TotalGoverno],
+                    backgroundColor: [
+                        '#F28B82',
+                        '#4FC3F7',
+                        '#FFD54F',
+                        '#81C784',
+                        '#9575CD'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom' }
+                }
+            }
+        });
+
+        // Carregar gráfico inicial
+        carregarGrafico('novos');
+    </script>
+}

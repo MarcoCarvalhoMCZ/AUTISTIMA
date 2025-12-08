@@ -119,7 +119,7 @@
                                         </form>
                                     }
                                     <form asp-action="Excluir" asp-route-id="@notificacao.Id" method="post" class="d-inline">
-                                        <button type="submit" class="btn btn-sm btn-outline-danger" title="Excluir" onclick="return confirm('Excluir esta notificação?')">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger" title="Excluir" onclick="event.preventDefault(); confirmarExclusao(this.closest('form'), 'Excluir esta notificação?')">
                                             <i class="bi bi-trash"></i>
                                         </button>
                                     </form>
@@ -133,7 +133,7 @@
                 {
                     <div class="text-center mt-4">
                         <form asp-action="LimparTodas" method="post" class="d-inline">
-                            <button type="submit" class="btn btn-outline-danger btn-sm" onclick="return confirm('Tem certeza que deseja limpar todas as notificações?')">
+                            <button type="submit" class="btn btn-outline-danger btn-sm" onclick="event.preventDefault(); confirmarExclusao(this.closest('form'), 'Tem certeza que deseja limpar todas as notificações?')">
                                 <i class="bi bi-trash"></i> Limpar todas
                             </button>
                         </form>
@@ -230,12 +230,27 @@
                     const data = await response.json();
                     
                     if (data.success) {
-                        alert('✅ ' + data.message);
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Sucesso! 💕',
+                            text: data.message,
+                            confirmButtonColor: '#F28B82'
+                        });
                     } else {
-                        alert('⚠️ ' + data.message);
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Atenção',
+                            text: data.message,
+                            confirmButtonColor: '#F28B82'
+                        });
                     }
                 } catch (e) {
-                    alert('Erro: ' + e.message);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Ops!',
+                        text: 'Erro: ' + e.message,
+                        confirmButtonColor: '#F28B82'
+                    });
                 }
                 
                 btnTestar.disabled = false;

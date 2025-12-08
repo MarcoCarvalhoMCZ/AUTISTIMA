@@ -18,50 +18,92 @@
     </div>
 
     <div class="card border-0 shadow-sm">
-        <div class="table-responsive">
-            <table class="table table-hover mb-0">
-                <thead class="table-light">
-                    <tr>
-                        <th>Termo</th>
-                        <th>Categoria</th>
-                        <th>Explicação</th>
-                        <th width="120">Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var termo in Model)
-                    {
-                        <tr>
-                            <td><strong>@termo.TermoTecnico</strong></td>
-                            <td><span class="badge bg-info">@termo.Categoria</span></td>
-                            <td>
-                                @if (termo.ExplicacaoSimples?.Length > 100)
+        <div class="table-responsive-cards">
+            <!-- Desktop: Tabela -->
+            <div class="desktop-table">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Termo</th>
+                                <th>Categoria</th>
+                                <th>Explicação</th>
+                                <th width="120">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var termo in Model)
+                            {
+                                <tr>
+                                    <td><strong>@termo.TermoTecnico</strong></td>
+                                    <td><span class="badge bg-info">@termo.Categoria</span></td>
+                                    <td>
+                                        @if (termo.ExplicacaoSimples?.Length > 100)
+                                        {
+                                            @termo.ExplicacaoSimples.Substring(0, 100)<text>...</text>
+                                        }
+                                        else
+                                        {
+                                            @termo.ExplicacaoSimples
+                                        }
+                                    </td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm">
+                                            <a asp-action="Edit" asp-route-id="@termo.Id" class="btn btn-outline-secondary" title="Editar">
+                                                <i class="bi bi-pencil"></i>
+                                            </a>
+                                            <form asp-action="Delete" asp-route-id="@termo.Id" method="post" class="d-inline"
+                                                  onsubmit="return confirmarExclusao(this, 'Excluir este termo?');">
+                                                @Html.AntiForgeryToken()
+                                                <button type="submit" class="btn btn-outline-danger" title="Excluir">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Mobile: Cards -->
+            <div class="mobile-cards p-3">
+                @foreach (var termo in Model)
+                {
+                    <div class="mobile-card">
+                        <div class="mobile-card-header">
+                            <h6 class="mobile-card-title">@termo.TermoTecnico</h6>
+                            <span class="badge bg-info">@termo.Categoria</span>
+                        </div>
+                        <div class="mobile-card-body">
+                            <p class="text-muted small mb-0">
+                                @if (termo.ExplicacaoSimples?.Length > 150)
                                 {
-                                    @termo.ExplicacaoSimples.Substring(0, 100)<text>...</text>
+                                    @termo.ExplicacaoSimples.Substring(0, 150)<text>...</text>
                                 }
                                 else
                                 {
                                     @termo.ExplicacaoSimples
                                 }
-                            </td>
-                            <td>
-                                <div class="btn-group btn-group-sm">
-                                    <a asp-action="Edit" asp-route-id="@termo.Id" class="btn btn-outline-secondary" title="Editar">
-                                        <i class="bi bi-pencil"></i>
-                                    </a>
-                                    <form asp-action="Delete" asp-route-id="@termo.Id" method="post" class="d-inline"
-                                          onsubmit="return confirm('Excluir este termo?');">
-                                        @Html.AntiForgeryToken()
-                                        <button type="submit" class="btn btn-outline-danger" title="Excluir">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+                            </p>
+                        </div>
+                        <div class="mobile-card-footer">
+                            <a asp-action="Edit" asp-route-id="@termo.Id" class="btn btn-sm btn-outline-secondary">
+                                <i class="bi bi-pencil"></i> Editar
+                            </a>
+                            <form asp-action="Delete" asp-route-id="@termo.Id" method="post" class="d-inline"
+                                  onsubmit="return confirmarExclusao(this, 'Excluir este termo?');">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn btn-sm btn-outline-danger">
+                                    <i class="bi bi-trash"></i> Excluir
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                }
+            </div>
         </div>
     </div>
 </div>

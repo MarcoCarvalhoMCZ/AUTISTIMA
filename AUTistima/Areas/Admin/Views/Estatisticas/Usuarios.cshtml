@@ -1,0 +1,255 @@
+@model AUTistima.Services.UserMetrics
+@using AUTistima.Extensions
+@{
+    ViewData["Title"] = "Métricas de Usuários";
+    var dias = ViewBag.DiasAnalise ?? 30;
+}
+
+<div class="container-fluid py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="text-salmon mb-1">
+                <i class="bi bi-people me-2"></i>Métricas de Usuários
+            </h2>
+            <p class="text-muted mb-0">
+                Período: @Model.PeriodoInicio.ToString("dd/MM/yyyy") a @Model.PeriodoFim.ToString("dd/MM/yyyy")
+            </p>
+        </div>
+        <div class="d-flex gap-2">
+            <a asp-action="Usuarios" asp-route-dias="7" class="btn @(dias == 7 ? "btn-salmon" : "btn-outline-salmon")">7 dias</a>
+            <a asp-action="Usuarios" asp-route-dias="30" class="btn @(dias == 30 ? "btn-salmon" : "btn-outline-salmon")">30 dias</a>
+            <a asp-action="Usuarios" asp-route-dias="90" class="btn @(dias == 90 ? "btn-salmon" : "btn-outline-salmon")">90 dias</a>
+            <a asp-action="Index" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left"></i> Voltar
+            </a>
+        </div>
+    </div>
+
+    <!-- Cards Principais -->
+    <div class="row g-3 mb-4">
+        <div class="col-12 col-md-4">
+            <div class="card border-0 shadow-sm h-100 bg-salmon-light">
+                <div class="card-body text-center">
+                    <i class="bi bi-person-plus-fill display-4 text-salmon"></i>
+                    <h3 class="display-4 fw-bold text-salmon mt-2">@Model.TotalNovosUsuarios</h3>
+                    <p class="mb-0 text-muted">Novos Usuários no Período</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-8">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0"><i class="bi bi-person-badge me-2"></i>Novos por Tipo de Perfil</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row g-2">
+                        @foreach (var item in Model.NovosPorPerfil.OrderByDescending(x => x.Value))
+                        {
+                            <div class="col-6 col-md-4 col-lg-2">
+                                <div class="text-center p-2 rounded bg-light">
+                                    <h4 class="mb-0 text-salmon">@item.Value</h4>
+                                    <small class="text-muted">@item.Key.GetDisplayName()</small>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gráficos -->
+    <div class="row g-3 mb-4">
+        <div class="col-12 col-lg-8">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0"><i class="bi bi-graph-up me-2"></i>Novos Usuários por Dia</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="graficoNovosPorDia" height="300"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0"><i class="bi bi-phone me-2"></i>Dispositivos Utilizados</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="graficoDispositivos" height="300"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gráfico de Logins e Cidades -->
+    <div class="row g-3 mb-4">
+        <div class="col-12 col-lg-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0"><i class="bi bi-box-arrow-in-right me-2"></i>Logins por Dia</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="graficoLogins" height="250"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0"><i class="bi bi-geo-alt me-2"></i>Top 10 Cidades</h5>
+                </div>
+                <div class="card-body">
+                    @if (Model.NovosPorCidade.Any())
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Cidade</th>
+                                        <th class="text-end">Novos</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{var pos = 1;}
+                                    @foreach (var cidade in Model.NovosPorCidade.Take(10))
+                                    {
+                                        <tr>
+                                            <td>@pos</td>
+                                            <td>@cidade.Key</td>
+                                            <td class="text-end fw-bold">@cidade.Value</td>
+                                        </tr>
+                                        pos++;
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="text-muted text-center my-5">
+                            <i class="bi bi-info-circle fs-3 d-block mb-2"></i>
+                            Nenhum dado de cidade disponível para o período.
+                        </p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Perfis por Cor -->
+    <div class="row g-3">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0"><i class="bi bi-pie-chart me-2"></i>Distribuição por Perfil</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="graficoPerfis" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Dados
+        const novosPorDia = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.NovosPorDia));
+        const loginsPorDia = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.LoginsPorDia));
+        const dispositivosUsados = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.DispositivosUsados.Select(x => new { tipo = x.Key, total = x.Value })));
+        const novosPorPerfil = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.NovosPorPerfil.Select(x => new { perfil = x.Key.ToString(), total = x.Value })));
+
+        // Gráfico Novos por Dia
+        const ctxNovos = document.getElementById('graficoNovosPorDia').getContext('2d');
+        new Chart(ctxNovos, {
+            type: 'bar',
+            data: {
+                labels: novosPorDia.map(d => d.label),
+                datasets: [{
+                    label: 'Novos Usuários',
+                    data: novosPorDia.map(d => d.value),
+                    backgroundColor: '#F28B82'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: { y: { beginAtZero: true } }
+            }
+        });
+
+        // Gráfico Dispositivos
+        const tiposDispositivo = {
+            0: 'Navegador Web', 1: 'PWA Mobile', 2: 'PWA Desktop',
+            3: 'Android', 4: 'iOS', 5: 'API'
+        };
+        const ctxDisp = document.getElementById('graficoDispositivos').getContext('2d');
+        new Chart(ctxDisp, {
+            type: 'doughnut',
+            data: {
+                labels: dispositivosUsados.map(d => tiposDispositivo[d.tipo] || `Tipo ${d.tipo}`),
+                datasets: [{
+                    data: dispositivosUsados.map(d => d.total),
+                    backgroundColor: ['#F28B82', '#4FC3F7', '#FFD54F', '#81C784', '#9575CD', '#FF8A65']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { position: 'bottom' } }
+            }
+        });
+
+        // Gráfico Logins
+        const ctxLogins = document.getElementById('graficoLogins').getContext('2d');
+        new Chart(ctxLogins, {
+            type: 'line',
+            data: {
+                labels: loginsPorDia.map(d => d.label),
+                datasets: [{
+                    label: 'Logins',
+                    data: loginsPorDia.map(d => d.value),
+                    borderColor: '#4FC3F7',
+                    backgroundColor: 'rgba(79, 195, 247, 0.1)',
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: { y: { beginAtZero: true } }
+            }
+        });
+
+        // Gráfico Perfis
+        const perfilLabels = {
+            'Mae': 'Mães', 'ProfissionalSaude': 'Prof. Saúde',
+            'ProfissionalEducacao': 'Prof. Educação', 'Empresa': 'Empresas',
+            'Governo': 'Governo', 'Administrador': 'Administradores'
+        };
+        const ctxPerfis = document.getElementById('graficoPerfis').getContext('2d');
+        new Chart(ctxPerfis, {
+            type: 'bar',
+            data: {
+                labels: novosPorPerfil.map(p => perfilLabels[p.perfil] || p.perfil),
+                datasets: [{
+                    label: 'Novos Usuários',
+                    data: novosPorPerfil.map(p => p.total),
+                    backgroundColor: ['#F28B82', '#4FC3F7', '#FFD54F', '#81C784', '#9575CD', '#FF8A65']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: { y: { beginAtZero: true } }
+            }
+        });
+    </script>
+}

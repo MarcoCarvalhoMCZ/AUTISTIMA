@@ -1,0 +1,253 @@
+@model AUTistima.Services.EngagementMetrics
+@using AUTistima.Extensions
+@{
+    ViewData["Title"] = "Métricas de Engajamento";
+    var dias = ViewBag.DiasAnalise ?? 30;
+}
+
+<div class="container-fluid py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="text-salmon mb-1">
+                <i class="bi bi-activity me-2"></i>Métricas de Engajamento
+            </h2>
+            <p class="text-muted mb-0">
+                Período: @Model.PeriodoInicio.ToString("dd/MM/yyyy") a @Model.PeriodoFim.ToString("dd/MM/yyyy")
+            </p>
+        </div>
+        <div class="d-flex gap-2">
+            <a asp-action="Engajamento" asp-route-dias="7" class="btn @(dias == 7 ? "btn-salmon" : "btn-outline-salmon")">7 dias</a>
+            <a asp-action="Engajamento" asp-route-dias="30" class="btn @(dias == 30 ? "btn-salmon" : "btn-outline-salmon")">30 dias</a>
+            <a asp-action="Engajamento" asp-route-dias="90" class="btn @(dias == 90 ? "btn-salmon" : "btn-outline-salmon")">90 dias</a>
+            <a asp-action="Index" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left"></i> Voltar
+            </a>
+        </div>
+    </div>
+
+    <!-- Cards Principais -->
+    <div class="row g-3 mb-4">
+        <div class="col-12 col-md-6 col-lg-3">
+            <div class="card border-0 shadow-sm h-100 bg-salmon-light">
+                <div class="card-body text-center">
+                    <i class="bi bi-people-fill display-4 text-salmon"></i>
+                    <h3 class="display-5 fw-bold text-salmon mt-2">@Model.UsuariosAtivos</h3>
+                    <p class="mb-0 text-muted">Usuários Ativos</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-center">
+                    <i class="bi bi-percent display-4 text-success"></i>
+                    <h3 class="display-5 fw-bold text-success mt-2">@Model.TaxaEngajamento%</h3>
+                    <p class="mb-0 text-muted">Taxa de Engajamento</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-center">
+                    <i class="bi bi-heart-fill display-4 text-danger"></i>
+                    <h3 class="display-5 fw-bold text-danger mt-2">@Model.MediaAcolhimentosPorPost</h3>
+                    <p class="mb-0 text-muted">Média Acolhimentos/Post</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-center">
+                    <i class="bi bi-chat-dots display-4 text-info"></i>
+                    <h3 class="display-5 fw-bold text-info mt-2">@Model.MediaComentariosPorPost</h3>
+                    <p class="mb-0 text-muted">Média Comentários/Post</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Interações no Período -->
+    <div class="row g-3 mb-4">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0"><i class="bi bi-hand-thumbs-up me-2"></i>Interações no Período</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3 text-center">
+                        <div class="col-6 col-md-4 col-lg-2">
+                            <div class="p-3 rounded bg-light">
+                                <i class="bi bi-chat-square-text text-primary fs-3"></i>
+                                <h4 class="mb-0 mt-2">@Model.PostsCriados</h4>
+                                <small class="text-muted">Posts Criados</small>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-4 col-lg-2">
+                            <div class="p-3 rounded bg-light">
+                                <i class="bi bi-heart text-danger fs-3"></i>
+                                <h4 class="mb-0 mt-2">@Model.TotalAcolhimentos</h4>
+                                <small class="text-muted">Acolhimentos</small>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-4 col-lg-2">
+                            <div class="p-3 rounded bg-light">
+                                <i class="bi bi-chat text-info fs-3"></i>
+                                <h4 class="mb-0 mt-2">@Model.TotalComentarios</h4>
+                                <small class="text-muted">Comentários</small>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-4 col-lg-2">
+                            <div class="p-3 rounded bg-light">
+                                <i class="bi bi-lightbulb text-warning fs-3"></i>
+                                <h4 class="mb-0 mt-2">@Model.ManejosCompartilhados</h4>
+                                <small class="text-muted">Manejos</small>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-4 col-lg-2">
+                            <div class="p-3 rounded bg-light">
+                                <i class="bi bi-envelope text-success fs-3"></i>
+                                <h4 class="mb-0 mt-2">@Model.MensagensEnviadas</h4>
+                                <small class="text-muted">Mensagens Chat</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gráficos -->
+    <div class="row g-3 mb-4">
+        <div class="col-12 col-lg-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0"><i class="bi bi-pie-chart me-2"></i>Engajamento por Tipo de Perfil</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="graficoEngajamentoPerfil" height="300"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0"><i class="bi bi-bar-chart me-2"></i>Atividades por Tipo</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="graficoAtividadesTipo" height="300"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabela de Atividades por Tipo -->
+    @if (Model.AtividadesPorTipo.Any())
+    {
+        <div class="row g-3">
+            <div class="col-12">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white">
+                        <h5 class="mb-0"><i class="bi bi-list-ul me-2"></i>Detalhamento de Atividades</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Tipo de Atividade</th>
+                                        <th class="text-end">Total</th>
+                                        <th class="text-end">% do Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        var totalAtividades = Model.AtividadesPorTipo.Values.Sum();
+                                    }
+                                    @foreach (var item in Model.AtividadesPorTipo.OrderByDescending(x => x.Value))
+                                    {
+                                        var percentual = totalAtividades > 0 ? (item.Value * 100.0 / totalAtividades) : 0;
+                                        <tr>
+                                            <td>
+                                                <i class="bi bi-activity me-2 text-salmon"></i>
+                                                @item.Key.GetDisplayName()
+                                            </td>
+                                            <td class="text-end fw-bold">@item.Value.ToString("N0")</td>
+                                            <td class="text-end">
+                                                <div class="progress" style="height: 20px;">
+                                                    <div class="progress-bar bg-salmon" role="progressbar" 
+                                                         style="width: @percentual.ToString("F1", System.Globalization.CultureInfo.InvariantCulture)%">
+                                                        @percentual.ToString("F1")%
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Gráfico de Engajamento por Perfil
+        const ctxPerfil = document.getElementById('graficoEngajamentoPerfil').getContext('2d');
+        new Chart(ctxPerfil, {
+            type: 'doughnut',
+            data: {
+                labels: [@Html.Raw(string.Join(",", Model.EngajamentoPorPerfil.Select(x => $"'{x.Key.GetDisplayName()}'")))]  ,
+                datasets: [{
+                    data: [@string.Join(",", Model.EngajamentoPorPerfil.Values)],
+                    backgroundColor: [
+                        '#F28B82', '#4FC3F7', '#FFD54F', '#81C784', '#9575CD', '#FF8A65'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom' }
+                }
+            }
+        });
+
+        // Gráfico de Atividades por Tipo
+        const topAtividades = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(
+            Model.AtividadesPorTipo.OrderByDescending(x => x.Value).Take(10).ToList()
+        ));
+
+        const ctxAtividades = document.getElementById('graficoAtividadesTipo').getContext('2d');
+        new Chart(ctxAtividades, {
+            type: 'bar',
+            data: {
+                labels: topAtividades.map(a => {
+                    const tipos = {
+                        0: 'Login', 1: 'Logout', 2: 'Cadastro', 10: 'Criação Post',
+                        11: 'Visualização Post', 12: 'Acolhimento', 13: 'Comentário',
+                        20: 'Criação Manejo', 21: 'Visualização Manejo', 50: 'Busca',
+                        51: 'Visualização Página', 60: 'Envio Mensagem'
+                    };
+                    return tipos[a.key] || `Tipo ${a.key}`;
+                }),
+                datasets: [{
+                    label: 'Total',
+                    data: topAtividades.map(a => a.value),
+                    backgroundColor: '#F28B82'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                indexAxis: 'y',
+                plugins: {
+                    legend: { display: false }
+                }
+            }
+        });
+    </script>
+}

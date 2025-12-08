@@ -1,0 +1,163 @@
+@model List<AUTistima.Models.UserActivity>
+@using AUTistima.Extensions
+@{
+    ViewData["Title"] = "Log de Atividades";
+    var paginaAtual = ViewBag.PaginaAtual ?? 1;
+    var totalPaginas = ViewBag.TotalPaginas ?? 1;
+    var totalItens = ViewBag.TotalItens ?? 0;
+}
+
+<div class="container-fluid py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="text-salmon mb-1">
+                <i class="bi bi-list-check me-2"></i>Log de Atividades
+            </h2>
+            <p class="text-muted mb-0">Total: @totalItens atividades registradas</p>
+        </div>
+        <a asp-action="Index" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> Voltar
+        </a>
+    </div>
+
+    <div class="card border-0 shadow-sm">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="bg-light">
+                        <tr>
+                            <th>Data/Hora</th>
+                            <th>Usuário</th>
+                            <th>Atividade</th>
+                            <th>Entidade</th>
+                            <th>Dispositivo</th>
+                            <th>Detalhes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Any())
+                        {
+                            @foreach (var atividade in Model)
+                            {
+                                <tr>
+                                    <td class="text-nowrap">
+                                        <small class="text-muted">
+                                            @atividade.DataHora.ToLocalTime().ToString("dd/MM/yyyy HH:mm")
+                                        </small>
+                                    </td>
+                                    <td>
+                                        @if (atividade.Usuario != null)
+                                        {
+                                            <span title="@atividade.Usuario.Email">
+                                                @atividade.Usuario.NomeCompleto
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">-</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        @{
+                                            var badgeClass = atividade.TipoAtividade switch
+                                            {
+                                                AUTistima.Models.Enums.TipoAtividade.Login => "bg-success",
+                                                AUTistima.Models.Enums.TipoAtividade.Logout => "bg-secondary",
+                                                AUTistima.Models.Enums.TipoAtividade.Cadastro => "bg-primary",
+                                                AUTistima.Models.Enums.TipoAtividade.CriacaoPost => "bg-info",
+                                                AUTistima.Models.Enums.TipoAtividade.Acolhimento => "bg-danger",
+                                                AUTistima.Models.Enums.TipoAtividade.Comentario => "bg-info",
+                                                AUTistima.Models.Enums.TipoAtividade.CriacaoManejo => "bg-warning",
+                                                AUTistima.Models.Enums.TipoAtividade.SolicitacaoTriagem => "bg-salmon",
+                                                _ => "bg-light text-dark"
+                                            };
+                                        }
+                                        <span class="badge @badgeClass">
+                                            @atividade.TipoAtividade.GetDisplayName()
+                                        </span>
+                                    </td>
+                                    <td>
+                                        @if (!string.IsNullOrEmpty(atividade.EntidadeRelacionada))
+                                        {
+                                            <small>
+                                                @atividade.EntidadeRelacionada
+                                                @if (atividade.EntidadeId.HasValue)
+                                                {
+                                                    <text> #@atividade.EntidadeId</text>
+                                                }
+                                            </small>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">-</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        @{
+                                            var iconDispositivo = atividade.Dispositivo switch
+                                            {
+                                                AUTistima.Models.Enums.TipoDispositivo.PWAMobile => "bi-phone",
+                                                AUTistima.Models.Enums.TipoDispositivo.PWADesktop => "bi-laptop",
+                                                AUTistima.Models.Enums.TipoDispositivo.Android => "bi-android2",
+                                                AUTistima.Models.Enums.TipoDispositivo.iOS => "bi-apple",
+                                                AUTistima.Models.Enums.TipoDispositivo.API => "bi-code-square",
+                                                _ => "bi-globe"
+                                            };
+                                        }
+                                        <i class="bi @iconDispositivo" title="@atividade.Dispositivo.GetDisplayName()"></i>
+                                    </td>
+                                    <td>
+                                        @if (!string.IsNullOrEmpty(atividade.Detalhes))
+                                        {
+                                            <small class="text-muted" title="@atividade.Detalhes">
+                                                @(atividade.Detalhes.Length > 50 ? atividade.Detalhes.Substring(0, 50) + "..." : atividade.Detalhes)
+                                            </small>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">-</span>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="6" class="text-center py-5">
+                                    <i class="bi bi-inbox display-4 text-muted"></i>
+                                    <p class="text-muted mt-2">Nenhuma atividade registrada ainda.</p>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        @if (totalPaginas > 1)
+        {
+            <div class="card-footer bg-white">
+                <nav aria-label="Paginação">
+                    <ul class="pagination justify-content-center mb-0">
+                        <li class="page-item @(paginaAtual == 1 ? "disabled" : "")">
+                            <a class="page-link" asp-action="Atividades" asp-route-pagina="@(paginaAtual - 1)">
+                                <i class="bi bi-chevron-left"></i>
+                            </a>
+                        </li>
+                        @for (var i = Math.Max(1, paginaAtual - 2); i <= Math.Min(totalPaginas, paginaAtual + 2); i++)
+                        {
+                            <li class="page-item @(i == paginaAtual ? "active" : "")">
+                                <a class="page-link" asp-action="Atividades" asp-route-pagina="@i">@i</a>
+                            </li>
+                        }
+                        <li class="page-item @(paginaAtual == totalPaginas ? "disabled" : "")">
+                            <a class="page-link" asp-action="Atividades" asp-route-pagina="@(paginaAtual + 1)">
+                                <i class="bi bi-chevron-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        }
+    </div>
+</div>

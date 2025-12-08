@@ -507,4 +507,35 @@
     .bg-purple { background-color: #9c27b0; }
     .text-purple { color: #9c27b0; }
     .badge.bg-purple { background-color: #9c27b0 !important; }
+    
+    /* Corrigir tremor na tabela */
+    .table-responsive {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    /* Remover efeito de hover que causa layout shift */
+    .table tbody tr {
+        transition: background-color 0.2s ease;
+    }
+    
+    .table tbody tr:hover {
+        background-color: rgba(242, 139, 130, 0.05) !important;
+    }
+    
+    /* Botões não devem se mover no hover */
+    .btn-group {
+        display: inline-flex;
+        gap: 0;
+    }
+    
+    .btn-group .btn {
+        margin: 0 !important;
+        padding: 0.375rem 0.5rem !important;
+    }
+    
+    .btn-group .btn:hover {
+        transform: none !important;
+        z-index: 1;
+    }
 </style>

@@ -1,0 +1,205 @@
+@model List<AUTistima.Models.StatisticSnapshot>
+@{
+    ViewData["Title"] = "Histórico de Estatísticas";
+    var dias = ViewBag.DiasAnalise ?? 30;
+}
+
+<div class="container-fluid py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="text-salmon mb-1">
+                <i class="bi bi-clock-history me-2"></i>Histórico de Estatísticas (Snapshots)
+            </h2>
+            <p class="text-muted mb-0">Snapshots diários dos últimos @dias dias</p>
+        </div>
+        <div class="d-flex gap-2">
+            <form asp-action="GerarSnapshot" method="post" class="d-inline">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn btn-salmon">
+                    <i class="bi bi-camera me-1"></i>Gerar Snapshot Agora
+                </button>
+            </form>
+            <a asp-action="Index" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left"></i> Voltar
+            </a>
+        </div>
+    </div>
+
+    <!-- Filtros de período -->
+    <div class="mb-3">
+        <a asp-action="Historico" asp-route-dias="7" class="btn @(dias == 7 ? "btn-salmon" : "btn-outline-salmon")">7 dias</a>
+        <a asp-action="Historico" asp-route-dias="30" class="btn @(dias == 30 ? "btn-salmon" : "btn-outline-salmon")">30 dias</a>
+        <a asp-action="Historico" asp-route-dias="90" class="btn @(dias == 90 ? "btn-salmon" : "btn-outline-salmon")">90 dias</a>
+    </div>
+
+    @if (Model.Any())
+    {
+        <!-- Gráfico de Evolução -->
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-header bg-white">
+                <h5 class="mb-0"><i class="bi bi-graph-up me-2"></i>Evolução das Métricas</h5>
+            </div>
+            <div class="card-body">
+                <canvas id="graficoEvolucao" height="300"></canvas>
+            </div>
+        </div>
+
+        <!-- Tabela de Snapshots -->
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white">
+                <h5 class="mb-0"><i class="bi bi-table me-2"></i>Detalhamento por Data</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover table-sm mb-0">
+                        <thead class="bg-light sticky-top">
+                            <tr>
+                                <th>Data</th>
+                                <th class="text-end">Total Usuários</th>
+                                <th class="text-end">Novos</th>
+                                <th class="text-end">Ativos</th>
+                                <th class="text-end">Engajamento</th>
+                                <th class="text-end">Posts</th>
+                                <th class="text-end">Acolhimentos</th>
+                                <th class="text-end">Manejos</th>
+                                <th class="text-end">Triagens</th>
+                                <th class="text-end">Logins</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var snapshot in Model.OrderByDescending(s => s.Data))
+                            {
+                                <tr>
+                                    <td>@snapshot.Data.ToString("dd/MM/yyyy")</td>
+                                    <td class="text-end">@snapshot.TotalUsuarios.ToString("N0")</td>
+                                    <td class="text-end">
+                                        @if (snapshot.NovosUsuarios > 0)
+                                        {
+                                            <span class="badge bg-success">+@snapshot.NovosUsuarios</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">0</span>
+                                        }
+                                    </td>
+                                    <td class="text-end">@snapshot.UsuariosAtivos</td>
+                                    <td class="text-end">
+                                        <span class="badge @(snapshot.TaxaEngajamento >= 50 ? "bg-success" : snapshot.TaxaEngajamento >= 20 ? "bg-warning" : "bg-secondary")">
+                                            @snapshot.TaxaEngajamento%
+                                        </span>
+                                    </td>
+                                    <td class="text-end">@snapshot.PostsCriados</td>
+                                    <td class="text-end">@snapshot.Acolhimentos</td>
+                                    <td class="text-end">@snapshot.ManejosCompartilhados</td>
+                                    <td class="text-end">@snapshot.TriagensSolicitadas</td>
+                                    <td class="text-end">@snapshot.TotalLogins</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="card border-0 shadow-sm">
+            <div class="card-body text-center py-5">
+                <i class="bi bi-camera display-1 text-muted"></i>
+                <h4 class="text-muted mt-3">Nenhum Snapshot Encontrado</h4>
+                <p class="text-muted">
+                    Os snapshots são gerados automaticamente ou você pode criar um manualmente clicando no botão acima.
+                </p>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        @if (Model.Any())
+        {
+            var snapshots = Model.OrderBy(s => s.Data).ToList();
+            <text>
+            const dados = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(snapshots.Select(s => new {
+                data = s.Data.ToString("dd/MM"),
+                usuarios = s.TotalUsuarios,
+                novos = s.NovosUsuarios,
+                ativos = s.UsuariosAtivos,
+                engajamento = s.TaxaEngajamento,
+                posts = s.PostsCriados,
+                acolhimentos = s.Acolhimentos
+            })));
+
+            const ctx = document.getElementById('graficoEvolucao').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: dados.map(d => d.data),
+                    datasets: [
+                        {
+                            label: 'Total Usuários',
+                            data: dados.map(d => d.usuarios),
+                            borderColor: '#F28B82',
+                            backgroundColor: 'rgba(242, 139, 130, 0.1)',
+                            fill: false,
+                            yAxisID: 'y'
+                        },
+                        {
+                            label: 'Usuários Ativos',
+                            data: dados.map(d => d.ativos),
+                            borderColor: '#4FC3F7',
+                            backgroundColor: 'rgba(79, 195, 247, 0.1)',
+                            fill: false,
+                            yAxisID: 'y'
+                        },
+                        {
+                            label: 'Novos Usuários',
+                            data: dados.map(d => d.novos),
+                            borderColor: '#81C784',
+                            backgroundColor: 'rgba(129, 199, 132, 0.1)',
+                            fill: false,
+                            yAxisID: 'y1'
+                        },
+                        {
+                            label: 'Taxa Engajamento (%)',
+                            data: dados.map(d => d.engajamento),
+                            borderColor: '#FFD54F',
+                            backgroundColor: 'rgba(255, 213, 79, 0.1)',
+                            fill: false,
+                            yAxisID: 'y1'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false
+                    },
+                    plugins: {
+                        legend: { position: 'top' }
+                    },
+                    scales: {
+                        y: {
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
+                            title: { display: true, text: 'Usuários' }
+                        },
+                        y1: {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            title: { display: true, text: 'Novos / %' },
+                            grid: { drawOnChartArea: false }
+                        }
+                    }
+                }
+            });
+            </text>
+        }
+    </script>
+}

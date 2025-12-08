@@ -181,9 +181,9 @@ a:hover {
    BOTÕES PERSONALIZADOS
 ============================================ */
 .btn {
-    font-size: var(--font-size-sm);
+    font-size: 1rem !important;
     font-weight: var(--font-weight-semibold);
-    padding: var(--spacing-xs) var(--spacing-md);
+    padding: 0.75rem 1.25rem !important;
     border-radius: var(--border-radius-md);
     transition: all var(--transition-base);
     border: var(--border-width) solid transparent;
@@ -194,13 +194,13 @@ a:hover {
 }
 
 .btn-lg {
-    font-size: var(--font-size-base);
-    padding: var(--spacing-sm) var(--spacing-lg);
+    font-size: 1.125rem !important;
+    padding: 0.875rem 1.5rem !important;
 }
 
 .btn-sm {
-    font-size: var(--font-size-xs);
-    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: 0.875rem !important;
+    padding: 0.5rem 0.875rem !important;
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
@@ -472,8 +472,8 @@ a:hover {
    FORMULÁRIOS ACESSÍVEIS
 ============================================ */
 .form-control, .form-select {
-    font-size: var(--font-size-base);
-    padding: var(--spacing-md);
+    font-size: 1rem !important;
+    padding: 0.75rem 1rem !important;
     border: var(--border-width) solid var(--color-gray-medium);
     border-radius: var(--border-radius-md);
     transition: all var(--transition-fast);
@@ -870,4 +870,129 @@ a:hover {
 .stat-label {
     font-size: var(--font-size-base);
     color: var(--color-text-secondary);
+}
+
+/* ========================================
+   TABELA RESPONSIVA - CARDS NO MOBILE
+======================================== */
+
+/* Container da tabela responsiva */
+.table-responsive-cards {
+    width: 100%;
+}
+
+/* Desktop: mostrar tabela normal */
+@media (min-width: 768px) {
+    .table-responsive-cards .mobile-cards {
+        display: none !important;
+    }
+    .table-responsive-cards .desktop-table {
+        display: block !important;
+    }
+}
+
+/* Mobile: mostrar cards, esconder tabela */
+@media (max-width: 767.98px) {
+    .table-responsive-cards .desktop-table {
+        display: none !important;
+    }
+    .table-responsive-cards .mobile-cards {
+        display: block !important;
+    }
+    
+    /* Card individual */
+    .mobile-card {
+        background: white;
+        border-radius: var(--border-radius-lg);
+        box-shadow: var(--shadow-sm);
+        margin-bottom: var(--spacing-md);
+        overflow: hidden;
+        border: 1px solid var(--color-gray-medium);
+    }
+    
+    .mobile-card-header {
+        background: var(--color-gray);
+        padding: var(--spacing-md);
+        border-bottom: 1px solid var(--color-gray-medium);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .mobile-card-title {
+        font-weight: var(--font-weight-semibold);
+        font-size: var(--font-size-lg);
+        color: var(--color-text-primary);
+        margin: 0;
+    }
+    
+    .mobile-card-body {
+        padding: var(--spacing-md);
+    }
+    
+    .mobile-card-row {
+        display: flex;
+        justify-content: space-between;
+        padding: var(--spacing-sm) 0;
+        border-bottom: 1px solid var(--color-gray);
+    }
+    
+    .mobile-card-row:last-child {
+        border-bottom: none;
+    }
+    
+    .mobile-card-label {
+        font-size: var(--font-size-sm);
+        color: var(--color-text-secondary);
+        font-weight: var(--font-weight-medium);
+    }
+    
+    .mobile-card-value {
+        font-size: var(--font-size-base);
+        color: var(--color-text-primary);
+        text-align: right;
+    }
+    
+    .mobile-card-footer {
+        background: var(--color-gray);
+        padding: var(--spacing-md);
+        border-top: 1px solid var(--color-gray-medium);
+        display: flex;
+        gap: var(--spacing-sm);
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .mobile-card-footer .btn {
+        flex: 1;
+        min-width: 80px;
+        max-width: 120px;
+    }
+    
+    .mobile-card-footer .btn i {
+        margin-right: 4px;
+    }
+    
+    /* Badge no header do card */
+    .mobile-card-header .badge {
+        font-size: 0.7rem;
+    }
+    
+    /* Avatar no card */
+    .mobile-card-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: var(--color-salmon-light);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--color-salmon);
+        margin-right: var(--spacing-sm);
+    }
+    
+    .mobile-card-header-content {
+        display: flex;
+        align-items: center;
+    }
 }

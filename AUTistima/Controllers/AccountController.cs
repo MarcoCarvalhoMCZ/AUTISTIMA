@@ -16,19 +16,22 @@ public class AccountController : Controller
     private readonly ApplicationDbContext _context;
     private readonly ILogger<AccountController> _logger;
     private readonly IPushNotificationService _pushService;
+    private readonly IActivityTrackingService _activityService;
 
     public AccountController(
         UserManager<ApplicationUser> userManager,
         SignInManager<ApplicationUser> signInManager,
         ApplicationDbContext context,
         ILogger<AccountController> logger,
-        IPushNotificationService pushService)
+        IPushNotificationService pushService,
+        IActivityTrackingService activityService)
     {
         _userManager = userManager;
         _signInManager = signInManager;
         _context = context;
         _logger = logger;
         _pushService = pushService;
+        _activityService = activityService;
     }
 
     // GET: Account/Login
@@ -57,6 +60,18 @@ public class AccountController : Controller
             if (result.Succeeded)
             {
                 _logger.LogInformation("Usuário logado com sucesso.");
+                
+                // Rastrear atividade de login
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                if (user != null)
+                {
+                    await _activityService.RegistrarAtividadeComContexto(
+                        user.Id, 
+                        TipoAtividade.Login, 
+                        HttpContext,
+                        detalhes: $"Login via {(model.RememberMe ? "sessão persistente" : "sessão normal")}");
+                }
+                
                 return RedirectToLocal(returnUrl);
             }
             
@@ -114,6 +129,13 @@ public class AccountController : Controller
                 
                 await _signInManager.SignInAsync(user, isPersistent: false);
                 
+                // Rastrear atividade de cadastro
+                await _activityService.RegistrarAtividadeComContexto(
+                    user.Id,
+                    TipoAtividade.Cadastro,
+                    HttpContext,
+                    detalhes: $"Novo cadastro: {model.TipoPerfil}");
+                
                 TempData["Mensagem"] = $"Bem-vinda ao AUTistima, {model.NomeCompleto.Split(' ').First()}! 💕";
                 return RedirectToAction("Index", "Home");
             }
@@ -132,6 +154,12 @@ public class AccountController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Logout()
     {
+        var user = await _userManager.GetUserAsync(User);
+        if (user != null)
+        {
+            await _activityService.RegistrarAtividade(user.Id, TipoAtividade.Logout);
+        }
+        
         await _signInManager.SignOutAsync();
         _logger.LogInformation("Usuário deslogado.");
         return RedirectToAction("Index", "Home");
@@ -288,6 +316,80 @@ public class AccountController : Controller
     public IActionResult AccessDenied()
     {
         return View();
+    }
+
+    // POST: Account/UploadFoto
+    [HttpPost]
+    [Authorize]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> UploadFoto(IFormFile fotoPerfilFile)
+    {
+        var user = await _userManager.GetUserAsync(User);
+        if (user == null)
+        {
+            return NotFound();
+        }
+
+        if (fotoPerfilFile == null || fotoPerfilFile.Length == 0)
+        {
+            TempData["Erro"] = "Selecione uma imagem para fazer upload. 📸";
+            return RedirectToAction(nameof(Profile));
+        }
+
+        // Validar tipo de arquivo
+        var extensoesPermitidas = new[] { ".jpg", ".jpeg", ".png", ".gif" };
+        var extensao = Path.GetExtension(fotoPerfilFile.FileName).ToLowerInvariant();
+
+        if (!extensoesPermitidas.Contains(extensao))
+        {
+            TempData["Erro"] = "Apenas imagens (JPG, PNG, GIF) são permitidas. 📸";
+            return RedirectToAction(nameof(Profile));
+        }
+
+        // Validar tamanho (máximo 5MB)
+        if (fotoPerfilFile.Length > 5 * 1024 * 1024)
+        {
+            TempData["Erro"] = "A imagem não pode exceder 5MB. 📸";
+            return RedirectToAction(nameof(Profile));
+        }
+
+        try
+        {
+            // Criar diretório se não existir
+            var uploadDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", "profile-photos");
+            Directory.CreateDirectory(uploadDir);
+
+            // Gerar nome único para o arquivo
+            var nomeArquivo = $"{user.Id}{extensao}";
+            var caminhoCompleto = Path.Combine(uploadDir, nomeArquivo);
+
+            // Salvar arquivo
+            using (var stream = new FileStream(caminhoCompleto, FileMode.Create))
+            {
+                await fotoPerfilFile.CopyToAsync(stream);
+            }
+
+            // Atualizar URL no banco de dados
+            user.FotoPerfilUrl = $"/uploads/profile-photos/{nomeArquivo}";
+            var resultado = await _userManager.UpdateAsync(user);
+
+            if (resultado.Succeeded)
+            {
+                await _signInManager.RefreshSignInAsync(user);
+                TempData["Mensagem"] = "Foto de perfil atualizada com carinho! 💕";
+            }
+            else
+            {
+                TempData["Erro"] = "Erro ao salvar a foto. Tente novamente. 🤗";
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Erro ao fazer upload de foto");
+            TempData["Erro"] = "Erro ao processar a imagem. Tente novamente. 🤗";
+        }
+
+        return RedirectToAction(nameof(Profile));
     }
 
     private IActionResult RedirectToLocal(string? returnUrl)

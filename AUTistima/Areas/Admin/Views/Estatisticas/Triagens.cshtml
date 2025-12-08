@@ -1,0 +1,214 @@
+@model AUTistima.Services.TriagemMetrics
+@using AUTistima.Extensions
+@{
+    ViewData["Title"] = "Métricas de Triagens";
+    var dias = ViewBag.DiasAnalise ?? 90;
+}
+
+<div class="container-fluid py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="text-salmon mb-1">
+                <i class="bi bi-clipboard-data me-2"></i>Métricas de Triagens
+            </h2>
+            <p class="text-muted mb-0">
+                Período: @Model.PeriodoInicio.ToString("dd/MM/yyyy") a @Model.PeriodoFim.ToString("dd/MM/yyyy")
+            </p>
+        </div>
+        <div class="d-flex gap-2">
+            <a asp-action="Triagens" asp-route-dias="30" class="btn @(dias == 30 ? "btn-salmon" : "btn-outline-salmon")">30 dias</a>
+            <a asp-action="Triagens" asp-route-dias="90" class="btn @(dias == 90 ? "btn-salmon" : "btn-outline-salmon")">90 dias</a>
+            <a asp-action="Triagens" asp-route-dias="365" class="btn @(dias == 365 ? "btn-salmon" : "btn-outline-salmon")">1 ano</a>
+            <a asp-action="Index" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left"></i> Voltar
+            </a>
+        </div>
+    </div>
+
+    <!-- Cards Principais -->
+    <div class="row g-3 mb-4">
+        <div class="col-12 col-md-6 col-lg-3">
+            <div class="card border-0 shadow-sm h-100 bg-salmon-light">
+                <div class="card-body text-center">
+                    <i class="bi bi-clipboard-check display-4 text-salmon"></i>
+                    <h3 class="display-4 fw-bold text-salmon mt-2">@Model.TotalTriagensNoPeriodo</h3>
+                    <p class="mb-0 text-muted">Total de Triagens</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-center">
+                    <i class="bi bi-clock display-4 text-info"></i>
+                    <h3 class="display-4 fw-bold text-info mt-2">@Model.TempoMedioConclusaoDias</h3>
+                    <p class="mb-0 text-muted">Dias para Conclusão (média)</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-center">
+                    <i class="bi bi-check-circle display-4 text-success"></i>
+                    <h3 class="display-4 fw-bold text-success mt-2">
+                        @(Model.TriagensPorStatus.TryGetValue(AUTistima.Models.Enums.StatusTriagem.Concluido, out var concluidas) ? concluidas : 0)
+                    </h3>
+                    <p class="mb-0 text-muted">Concluídas</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-center">
+                    <i class="bi bi-hourglass-split display-4 text-warning"></i>
+                    <h3 class="display-4 fw-bold text-warning mt-2">
+                        @(Model.TriagensPorStatus.TryGetValue(AUTistima.Models.Enums.StatusTriagem.Pendente, out var pendentes) ? pendentes : 0)
+                    </h3>
+                    <p class="mb-0 text-muted">Pendentes</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gráficos -->
+    <div class="row g-3 mb-4">
+        <div class="col-12 col-lg-8">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0"><i class="bi bi-graph-up me-2"></i>Triagens por Mês</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="graficoTriagensMes" height="300"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0"><i class="bi bi-pie-chart me-2"></i>Triagens por Status</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="graficoStatus" height="300"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Escolas com mais Triagens -->
+    @if (Model.EscolasComMaisTriagens.Any())
+    {
+        <div class="row g-3">
+            <div class="col-12">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white">
+                        <h5 class="mb-0"><i class="bi bi-building me-2"></i>Top 10 Escolas com Mais Triagens</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Escola</th>
+                                        <th class="text-end">Total de Triagens</th>
+                                        <th class="text-end">% do Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        var pos = 1;
+                                        var totalTriagens = Model.EscolasComMaisTriagens.Values.Sum();
+                                    }
+                                    @foreach (var escola in Model.EscolasComMaisTriagens)
+                                    {
+                                        var percentual = totalTriagens > 0 ? (escola.Value * 100.0 / totalTriagens) : 0;
+                                        <tr>
+                                            <td>
+                                                @if (pos <= 3)
+                                                {
+                                                    <span class="badge @(pos == 1 ? "bg-warning" : pos == 2 ? "bg-secondary" : "bg-salmon")">
+                                                        @pos
+                                                    </span>
+                                                }
+                                                else
+                                                {
+                                                    @pos
+                                                }
+                                            </td>
+                                            <td>
+                                                <i class="bi bi-building me-2 text-muted"></i>
+                                                @escola.Key
+                                            </td>
+                                            <td class="text-end fw-bold">@escola.Value</td>
+                                            <td class="text-end">
+                                                <div class="progress" style="height: 20px; min-width: 100px;">
+                                                    <div class="progress-bar bg-salmon" role="progressbar" 
+                                                         style="width: @percentual.ToString("F1", System.Globalization.CultureInfo.InvariantCulture)%">
+                                                        @percentual.ToString("F1")%
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        pos++;
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Dados
+        const triagensPorMes = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.TriagensPorMes));
+        const triagensPorStatus = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.TriagensPorStatus.Select(x => new { status = x.Key.ToString(), total = x.Value })));
+
+        // Labels de status
+        const statusLabels = {
+            'Pendente': 'Pendente', 'EmAvaliacao': 'Em Avaliação', 'Concluido': 'Concluído',
+            'Encaminhado': 'Encaminhado', 'Cancelado': 'Cancelado'
+        };
+
+        // Gráfico Triagens por Mês
+        const ctxMes = document.getElementById('graficoTriagensMes').getContext('2d');
+        new Chart(ctxMes, {
+            type: 'bar',
+            data: {
+                labels: triagensPorMes.map(t => t.label),
+                datasets: [{
+                    label: 'Triagens',
+                    data: triagensPorMes.map(t => t.value),
+                    backgroundColor: '#F28B82'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: { y: { beginAtZero: true } }
+            }
+        });
+
+        // Gráfico Status
+        const ctxStatus = document.getElementById('graficoStatus').getContext('2d');
+        new Chart(ctxStatus, {
+            type: 'doughnut',
+            data: {
+                labels: triagensPorStatus.map(s => statusLabels[s.status] || s.status),
+                datasets: [{
+                    data: triagensPorStatus.map(s => s.total),
+                    backgroundColor: ['#FFD54F', '#4FC3F7', '#81C784', '#9575CD', '#EF5350']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { position: 'bottom' } }
+            }
+        });
+    </script>
+}

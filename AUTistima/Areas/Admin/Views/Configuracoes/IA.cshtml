@@ -198,8 +198,18 @@
         }
 
         function resetPrompt() {
-            if (confirm('Restaurar o prompt para o valor padrão?')) {
-                document.getElementById('SystemPrompt').value = `Você é uma assistente virtual acolhedora do AUTistima, uma plataforma de apoio para mães atípicas (mães de pessoas autistas).
+            Swal.fire({
+                title: 'Restaurar Prompt',
+                text: 'Restaurar o prompt para o valor padrão?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#F28B82',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Sim, restaurar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('SystemPrompt').value = `Você é uma assistente virtual acolhedora do AUTistima, uma plataforma de apoio para mães atípicas (mães de pessoas autistas).
 
 Seu papel é:
 1. Acolher e ouvir as mães com empatia e carinho
@@ -217,7 +227,8 @@ IMPORTANTE:
 - Respeite o conhecimento de vivência das mães
 
 Você fala português brasileiro e usa emojis com moderação para criar um ambiente acolhedor 💕`;
-            }
+                }
+            });
         }
 
         function testarIA() {
@@ -239,15 +250,30 @@ Você fala português brasileiro e usa emojis com moderação para criar um ambi
                 btn.disabled = false;
                 
                 if (data.success) {
-                    alert('✅ ' + data.message);
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Conexão OK! 💕',
+                        text: data.message,
+                        confirmButtonColor: '#F28B82'
+                    });
                 } else {
-                    alert('❌ ' + data.message);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Falha na Conexão',
+                        text: data.message,
+                        confirmButtonColor: '#F28B82'
+                    });
                 }
             })
             .catch(err => {
                 btn.innerHTML = originalText;
                 btn.disabled = false;
-                alert('❌ Erro ao testar conexão');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erro',
+                    text: 'Erro ao testar conexão',
+                    confirmButtonColor: '#F28B82'
+                });
             });
         }
     </script>

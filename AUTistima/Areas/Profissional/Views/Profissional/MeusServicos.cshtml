@@ -85,7 +85,7 @@ else
                                 <i class="bi bi-pencil me-1"></i>Editar
                             </a>
                             <form asp-action="ExcluirServico" asp-route-id="@servico.Id" method="post" class="d-inline"
-                                  onsubmit="return confirm('Tem certeza que deseja excluir este serviço?');">
+                                  onsubmit="return confirmarExclusao(this, 'Tem certeza que deseja excluir este serviço?');">
                                 @Html.AntiForgeryToken()
                                 <button type="submit" class="btn btn-outline-danger">
                                     <i class="bi bi-trash"></i>

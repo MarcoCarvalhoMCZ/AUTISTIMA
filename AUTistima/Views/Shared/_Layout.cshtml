@@ -32,6 +32,9 @@
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
     <script type="importmap"></script>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
@@ -114,7 +117,7 @@
         }
         
         .sidebar-section {
-            padding: 1rem 0;
+            padding: 0.5rem 0;
         }
         
         .sidebar-section-title {
@@ -124,6 +127,39 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
             color: #999;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            user-select: none;
+            transition: all 0.2s;
+        }
+        
+        .sidebar-section-title:hover {
+            color: var(--color-salmon);
+        }
+        
+        .sidebar-section-title::after {
+            content: '\F282';
+            font-family: 'bootstrap-icons';
+            font-size: 0.8rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .sidebar-section.collapsed .sidebar-section-title::after {
+            transform: rotate(-90deg);
+        }
+        
+        .sidebar-section .sidebar-nav {
+            max-height: 500px;
+            overflow: hidden;
+            transition: max-height 0.3s ease, opacity 0.3s ease;
+            opacity: 1;
+        }
+        
+        .sidebar-section.collapsed .sidebar-nav {
+            max-height: 0;
+            opacity: 0;
         }
         
         .sidebar-nav {
@@ -192,42 +228,54 @@
         .sidebar-nav-link.mae { color: #F28B82; }
         .sidebar-nav-link.mae:hover, .sidebar-nav-link.mae.active { background: #F28B82; color: white; }
         
-        /* Toggle Button */
+        /* Toggle Button - Desktop Modern Style */
         .sidebar-toggle {
             position: fixed;
             top: 12px;
-            left: 15px;
-            z-index: 1050;
-            width: 44px;
-            height: 44px;
+            left: 20px;
+            z-index: 1100;
+            width: 40px;
+            height: 40px;
             border: none;
-            border-radius: 12px;
-            background: white;
-            color: var(--color-salmon);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+            border-radius: 8px;
+            background: transparent;
+            color: white;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s;
+            transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 1.1rem;
+            padding: 0;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
         
         .sidebar-toggle:hover {
-            background: var(--color-salmon);
-            color: white;
-            transform: scale(1.05);
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
         }
         
-        .sidebar-toggle i {
-            font-size: 1.4rem;
-            transition: transform 0.3s;
+        .sidebar-toggle:active {
+            transform: translateY(0);
         }
         
-        .sidebar.show ~ .sidebar-toggle i {
-            transform: rotate(180deg);
+        /* Esconder botão quando não autenticado */
+        .sidebar-toggle.hidden {
+            display: none !important;
         }
         
-        /* Close button inside sidebar */
+        /* Desktops grandes: ajustar posição quando sidebar aberta */
+        @@media (min-width: 992px) {
+            .sidebar.show ~ .sidebar-toggle {
+                left: calc(var(--sidebar-width) + 15px);
+            }
+            
+            .sidebar:not(.show) ~ .sidebar-toggle {
+                left: 20px;
+            }
+        }
+        
+        /* Close button inside sidebar - Hidden on desktop */
         .sidebar-close {
             position: absolute;
             top: 1rem;
@@ -247,6 +295,13 @@
         
         .sidebar-close:hover {
             background: rgba(255,255,255,0.3);
+        }
+        
+        /* Hide close button on desktop */
+        @@media (min-width: 992px) {
+            .sidebar-close {
+                display: none;
+            }
         }
         
         /* Overlay */
@@ -355,29 +410,37 @@
         };
     }
     
-    <!-- Sidebar Toggle Button -->
-    <button class="sidebar-toggle" id="sidebarToggle" aria-label="Abrir menu lateral">
-        <i class="bi bi-list"></i>
-    </button>
+    <!-- Sidebar Toggle Button - Desktop Modern Style -->
+    @if (User.Identity?.IsAuthenticated == true)
+    {
+        <button class="sidebar-toggle" id="sidebarToggle" aria-label="Abrir menu lateral" title="Menu">
+            <i class="bi bi-list"></i>
+        </button>
+    }
     
     <!-- Sidebar Overlay -->
-    <div class="sidebar-overlay" id="sidebarOverlay"></div>
-    
-    <!-- Sidebar -->
-    <aside class="sidebar" id="sidebar" role="navigation" aria-label="Menu lateral">
+    @if (User.Identity?.IsAuthenticated == true)
+    {
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+        
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar" role="navigation" aria-label="Menu lateral">
         <div class="sidebar-header">
             <button class="sidebar-close" id="sidebarClose" aria-label="Fechar menu">
                 <i class="bi bi-x-lg"></i>
             </button>
-            <div class="logo">
-                <span style="opacity: 0.9;">AUT</span>istima
-            </div>
-            <p class="mb-0 small opacity-75">Rede de Apoio 💕</p>
             
             @if (User.Identity?.IsAuthenticated == true)
             {
                 <div class="user-info d-flex align-items-center gap-3">
-                    <div class="user-avatar">@userInitial</div>
+                    @if (!string.IsNullOrEmpty(currentUser?.FotoPerfilUrl))
+                    {
+                        <img src="@currentUser.FotoPerfilUrl" alt="@currentUser.NomeCompleto" class="user-avatar" style="border-radius: 50%; object-fit: cover;" />
+                    }
+                    else
+                    {
+                        <div class="user-avatar">@userInitial</div>
+                    }
                     <div>
                         <div class="user-name">@userName</div>
                         <span class="user-type">@tipoPerfilDisplay</span>
@@ -644,28 +707,9 @@
                     </form>
                 </div>
             }
-            else
-            {
-                <!-- Não autenticado -->
-                <div class="sidebar-divider"></div>
-                <div class="sidebar-section">
-                    <ul class="sidebar-nav">
-                        <li class="sidebar-nav-item">
-                            <a class="sidebar-nav-link" asp-controller="Account" asp-action="Login">
-                                <i class="bi bi-box-arrow-in-right"></i> Entrar
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                
-                <div class="sidebar-footer mt-auto">
-                    <a asp-controller="Account" asp-action="Register" class="btn btn-salmon">
-                        <i class="bi bi-heart me-2"></i>Faça Parte
-                    </a>
-                </div>
-            }
         </nav>
     </aside>
+    }
     
     <!-- Header simplificado -->
     <header class="main-wrapper">
@@ -682,21 +726,28 @@
                     @if (User.Identity?.IsAuthenticated == true)
                     {
                         <!-- Notificações -->
-                        <a class="btn btn-link position-relative p-2" asp-controller="Notificacoes" asp-action="Index" title="Notificações">
+                        <a class="btn btn-link position-relative p-2" asp-controller="Notificacoes" asp-action="Index" title="Notificações" style="color: #555; transition: color 0.2s;">
                             <i class="bi bi-bell fs-5"></i>
                             <span id="notificacao-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="display: none; font-size: 0.6rem;">0</span>
                         </a>
                         <!-- Chat -->
-                        <a class="btn btn-link position-relative p-2" asp-controller="Chat" asp-action="Index" title="Mensagens">
+                        <a class="btn btn-link position-relative p-2" asp-controller="Chat" asp-action="Index" title="Mensagens" style="color: #555; transition: color 0.2s;">
                             <i class="bi bi-chat-dots fs-5"></i>
                             <span id="chat-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary" style="display: none; font-size: 0.6rem;">0</span>
                         </a>
-                        <!-- Avatar -->
-                        <a class="btn btn-link p-1" asp-controller="Account" asp-action="Profile" title="Meu Perfil">
-                            <div class="rounded-circle bg-salmon text-white d-flex align-items-center justify-content-center" style="width: 35px; height: 35px; font-weight: 600;">
+                        <!-- Avatar / Perfil -->
+                        @if (!string.IsNullOrEmpty(currentUser?.FotoPerfilUrl))
+                        {
+                            <a class="btn p-0" asp-controller="Account" asp-action="Profile" title="Meu Perfil" style="border-radius: 50%; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; overflow: hidden; background: var(--color-salmon); color: white; font-weight: 600; text-decoration: none; transition: all 0.2s; box-shadow: 0 2px 8px rgba(242, 139, 130, 0.2);">
+                                <img src="@currentUser.FotoPerfilUrl" alt="@currentUser.NomeCompleto" style="width: 100%; height: 100%; object-fit: cover;" />
+                            </a>
+                        }
+                        else
+                        {
+                            <a class="btn p-0" asp-controller="Account" asp-action="Profile" title="Meu Perfil" style="border-radius: 50%; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: var(--color-salmon); color: white; font-weight: 600; text-decoration: none; transition: all 0.2s; box-shadow: 0 2px 8px rgba(242, 139, 130, 0.2);">
                                 @userInitial
-                            </div>
-                        </a>
+                            </a>
+                        }
                     }
                     else
                     {
@@ -778,9 +829,9 @@
             const sidebarPwaInstall = document.getElementById('sidebar-pwa-install');
             const sidebarPwaBtn = document.getElementById('sidebar-pwa-btn');
             
-            // Verificar preferência salva
-            const sidebarState = localStorage.getItem('sidebar-open');
-            if (sidebarState === 'true' && window.innerWidth >= 992) {
+            // Em desktop, manter sidebar aberta por padrão
+            // Em mobile, deixar fechada
+            if (window.innerWidth >= 992) {
                 sidebar.classList.add('show');
             }
             
@@ -789,9 +840,14 @@
                 sidebar.classList.toggle('show');
                 sidebarOverlay.classList.toggle('show');
                 
-                // Salvar preferência em desktop
+                // Salvar preferência apenas em desktop, e apenas quando aberta
                 if (window.innerWidth >= 992) {
                     localStorage.setItem('sidebar-open', sidebar.classList.contains('show'));
+                    // Animar o botão
+                    sidebarToggle.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        sidebarToggle.style.transform = 'scale(1)';
+                    }, 150);
                 }
             }
             
@@ -823,6 +879,40 @@
                 }
             });
             
+            // Toggle de seções do menu (expandir/encolher)
+            document.querySelectorAll('.sidebar-section-title').forEach(title => {
+                title.addEventListener('click', function() {
+                    const section = this.closest('.sidebar-section');
+                    section.classList.toggle('collapsed');
+                    
+                    // Salvar estado no localStorage
+                    const sectionId = this.textContent.trim();
+                    const collapsedSections = JSON.parse(localStorage.getItem('sidebar-collapsed') || '[]');
+                    
+                    if (section.classList.contains('collapsed')) {
+                        if (!collapsedSections.includes(sectionId)) {
+                            collapsedSections.push(sectionId);
+                        }
+                    } else {
+                        const index = collapsedSections.indexOf(sectionId);
+                        if (index > -1) {
+                            collapsedSections.splice(index, 1);
+                        }
+                    }
+                    localStorage.setItem('sidebar-collapsed', JSON.stringify(collapsedSections));
+                });
+            });
+            
+            // Restaurar estado das seções colapsadas (exceto Administração que sempre inicia expandida)
+            const savedCollapsed = JSON.parse(localStorage.getItem('sidebar-collapsed') || '[]');
+            document.querySelectorAll('.sidebar-section-title').forEach(title => {
+                const sectionId = title.textContent.trim();
+                // Não colapsar a seção de Administração por padrão
+                if (savedCollapsed.includes(sectionId) && !sectionId.includes('Administração')) {
+                    title.closest('.sidebar-section').classList.add('collapsed');
+                }
+            });
+            
             // PWA Install no sidebar
             if (sidebarPwaInstall && sidebarPwaBtn) {
                 window.addEventListener('beforeinstallprompt', function(e) {
@@ -850,6 +940,73 @@
                 }
             });
         });
+    </script>
+    
+    <!-- SweetAlert2 - Funções Globais -->
+    <script>
+        // Função para confirmação de exclusão com SweetAlert2
+        function confirmarExclusao(form, mensagem = 'Tem certeza que deseja excluir?') {
+            Swal.fire({
+                title: 'Confirmar Exclusão',
+                text: mensagem,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#F28B82',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Sim, excluir!',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+            return false;
+        }
+        
+        // Função para confirmação genérica
+        function confirmarAcao(form, titulo, mensagem, textoBotao = 'Confirmar') {
+            Swal.fire({
+                title: titulo,
+                text: mensagem,
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#F28B82',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: textoBotao,
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+            return false;
+        }
+        
+        // Toast de sucesso
+        function toastSucesso(mensagem) {
+            Swal.fire({
+                icon: 'success',
+                title: mensagem,
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true
+            });
+        }
+        
+        // Toast de erro
+        function toastErro(mensagem) {
+            Swal.fire({
+                icon: 'error',
+                title: mensagem,
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 4000,
+                timerProgressBar: true
+            });
+        }
     </script>
     
     @if (User.Identity?.IsAuthenticated == true)
@@ -915,9 +1072,20 @@
                         newWorker.addEventListener('statechange', () => {
                             if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
                                 // Nova versão disponível
-                                if (confirm('Nova versão do AUTistima disponível! Deseja atualizar?')) {
-                                    window.location.reload();
-                                }
+                                Swal.fire({
+                                    title: 'Atualização Disponível! 🎉',
+                                    text: 'Nova versão do AUTistima disponível! Deseja atualizar agora?',
+                                    icon: 'info',
+                                    showCancelButton: true,
+                                    confirmButtonColor: '#F28B82',
+                                    cancelButtonColor: '#6c757d',
+                                    confirmButtonText: 'Atualizar',
+                                    cancelButtonText: 'Depois'
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        window.location.reload();
+                                    }
+                                });
                             }
                         });
                     });

@@ -31,6 +31,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<ChatMessage> ChatMessages { get; set; } = null!;
     public DbSet<Conversation> Conversations { get; set; } = null!;
     public DbSet<PushSubscription> PushSubscriptions { get; set; } = null!;
+    public DbSet<UserActivity> UserActivities { get; set; } = null!;
+    public DbSet<StatisticSnapshot> StatisticSnapshots { get; set; } = null!;
     
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -261,6 +263,29 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
                 .WithMany()
                 .HasForeignKey(e => e.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
+        });
+        
+        // UserActivity - Rastreamento de atividades para métricas
+        builder.Entity<UserActivity>(entity =>
+        {
+            entity.ToTable("UserActivities");
+            entity.HasIndex(e => e.UserId);
+            entity.HasIndex(e => e.TipoAtividade);
+            entity.HasIndex(e => e.DataHora);
+            entity.HasIndex(e => new { e.UserId, e.DataHora });
+            entity.HasIndex(e => new { e.TipoAtividade, e.DataHora });
+            
+            entity.HasOne(e => e.Usuario)
+                .WithMany()
+                .HasForeignKey(e => e.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+        
+        // StatisticSnapshot - Histórico de métricas diárias
+        builder.Entity<StatisticSnapshot>(entity =>
+        {
+            entity.ToTable("StatisticSnapshots");
+            entity.HasIndex(e => e.Data).IsUnique();
         });
         
         // Seed de dados iniciais para o Glossário

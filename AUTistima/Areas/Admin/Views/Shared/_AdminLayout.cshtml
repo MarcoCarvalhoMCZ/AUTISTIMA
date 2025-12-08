@@ -97,12 +97,64 @@
             .admin-content {
                 margin-left: 0;
             }
+            
+            /* Overlay para fechar sidebar */
+            .sidebar-overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0,0,0,0.5);
+                z-index: 999;
+            }
+            .sidebar-overlay.show {
+                display: block;
+            }
+            
+            /* Botão de fechar no mobile */
+            .sidebar-close-btn {
+                position: absolute;
+                top: 1rem;
+                right: 1rem;
+                background: rgba(255,255,255,0.1);
+                border: none;
+                color: white;
+                width: 36px;
+                height: 36px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 1.25rem;
+                cursor: pointer;
+                transition: background 0.2s;
+            }
+            .sidebar-close-btn:hover {
+                background: rgba(255,255,255,0.2);
+            }
+        }
+        
+        /* Esconder botão fechar no desktop */
+        @@media (min-width: 992px) {
+            .sidebar-close-btn {
+                display: none !important;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Overlay para fechar sidebar no mobile -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+    
     <!-- Sidebar -->
     <aside class="admin-sidebar" id="adminSidebar">
+        <!-- Botão fechar no mobile -->
+        <button class="sidebar-close-btn" onclick="closeSidebar()" aria-label="Fechar menu">
+            <i class="bi bi-x-lg"></i>
+        </button>
+        
         <div class="logo">
             <span>AUT</span>istima
             <small class="d-block text-white-50 fs-6 fw-normal">Administração</small>
@@ -146,6 +198,10 @@
             
             <div class="sidebar-section-title">Sistema</div>
             
+            <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Estatisticas" ? "active" : "")" 
+               asp-area="Admin" asp-controller="Estatisticas" asp-action="Index">
+                <i class="bi bi-bar-chart-line me-2"></i> Estatísticas
+            </a>
             <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Configuracoes" ? "active" : "")" 
                asp-area="Admin" asp-controller="Configuracoes" asp-action="Index">
                 <i class="bi bi-gear me-2"></i> Configurações
@@ -164,7 +220,7 @@
     <!-- Main Content -->
     <div class="admin-content">
         <header class="admin-header">
-            <button class="btn btn-outline-secondary d-lg-none" onclick="document.getElementById('adminSidebar').classList.toggle('show')">
+            <button class="btn btn-outline-secondary d-lg-none" onclick="toggleSidebar()">
                 <i class="bi bi-list"></i>
             </button>
             <div class="d-flex align-items-center ms-auto">
@@ -199,6 +255,74 @@
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <script>
+        // Funções globais da sidebar
+        function toggleSidebar() {
+            document.getElementById('adminSidebar').classList.toggle('show');
+            document.getElementById('sidebarOverlay').classList.toggle('show');
+        }
+        
+        function closeSidebar() {
+            document.getElementById('adminSidebar').classList.remove('show');
+            document.getElementById('sidebarOverlay').classList.remove('show');
+        }
+        
+        // Fechar sidebar ao clicar em link (mobile)
+        if (window.innerWidth < 992) {
+            document.querySelectorAll('.admin-sidebar .nav-link').forEach(link => {
+                link.addEventListener('click', closeSidebar);
+            });
+        }
+        
+        // Tecla ESC fecha sidebar
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeSidebar();
+            }
+        });
+        
+        // Funções SweetAlert2 para confirmações
+        function confirmarExclusao(form, mensagem = 'Tem certeza que deseja excluir?') {
+            Swal.fire({
+                title: 'Confirmar Exclusão',
+                text: mensagem,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#F28B82',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Sim, excluir!',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+            return false;
+        }
+        
+        function confirmarAcao(form, titulo, mensagem, textoBotao = 'Confirmar') {
+            Swal.fire({
+                title: titulo,
+                text: mensagem,
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#F28B82',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: textoBotao,
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+            return false;
+        }
+    </script>
+    
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
