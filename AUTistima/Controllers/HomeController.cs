@@ -25,6 +25,12 @@ public class HomeController : Controller
         ViewBag.TotalAcolhimentos = await _context.PostAcolhimentos.CountAsync();
         ViewBag.TotalProfissionais = await _context.Services.CountAsync(s => s.Ativo);
         
+        // Se autenticado, redirecionar para a tela apropriada
+        if (User.Identity?.IsAuthenticated == true)
+        {
+            return RedirectToAction("Index", "Home", new { area = "" });
+        }
+        
         return View();
     }
 

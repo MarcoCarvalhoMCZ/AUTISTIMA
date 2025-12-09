@@ -25,6 +25,6 @@ echo "🚀 Iniciando AUTistima..."
 echo "📍 Acesse: http://localhost:$PORTA"
 echo ""
 
-# Entra na pasta do projeto e executa
+# Entra na pasta do projeto e executa com compilação completa
 cd "$(dirname "$0")/AUTistima"
 dotnet run --urls "http://localhost:$PORTA"

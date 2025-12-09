@@ -72,7 +72,7 @@ public class AccountController : Controller
                         detalhes: $"Login via {(model.RememberMe ? "sessão persistente" : "sessão normal")}");
                 }
                 
-                return RedirectToLocal(returnUrl);
+                return await RedirectToLocal(returnUrl);
             }
             
             ModelState.AddModelError(string.Empty, "E-mail ou senha incorretos.");
@@ -392,12 +392,20 @@ public class AccountController : Controller
         return RedirectToAction(nameof(Profile));
     }
 
-    private IActionResult RedirectToLocal(string? returnUrl)
+    private async Task<IActionResult> RedirectToLocal(string? returnUrl)
     {
         if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
         {
             return Redirect(returnUrl);
         }
+
+        // Redirecionar administrador para /Admin
+        var user = await _userManager.GetUserAsync(User);
+        if (user?.TipoPerfil == TipoPerfil.Administrador)
+        {
+            return RedirectToAction("Index", "Admin", new { area = "Admin" });
+        }
+
         return RedirectToAction("Index", "Home");
     }
 

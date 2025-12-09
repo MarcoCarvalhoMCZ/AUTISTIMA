@@ -98,10 +98,22 @@
                                     <option value="RO">Rondônia</option>
                                     <option value="RR">Roraima</option>
                                     <option value="SC">Santa Catarina</option>
-                                    <option value="SP">São Paulo</option>
+                                    <option value="SP" selected>São Paulo</option>
                                     <option value="SE">Sergipe</option>
                                     <option value="TO">Tocantins</option>
                                 </select>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label asp-for="Latitude" class="form-label fw-semibold">Latitude</label>
+                                <input asp-for="Latitude" class="form-control" placeholder="-9.66625" type="number" step="any" />
+                                <span asp-validation-for="Latitude" class="text-danger small"></span>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label asp-for="Longitude" class="form-label fw-semibold">Longitude</label>
+                                <input asp-for="Longitude" class="form-control" placeholder="-35.7351" type="number" step="any" />
+                                <span asp-validation-for="Longitude" class="text-danger small"></span>
                             </div>
 
                             <div class="col-md-6">

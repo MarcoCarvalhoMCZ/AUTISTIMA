@@ -1,0 +1,1620 @@
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
+
+#nullable disable
+
+namespace AUTistima.Migrations
+{
+    /// <inheritdoc />
+    public partial class ClearAndSeedSchools : Migration
+    {
+        /// <inheritdoc />
+        protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.Sql(@"DELETE FROM [autistima_sa_sql].[Schools];
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL DOUTOR HENRIQUE EQUELMAN', NULL, N'RUA 56 COHAB -  - JACINTINHO - Maceió', N'Jacintinho', N'Maceió', N'AL', N'57041620', NULL, NULL, 1, 0, -9.6365709, -35.7110774, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA DE ENSINO FUNDAMENTAL SAGRADO CORAÇÃO DE JESUS', NULL, N'RUA DELMIRO GOUVEIA - SN - CRUZ DAS ALMAS - Maceió', N'Cruz das Almas', N'Maceió', N'AL', N'57038260', NULL, NULL, 1, 0, -9.6647625, -35.708704, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL ZANELI CALDAS', NULL, N'PRAÇA DA MARAVILHA - 87 - POÇO - Maceió', N'Poço', N'Maceió', N'AL', N'57025860', NULL, NULL, 1, 0, -9.6586248, -35.717677, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL DOUTOR ORLANDO ARAÚJO', NULL, N'RUA DR. JOSÉ SAMPAIO LUZ -  - PONTA VERDE - Maceió', N'Ponta Verde', N'Maceió', N'AL', N'57035260', NULL, NULL, 1, 0, -9.6586543, -35.7108819, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL ANTÔNIO SEMEÃO LAMENHA LINS ', NULL, N'RUA MAJOR JOSÉ JOAQUIM CALHEIROS -  - JACINTINHO - Maceió', N'Jacintinho', N'Maceió', N'AL', N'57041580', NULL, NULL, 1, 0, -9.6365709, -35.7110774, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL ARNON AFONSO FARIAS DE MELO ', NULL, N'CONJ. JOSÉ DA SILVA PEIXOTO  -  - JACINTINHO - Maceió', N'Jacintinho', N'Maceió', N'AL', N'57041132', NULL, NULL, 1, 0, -9.6365709, -35.7110774, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL CLETO MARQUES LUZ', NULL, N'RUA LUIS ALVES DA SILVA - S/N - SANTA AMELIA  - Maceió', NULL, N'Maceió', N'AL', N'57063650', NULL, NULL, 1, 0, NULL, NULL, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL DOM ANTÔNIO BRANDÃO ', NULL, N'R. DO QUADRO  - SN - TABULEIRO - Maceió', N'Tabuleiro do Martins', N'Maceió', N'AL', N'57061120', NULL, NULL, 1, 0, -9.57362400002035, -35.7636198712411, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL DOUTOR POMPEU SARMENTO', NULL, N'AVENIDA MUNIZ FALCÃO -  - BARRO DURO - Maceió', N'Clima Bom', N'Maceió', N'AL', N'57071130', NULL, NULL, 1, 0, -9.58332718157225, -35.7396590577506, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CMEI GRACILIANO RAMOS', NULL, N'AV.DR. JOSÉ HAILTON DOS SANTOS - S/N - CIDADE UNIVERSITARIA - Maceió', N'Cidade Universitária', N'Maceió', N'AL', N'57073020', NULL, NULL, 1, 0, -9.5539008, -35.7461255, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CMEI JOÃO XXIII', NULL, N'RUA DR JOSE JOAQUIM ARAÚJO - 57 - JACINTINHO - Maceió', N'Jacintinho', N'Maceió', N'AL', N'57040090', NULL, NULL, 1, 0, -9.6365709, -35.7110774, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL DOUTOR JOSÉ HAROLDO DA COSTA', NULL, N'RUA DR. JÚLIO CÉSAR MENDONÇA UCHÔA -  - TABULEIRO DO MARTINS - Maceió', N'Tabuleiro do Martins', N'Maceió', N'AL', N'57081395', NULL, NULL, 1, 0, -9.5685551869336, -35.7569707024559, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL PROFESSOR LENILTO ALVES SANTOS', NULL, N'RUA ENFERMEIRO MARIANO -  - JACINTINHO - Maceió', N'Jacintinho', N'Maceió', N'AL', N'57041430', NULL, NULL, 1, 0, -9.6365709, -35.7110774, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL LUÍZA  OLIVEIRA SURUAGY ', NULL, N'RUA PADRE CÍCERO -  - OURO PRETO - Maceió', N'Ouro Preto', N'Maceió', N'AL', N'57045815', NULL, NULL, 1, 0, -9.56843676193485, -35.7474719326071, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CMEI LUIZ CALHEIROS JÚNIOR', NULL, N'RUA LOURIVAL DE AGUIAR PESSOA - 400 - SERRARIA - Maceió', N'Serraria', N'Maceió', N'AL', N'57046770', NULL, NULL, 1, 0, -9.5945808, -35.7280492, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL MAJOR BONIFÁCIO SILVEIRA', NULL, N'AV JORNALISTA JOSÉ BATISTA - 277 - GRUTA DE LOURDES - Maceió', N'Gruta de Lourdes', N'Maceió', N'AL', N'57052645', NULL, NULL, 1, 0, -9.6125541, -35.7380054, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL MARECHAL FLORIANO PEIXOTO', NULL, N'R. DA IGREJA -  - IPIOCA - Maceió', N'Ipioca', N'Maceió', N'AL', N'57039800', NULL, NULL, 1, 0, -9.54659151427341, -35.626679153327, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL PADRE PINHO', NULL, N'RUA QUEBRANGULO - SN - CRUZ DAS ALMAS - Maceió', N'Cruz das Almas', N'Maceió', N'AL', N'57038460', NULL, NULL, 1, 0, -9.6647625, -35.708704, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL PEDRO CAFÉ', NULL, N'Praça leonidio Cardoso -  - RIO NOVO - Maceió', N'Rio Novo', N'Maceió', N'AL', N'57070570', NULL, NULL, 1, 0, -9.59813271385177, -35.7716783890176, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL PEDRO SURUAGY', NULL, N'AV. MACEIÓ -  - TABULEIRO - Maceió', N'Tabuleiro do Martins', N'Maceió', N'AL', N'57061110', NULL, NULL, 1, 0, -9.56831453902831, -35.7574474398445, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL ALMEIDA LEITE ', NULL, N'R. VIRGÍLIO GUEDES - S/N - PONTA GROSSA - Maceió', NULL, N'Maceió', N'AL', N'57014002', NULL, NULL, 1, 0, NULL, NULL, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL PROFESSOR DONIZETTE CALHEIROS ', NULL, N'RUA JOSE HERMES DAMASCENO - S/N - SANTA LUCIA - Maceió', N'Santa Lúcia', N'Maceió', N'AL', N'57082010', NULL, NULL, 1, 0, -9.5865536, -35.7586476, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL PROFESSORA EULINA RIBEIRO ALENCAR', NULL, N'R. COARACY FONSECA -  - JACINTINHO - Maceió', N'Jacintinho', N'Maceió', N'AL', N'57040080', NULL, NULL, 1, 0, -9.6365709, -35.7110774, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL SUZEL DANTAS', NULL, N'RUA ANTONIO MONTEIRO DE CARVALHO -  - TABULEIRO DO MARTINS - Maceió', N'Tabuleiro do Martins', N'Maceió', N'AL', N'57060020', NULL, NULL, 1, 0, -9.57132539272584, -35.7567229102561, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL RUI PALMEIRA', NULL, N'AV. MONTE CASTELO - SN - VERGEL DO LAGO - Maceió', N'Vergel do Lago', N'Maceió', N'AL', N'57015130', NULL, NULL, 1, 0, -9.66782895040456, -35.7468942394374, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL SÉRGIO LUIZ PESSOA BRAGA', NULL, N'AV. GOVERNADOR LAMENHA FILHO -  - CHÃ DA JAQUEIRA - Maceió', N'Chã da Jaqueira', N'Maceió', N'AL', N'57018550', NULL, NULL, 1, 0, -9.6191507, -35.7463003, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL SILVESTRE PÉRICLES', NULL, N'PRAÇA DR. CAIO PORTO -  - PONTAL DA BARRA - Maceió', N'Pontal da Barra', N'Maceió', N'AL', N'57010830', NULL, NULL, 1, 0, -9.68905306290598, -35.7381565498812, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL JAIME DE ALTAVILLA ', NULL, N'Rua Dilermando Reis -  - Santa Lúcia - Maceió', N'Santa Lúcia', N'Maceió', N'AL', N'57082045', NULL, NULL, 1, 0, -9.5865536, -35.7586476, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL PROFESSOR CORINTHO DA PAZ', NULL, N'CONJ. CIDADE UNIVERSITÁRIA -  - CIDADE UNIVERSITÁRIA - Maceió', N'Cidade Universitária', N'Maceió', N'AL', N'57072014', NULL, NULL, 1, 0, -9.5539008, -35.7461255, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL PROFESSOR ANTÍDIO VIEIRA', NULL, N'R. PAULO NETO  - SN - TRAPICHE - Maceió', N'Trapiche da Barra', N'Maceió', N'AL', N'57010380', NULL, NULL, 1, 0, -9.68545252498964, -35.7448549331619, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL HIGINO BELO ', NULL, N'AV. SANTA RITA DE CÁSSIA  -  - FAROL - Maceió', N'Farol', N'Maceió', N'AL', N'57051600', NULL, NULL, 1, 0, -9.6555093, -35.7336269, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CMEI NOSSA SENHORA DA GUIA', NULL, N'AV. SIQUEIRA CAMPOS - 24/27 - TRAPICHE - Maceió', N'Trapiche da Barra', N'Maceió', N'AL', N'57010645', NULL, NULL, 1, 0, -9.68892362672242, -35.7481439418075, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL DOUTOR JOSÉ BANDEIRA DE MEDEIROS', NULL, N'GUAICURUS - 77 - PONTA GROSSA - Maceió', NULL, N'Maceió', N'AL', N'57014080', NULL, NULL, 1, 0, NULL, NULL, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL PROFESSOR DERALDO CAMPOS', NULL, N'PÇ. MOISES S. FIRMINO -  - VERGEL DO LAGO - Maceió', N'Vergel do Lago', N'Maceió', N'AL', N'57015050', NULL, NULL, 1, 0, -9.66792821447216, -35.7516651215879, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CMEI PROFESSORA MARIA DE LOURDES VIEIRA ', NULL, N'PRAÇA GONÇALVES LEDO - s/n - FAROL - Maceió', N'Centro', N'Maceió', N'AL', N'57020050', NULL, NULL, 1, 0, -9.6647296, -35.7385312, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CMEI MARECHAL JOÃO BATISTA MASCARENHAS DE MORAES ', NULL, N'PRAÇA DR. OSÓRIO CALHEIROS GATTO - S/N - PITANGUINHA - Maceió', N'Pitanguinha', N'Maceió', N'AL', N'57052320', NULL, NULL, 1, 0, -9.64815558700123, -35.7249056351096, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CMEI MONSENHOR LUIS BARBOSA ', NULL, N'RUA DIVALDO SURUAGY - 98 - VILLAGE CAMPESTRE II - Maceió', N'Cidade Universitária', N'Maceió', N'AL', N'57073595', NULL, NULL, 1, 0, -9.5539008, -35.7461255, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CMEI DOUTOR ANTÔNIO MÁRIO MAFRA ', NULL, N'RUA 15 DE MARÇO  - S /N - LEVADA - Maceió', N'Prado', N'Maceió', N'AL', N'57010000', NULL, NULL, 1, 0, -9.68324801296178, -35.7348842416203, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL DE ENSINO FUNDAMENTAL SANTO ANTONIO', NULL, N'AV. CACHOEIRA DO MEIRIM /LIRA  -  - BENEDITO BENTES - Maceió', N'Benedito Bentes', N'Maceió', N'AL', N'57084304', NULL, NULL, 1, 0, -9.5859671, -35.7150116, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL DOUTOR BALTAZAR DE MENDONÇA ', NULL, N'TEN. CEL. EXERC. BRAS. PEDRO JERONIMO DOS SANTOS - S/N - JACINTINHO - Maceió', N'Jacintinho', N'Maceió', N'AL', N'57040780', NULL, NULL, 1, 0, -9.6365709, -35.7110774, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL JOSÉ CORREIA COSTA', NULL, N'AV EMPRESARIO VALENTIM DOS SANTOS DINIZ - s/n - SERRARIA - Maceió', N'Serraria', N'Maceió', N'AL', N'57046770', NULL, NULL, 1, 0, -9.5945808, -35.7280492, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL DOUTOR JOSÉ CARNEIRO ', NULL, N'RUA BERNADES LOPES - SN - Pinheiro - Maceió', N'Pinheiro', N'Maceió', N'AL', N'57057030', NULL, NULL, 1, 0, -9.6276873, -35.7384062, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL KÁTIA PIMENTEL ASSUNÇÃO ', NULL, N'RUA BRENO CANSANÇAO - 788 - JACINTINHO - Maceió', N'Jacintinho', N'Maceió', N'AL', N'57041300', NULL, NULL, 1, 0, -9.6365709, -35.7110774, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL MANOEL PEDRO DOS SANTOS', NULL, N'AV. CORINTHO CAMPELO DA PAZ -  - SANTOS DUMONT - Maceió', N'Clima Bom', N'Maceió', N'AL', N'57071230', NULL, NULL, 1, 0, -9.57988003593628, -35.7407534811977, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CMEI WALTER PITOMBO LARANJEIRAS', NULL, N'AV GOVERNADOR TEOBALDO BARBOSA - 434 - VERGEL DO LAGO - Maceió', N'Vergel do Lago', N'Maceió', N'AL', N'57015852', NULL, NULL, 1, 0, -9.66860487301587, -35.7516751257093, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CMEI PROFESSOR MANOEL COELHO NETO ', NULL, N'RUA MANOEL FLORENTINO DA SILVA - 190 - PINHEIRO - Maceió', N'Pinheiro', N'Maceió', N'AL', N'57057380', NULL, NULL, 1, 0, -9.6276873, -35.7384062, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL TEREZA DE JESUS', NULL, N'RUA SARGENTO JAYME PANTALEÃO - 75 - PRADO - Maceió', N'Prado', N'Maceió', N'AL', N'57010200', NULL, NULL, 1, 0, -9.68347570688572, -35.7375529017152, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL HERMÍNIO CARDOSO', NULL, N'R. BARÃO DE JARAGUÁ - SN - FERNÃO VELHO - Maceió', N'Rio Novo', N'Maceió', N'AL', N'57070540', NULL, NULL, 1, 0, -9.59236622216535, -35.7722544631193, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL PROFESSORA JAREDE VIANA DE OLIVEIRA', NULL, N'R. SÃO JOSÉ  - 888A - CLIMA BOM - Maceió', N'Clima Bom', N'Maceió', N'AL', N'57071051', NULL, NULL, 1, 0, -9.57904535898876, -35.7398666194959, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CMEI PROFESSORA MARIA IVONE SANTOS DE OLIVEIRA ', NULL, N'CONJ. CIDADE SORRISO I - S/N - BENEDITO BENTES II - Maceió', N'Benedito Bentes', N'Maceió', N'AL', N'57086131', NULL, NULL, 1, 0, -9.5859671, -35.7150116, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CMEI GOVERNADOR LUIS ABILIO DE SOUSA NETO ', NULL, N'RUA P, CONJ CIDADE SORRISO QD E - SN - BENEDITO BENTES II - Maceió', N'Prado', N'Maceió', N'AL', N'57010000', NULL, NULL, 1, 0, -9.68251005449854, -35.7314684278412, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CMEI PROFESSORA MARIA APARECIDA BEZERRA NUNES', NULL, N'CONJ. RES. DOS PESCADORES RUA ARY PITOMBO - s n - TRAPICHE DA BARRA - Maceió', N'Trapiche da Barra', N'Maceió', N'AL', N'57010386', NULL, NULL, 1, 0, -9.68537541686846, -35.7437112752662, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL GASTONE LÚCIA DE CARVALHO BELTRÃO', NULL, N'CONJ. RES. JARDIM ROYAL II NÚMERO DO INEP 27051684 - SN - CIDADE UNIVERSITÁRIA - Maceió', N'Prado', N'Maceió', N'AL', N'57010000', NULL, NULL, 1, 0, -9.67704557311937, -35.7318550477701, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CMEI PROFESSORA SÔNIA MARIA SOUZA CAVALCANTI', NULL, N'RUA GENERAL  HERMES - S/N - BOM PARTO - Maceió', NULL, N'Maceió', N'AL', N'57017201', NULL, NULL, 1, 0, NULL, NULL, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CMEI JOSÉ MADLTTON VITOR DA SILVA', NULL, N'Loteamento Bela Vista II - s/n - Benedito Bentes - Maceió', N'Benedito Bentes', N'Maceió', N'AL', N'57085540', NULL, NULL, 1, 0, -9.5859671, -35.7150116, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CMEI PROFESSORA FÚLVIA MARIA DE BARROS MOTT ROSEMBERG', NULL, N'Avenida Alice Karoline -  - Cidade Universitária - Maceió', N'Cidade Universitária', N'Maceió', N'AL', N'57073415', NULL, NULL, 1, 0, -9.5539008, -35.7461255, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CMEI ANA CAROLINA GALINA FORTES FERREIRA SANTIAGO', NULL, N'Conjunto Novo Jardim  - S/N - Cidade Universitária - Maceió', N'Cidade Universitária', N'Maceió', N'AL', N'57072362', NULL, NULL, 1, 0, -9.5539008, -35.7461255, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CMEI PROFESSORA MARIA SALETE DA SILVA', NULL, N'AVENIDA ANTÔNIO LISBOA DE AMORIM - S/N - BENEDITO BENTES - Maceió', N'Benedito Bentes', N'Maceió', N'AL', N'57085160', NULL, NULL, 1, 0, -9.5859671, -35.7150116, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL JOÃO FEITOSA', NULL, N'Rua da Areia -  - Rio novo - Maceió', N'Prado', N'Maceió', N'AL', N'57010000', NULL, NULL, 1, 0, -9.6765943717195, -35.7332280898501, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CMEI PROFESSORA MARIA JOSÉ DE OLIVEIRA ', NULL, N'AVENIDA TANCREDO NEVES - SN - BENEDITO BENTES  - Maceió', N'Cidade Universitária', N'Maceió', N'AL', N'57073383', NULL, NULL, 1, 0, -9.5539008, -35.7461255, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CMEI MESTRA VIRGÍNIA MORAES DA SILVA', NULL, N'RUA SÃO LUIZ, CONJ. VALE DO TOCANTINS -  - RIO NOVO - Maceió', N'Rio Novo', N'Maceió', N'AL', N'57070630', NULL, NULL, 1, 0, -9.59582303089602, -35.7726717319441, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CMEI PROFESSOR SILVÂNIO BARBOSA DOS SANTOS', NULL, N'CONJ RESIDENCIAL JOSÉ APRIGIO VILELA - s/n - JACARECICA - Maceió', N'Jacarecica', N'Maceió', N'AL', N'57032070', NULL, NULL, 1, 0, -9.62121532659095, -35.6994860589119, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CMEI PROFESSORA DULCINETE BARROS ALVES', NULL, N'LOTEAMENTO CASA FORTE - S/N - ANTARES - Maceió', N'Antares', N'Maceió', N'AL', N'57048166', NULL, NULL, 1, 0, -9.54722220350484, -35.7121137160267, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CMEI MARTHA CÉLIA DE VASCONCELLOS BERNARDES', NULL, N'RUA DR. JURACY PEREIRA - S/N - CIDADE UNIVERSITÁRIA - Maceió', N'Cidade Universitária', N'Maceió', N'AL', N'57072040', NULL, NULL, 1, 0, -9.5539008, -35.7461255, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL PROFESSORA MARIA DE LOURDES BEZERRA NUNES', NULL, N'RUA DR WALDEMIRO DE ALENCAR JR - 100 - MANGABEIRAS - Maceió', N'Mangabeiras', N'Maceió', N'AL', N'57037574', NULL, NULL, 1, 0, -9.6478561, -35.7147108, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CMEI PROFESSOR EDVALDO ALBUQUERQUE DOS SANTOS', NULL, N'RUA D  - S/N - CIDADE UNIVERSITARIA - Maceió', N'Cidade Universitária', N'Maceió', N'AL', N'57073633', NULL, NULL, 1, 0, -9.5539008, -35.7461255, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CMEI JOSE ORLANDO CAJE', NULL, N'Avenida B - S/N - CIDADE UNIVERSITARIA - Maceió', N'Cidade Universitária', N'Maceió', N'AL', N'57072170', NULL, NULL, 1, 0, -9.5539008, -35.7461255, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL PROFESSORA MARIA DA GRACAS SILVA', NULL, N'Avenida Dr André Papini de Gois - 177 - Cidade Universitária - Maceió', N'Cidade Universitária', N'Maceió', N'AL', N'57073130', NULL, NULL, 1, 0, -9.5539008, -35.7461255, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CMEI PROFESSORA ALBENE CLARINDO DUARTE ', NULL, N'RUA DR FRANCISCO AGUIRRE CAMARGO - S/N - BARRO DURO - Maceió', N'Barro Duro', N'Maceió', N'AL', N'57045450', NULL, NULL, 1, 0, -9.65018809363235, -35.7435216350656, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CMEI PROFESSORA MARIA ELISABETE DOS SANTOS VASCONCELOS ', NULL, N'Av. Lourival Melo Mota - S/N - SANTOS DUMONT - Maceió', N'Santos Dumont', N'Maceió', N'AL', N'57075970', NULL, NULL, 1, 0, -9.5320076, -35.795684, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CMEI PROFESSORA SIMONE FERREIRA SIMÃO ', NULL, N'Avenida Maceió - 863 - TABULEIRO DO MARTINS - Maceió', N'Tabuleiro do Martins', N'Maceió', N'AL', N'57061110', NULL, NULL, 1, 0, -9.57157438499642, -35.7591512682408, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CMEI PROFESSORA ANNE CLEIDE PIMENTEL BEZERRA ', NULL, N'Avenida Menino Marcelo - 247 - ANTARES - Maceió', N'Antares', N'Maceió', N'AL', N'57083410', NULL, NULL, 1, 0, -9.55366498233322, -35.7093820021919, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CMEI PROFESSORA ZAIRA NASCIMENTO DE OLIVEIRA - 27055680 INEP ', NULL, N'Travessa Jatobá - 37 - Chã da Jaqueira - Maceió', N'Chã da Jaqueira', N'Maceió', N'AL', N'57018534', NULL, NULL, 1, 0, -9.6191507, -35.7463003, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CMEI PROFESSORA IVANEIDE MARIA SANTANA FARIAS ', NULL, N'Conjunto Cidade Sorriso 1 - S/N - BENEDITO BENTES - Maceió', N'Benedito Bentes', N'Maceió', N'AL', N'57086037', NULL, NULL, 1, 0, -9.5859671, -35.7150116, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CMEI PROFESSORA NADIR BRANDÃO CAVALCANTE ', NULL, N'RUA DA IGREJA - SN - IPIOCA - Maceió', N'Ipioca', N'Maceió', N'AL', N'57039800', NULL, NULL, 1, 0, -9.5525095118403, -35.6285154292651, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CMEI PROFESSORA CLEIDE GOMES CORDEIRO DA SILVA ', NULL, N'RUA ANGELO MARTINS - 270 - PONTA DA TERRA - Maceió', NULL, N'Maceió', N'AL', N'57030592', NULL, NULL, 1, 0, NULL, NULL, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CMEI ESTUDANTE JOAO PEDRO DA SILVA BERNARDINO ', NULL, N'Rua Boa Vista - S/N - OURO PRETO - Maceió', N'Ouro Preto', N'Maceió', N'AL', N'57045811', NULL, NULL, 1, 0, -9.57104080676541, -35.7451496927926, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CMEI DESEMBARGADOR JOSE FERNANDO DE LIMA SOUZA ', NULL, N'RUA BARÃO DE ATALAIA - 823 - CENTRO - Maceió', N'Centro', N'Maceió', N'AL', N'57020510', NULL, NULL, 1, 0, -9.6647296, -35.7385312, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CMEI PROFESSORA LUCINEIDE GOMES FLOR', NULL, N'RUA FAUSTINO DA SILVEIRA - 68 - BEBEDOURO - Maceió', N'Bebedouro', N'Maceió', N'AL', N'57017692', NULL, NULL, 1, 0, -9.6232608, -35.7516398, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CMEI PROFESSORA CLAUDIA MARIA DA SILVA BRASIL', NULL, N'AV EMPRESÁRIO NELSON OLIVEIRA MENEZES - 1323 - CIDADE UNIVERSITARIA - Maceió', N'Cidade Universitária', N'Maceió', N'AL', N'57073000', NULL, NULL, 1, 0, -9.5539008, -35.7461255, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CMEI PADRE SILVESTRE VREDEGOOR', NULL, N'PARQUE AFRÂNIO JORGE - S/N - PRADO - Maceió', N'Prado', N'Maceió', N'AL', N'57010020', NULL, NULL, 1, 0, -9.6823321378845, -35.7375926223515, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL LINDOLFO COLLOR ', NULL, N'AV. GOV. THEOBALDO BARBOSA - S/N - VERGEL DO LAGO - Maceió', NULL, N'Maceió', N'AL', N'57014510', NULL, NULL, 1, 0, NULL, NULL, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL DOM MIGUEL FENELLON CÂMARA', NULL, N'CONJ. JARDIM PETRÓPOLIS II - SN - PETRÓPOLIS - Maceió', N'Petrópolis', N'Maceió', N'AL', N'57062417', NULL, NULL, 1, 0, -9.56526147296053, -35.7192611198076, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL ZUMBI DOS PALMARES', NULL, N'CONJ. ROSANE COLLOR QD M - SN - CLIMA BOM - Maceió', N'Clima Bom', N'Maceió', N'AL', N'57071470', NULL, NULL, 1, 0, -9.58177105810685, -35.7375960983266, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL MARIA CARMELITA CARDOSO GAMA ', NULL, N'CAMPUS A.C. SIMÕES -  - CIDADE UNIVERSITÁRIA - Maceió', N'Cidade Universitária', N'Maceió', N'AL', N'57072900', NULL, NULL, 1, 0, -9.5552291, -35.7781208, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL PROFESSORA NEIDE DE FREITAS FRANÇA', NULL, N'POVOADO SAÚDE - IPIOCA - 303 - IPIOCA - Maceió', N'Ipioca', N'Maceió', N'AL', N'57039703', NULL, NULL, 1, 0, -9.54774201029977, -35.630462718136, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL TRADUTOR JOÃO SAMPAIO', NULL, N'RUA PERIMETRAL 5 - S/N - CONJ. JOÃO SAMPAIO I - Maceió', N'Petrópolis', N'Maceió', N'AL', N'57062636', NULL, NULL, 1, 0, -9.56240286716157, -35.7170995366023, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA DE ENSINO FUNDAMENTAL NOSSA SENHORA APARECIDA', NULL, N'RUA PROFESSORA MARIA JOSÉ LOUREIRO LIMA - 200 - PRADO - Maceió', N'Prado', N'Maceió', N'AL', N'57010324', NULL, NULL, 1, 0, -9.67897980407205, -35.7341752064409, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA DE ENSINO FUNDAMENTAL LUIZ PEDRO DA SILVA I ', NULL, N'RUA DEPUTADO JOSÉ BERNARDES - 10 - PETRÓPOLIS - Maceió', N'Petrópolis', N'Maceió', N'AL', N'57062195', NULL, NULL, 1, 0, -9.56780593897751, -35.7237040532976, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL PROFESSORA HÉVIA VALÉRIA MAIA AMORIM', NULL, N'CONJ. VILLAGE CAMPESTRE I -  - TABULEIRO - Maceió', N'Cidade Universitária', N'Maceió', N'AL', N'57073490', NULL, NULL, 1, 0, -9.5539008, -35.7461255, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA DE ENSINO FUNDAMENTAL NOSSO LAR I', NULL, N'RUA PROFESSOR MARIO BROAD - 36 - LEVADA - Maceió', NULL, N'Maceió', N'AL', N'57014830', NULL, NULL, 1, 0, NULL, NULL, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CMEI BRENO AGRA ', NULL, N'AV. ARTHUR VALENTE JUCÁ -  - BENEDITO BENTES I - Maceió', N'Benedito Bentes', N'Maceió', N'AL', N'57084048', NULL, NULL, 1, 0, -9.5859671, -35.7150116, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CMEI LEDA COLLOR DE MELLO ', NULL, N'RUA EM PROJETO, CONJ. OSMAN LOUREIRO - s/n - TABULEIRO DO MARTINS - Maceió', N'Prado', N'Maceió', N'AL', N'57010000', NULL, NULL, 1, 0, -9.68180775542992, -35.7314916418578, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CRECHE LINDOLFO COLLOR', NULL, N'AVENIDA THEOBALDO BARBOSA - S/N - Vergel do Lago - Maceió', NULL, N'Maceió', N'AL', N'57014618', NULL, NULL, 1, 0, NULL, NULL, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CMEI BENEVIDES EPAMINONDAS DA SILVA', NULL, N'AVENIDA GENERAL DE FRANÇA - 1585   - RIACHO DOCE - Maceió', N'Riacho Doce', N'Maceió', N'AL', N'57039230', NULL, NULL, 1, 0, -9.5818942343826, -35.648209337093, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CRECHE ROSANE COLLOR', NULL, N'RUA JOSE REIS CAMPOS - s/n - JACINTINHO - Maceió', N'Jacintinho', N'Maceió', N'AL', N'57041540', NULL, NULL, 1, 0, -9.6365709, -35.7110774, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CMEI MARIA LIEGE TAVARES DE ALBUQUERQUE', NULL, N'RUA SÃO JOSÉ - SN - JACINTINHO - Maceió', N'Jacintinho', N'Maceió', N'AL', N'57040510', NULL, NULL, 1, 0, -9.6365709, -35.7110774, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CMEI TEREZA DE LISIEUX', NULL, N'RUA CÍCERO TORRES - S/N - LEVADA - Maceió', N'Levada', N'Maceió', N'AL', N'57017140', NULL, NULL, 1, 0, -9.67517454245763, -35.7400560480257, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CRECHE SUZANA PALMEIRA', NULL, N'RUA ALVARO MARINHO - 855/2 - PRADO - Maceió', N'Prado', N'Maceió', N'AL', N'57010050', NULL, NULL, 1, 0, -9.6792718577233, -35.7372654201523, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CMEI HERMÉ MIRANDA  ', NULL, N'R. PEDROSA - 203 - TABULEIRO - Maceió', N'Tabuleiro do Martins', N'Maceió', N'AL', N'57081510', NULL, NULL, 1, 0, -9.5683657871304, -35.7562344588648, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CMEI AGENOR FERNANDES PONTES ', NULL, N'VILA GOIABEIRA - 132 - FERNÃO VELHO - Maceió', N'Fernão Velho', N'Maceió', N'AL', N'57070440', NULL, NULL, 1, 0, -9.60386220532486, -35.7820709277773, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL DRA ELIZABETH ANNE LYRA LOPES DE FARIAS', NULL, N'R. ROBERT LYRA - 04 - BENEDITO BENTES - Maceió', N'Vergel do Lago', N'Maceió', N'AL', N'57015320', NULL, NULL, 1, 0, -9.67346743474962, -35.7538300209766, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CMEI JOSÉ MARIA DE MELO ', NULL, N' RUA BELO HORIZONTE - SN - BENEDITO BENTES - Maceió', N'Benedito Bentes', N'Maceió', N'AL', N'57084780', NULL, NULL, 1, 0, -9.5859671, -35.7150116, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CMEI VICE-GOVERNADOR FRANCISCO MELLO', NULL, N'CONJ. VIRGEM DOS POBRES - S/N - VERGEL DO LAGO - Maceió', N'Trapiche da Barra', N'Maceió', N'AL', N'57010480', NULL, NULL, 1, 0, -9.68700456795329, -35.7471657410068, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL DOM HELDER CÂMARA', NULL, N'RUA ACRE - S/N - FEITOSA - Maceió', N'Feitosa', N'Maceió', N'AL', N'57043230', NULL, NULL, 1, 0, -9.6306916, -35.7256452, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL SELMA BANDEIRA', NULL, N'CONJ SELMA BANDEIRA -  - BENEDITO BENTES - Maceió', N'Benedito Bentes', N'Maceió', N'AL', N'57086236', NULL, NULL, 1, 0, -9.5859671, -35.7150116, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL DOUTORA NISE DA SILVEIRA', NULL, N'LOTEAMENTO TERRA DE ANTARES I - SN - SERRARIA - Maceió', N'Antares', N'Maceió', N'AL', N'57048140', NULL, NULL, 1, 0, -9.54823278541899, -35.7094791621512, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL CÍCERA LUCIMAR DE SENA SANTOS', NULL, N'Rua José Maria de Lima, antiga 26 de abril - 222 - Poço - Maceió', N'Poço', N'Maceió', N'AL', N'57025570', NULL, NULL, 1, 0, -9.6586248, -35.717677, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL PROFESSORA ELMA MARQUES CURTI', NULL, N'AV. BENEDITO BENTES -  - BENEDITO BENTES II - Maceió', N'Benedito Bentes', N'Maceió', N'AL', N'57084649', NULL, NULL, 1, 0, -9.5859671, -35.7150116, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CMEI PROFESSORA MARIA NILDA DOS SANTOS SILVA', NULL, N'RUA SÃO FRANCISCO DE ASSIS -  - CHÃ DA JAQUEIRA - Maceió', N'Chã da Jaqueira', N'Maceió', N'AL', N'57018445', NULL, NULL, 1, 0, -9.616444, -35.7459655, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CMEI PROFESSORA RUTH BRAGA QUINTELA CAVALCANTE', NULL, N'RUA PASTOR EURICO CALHEIROS - 502 - JACINTINHO - Maceió', N'Jacintinho', N'Maceió', N'AL', N'57041620', NULL, NULL, 1, 0, -9.6384785, -35.7124853, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CMEI PROFESSOR PAULO FREIRE', NULL, N'AV. JOSÉ AIRTON GONDIM LAMENHA -  -  SÃO JORGE - Maceió', NULL, N'Maceió', N'AL', N'57044098', NULL, NULL, 1, 0, NULL, NULL, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL PROFESSOR PETRÔNIO VIANA', NULL, N'CONJUNTO CARMINHA -  - BENEDITO BENTES - Maceió', N'Prado', N'Maceió', N'AL', N'57010000', NULL, NULL, 1, 0, -9.67895638898082, -35.7384799754209, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL PROFESSOR AURÉLIO BUARQUE DE HOLANDA FERREIRA ', NULL, N'CONJ. FREITAS NETO - S/N - BENEDITO BENTES - Maceió', N'Benedito Bentes', N'Maceió', N'AL', N'57086412', NULL, NULL, 1, 0, -9.5859671, -35.7150116, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA DE ENSINO FUNDAMENTAL LUIZ PEDRO DA SILVA II ', NULL, N'RUA NADJA ABYS FRANÇA - 32 - CLIMA BOM - Maceió', N'Prado', N'Maceió', N'AL', N'57010000', NULL, NULL, 1, 0, -9.68302957795266, -35.7367306974047, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA DE ENSINO FUNDAMENTAL LUIZ PEDRO DA SILVA IV', NULL, N'COMPLEXO RESIDENCIAL GAMA LINS -  - CIDADE UNIVERSITÁRIA - Maceió', N'Santa Lúcia', N'Maceió', N'AL', N'57082000', NULL, NULL, 1, 0, -9.5865536, -35.7586476, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL PROFESSORA GERUZA COSTA LIMA', NULL, N'RUA SANTA MARGARIDA - 222 - JACINTINHO - Maceió', N'Prado', N'Maceió', N'AL', N'57010000', NULL, NULL, 1, 0, -9.68111673153711, -35.7347595358972, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL FREI DAMIÃO', NULL, N'AV MUNDAÚ - 120 - BENEDITO BENTES - Maceió', N'Benedito Bentes', N'Maceió', N'AL', N'57085778', NULL, NULL, 1, 0, -9.5859671, -35.7150116, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL DOUTOR DENISSON LUIZ CERQUEIRA MENEZES', NULL, N'CONJ. DENISSON MENEZES -  - TABULEIRO - Maceió', N'Cidade Universitária', N'Maceió', N'AL', N'57073639', NULL, NULL, 1, 0, -9.5539008, -35.7461255, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL PROFESSORA MARIA JOSÉ CARRASCOSA ', NULL, N'RUA DIEGUES JUNIOR - 224 - POÇO - Maceió', N'Poço', N'Maceió', N'AL', N'57025650', NULL, NULL, 1, 0, -9.6586248, -35.717677, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CMEI MESTRE MÁRIO IZALDINO', NULL, N'AV SENADOR ARNON DE MELLO - 25 - PONTAL DA BARRA - Maceió', N'Prado', N'Maceió', N'AL', N'57010000', NULL, NULL, 1, 0, -9.68172969643873, -35.738029356439, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CMEI PROFESSORA KYRA MARIA BARROS PAES ', NULL, N'RUA MUNIZ FALCÃO -  - CLIMA BOM - Maceió', N'Clima Bom', N'Maceió', N'AL', N'57071130', NULL, NULL, 1, 0, -9.57691549313523, -35.741253467185, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL PAULO HENRIQUE COSTA BANDEIRA', NULL, N'RUA NORMA PIMENTEL DA COSTA - 11 - BENEDITO BENTES - Maceió', N'Benedito Bentes', N'Maceió', N'AL', N'57084650', NULL, NULL, 1, 0, -9.5859671, -35.7150116, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL PROFESSORA NATALINA COSTA CAVALCANTE', NULL, N'RUA ROTARY -  - TABULEIRO DO MARTINS - Maceió', N'Tabuleiro do Martins', N'Maceió', N'AL', N'57081132', NULL, NULL, 1, 0, -9.56869944977204, -35.7598450289292, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CMEI SÃO SEBASTIÃO', NULL, N'RUA EDGAR DE GOES MONTEIRO  - 817 - PRADO - Maceió', N'Prado', N'Maceió', N'AL', N'57010140', NULL, NULL, 1, 0, -9.68198684118247, -35.7383476048007, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL MARIA DE FÁTIMA LYRA ', NULL, N'BENEDITO BENTES I RUA A VINTE E CINCO - 310 - BENEDITO BENTES - Maceió', N'Benedito Bentes', N'Maceió', N'AL', N'57084025', NULL, NULL, 1, 0, -9.5859671, -35.7150116, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL MARIA DE LOURDES DE MELO PIMENTEL', NULL, N'RUA PADRE CÍCERO - 05 - CIDADE UNIVERSITARIA - Maceió', N'Prado', N'Maceió', N'AL', N'57010000', NULL, NULL, 1, 0, -9.68106434780435, -35.737972946011, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL OCTÁVIO BRANDÃO', NULL, N'RUA JOSE LOBO DE MEDEIROS -  - TABULEIRO - Maceió', N'Tabuleiro do Martins', N'Maceió', N'AL', N'57061100', NULL, NULL, 1, 0, -9.56848951767931, -35.7630101689275, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CMEI CASA DA AMIZADE ', NULL, N'AV. VEREADOR DARIO MARSIGLIA - 300 - TABULEIRO - Maceió', N'Prado', N'Maceió', N'AL', N'57010000', NULL, NULL, 1, 0, -9.67880392213741, -35.7377867045641, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL PADRE BRANDÃO LIMA ', NULL, N'AVENIDA CACHOEIRA DO MEIRIM - S/N - BENEDITO BENTES - Maceió', N'Benedito Bentes', N'Maceió', N'AL', N'57084700', NULL, NULL, 1, 0, -9.5859671, -35.7150116, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL PIO X', NULL, N'RUA PROFESSORA MARIA JOSÉ LOUREIRO LIMA - 200 - PRADO - Maceió', N'Prado', N'Maceió', N'AL', N'57010324', NULL, NULL, 1, 0, -9.68208206861178, -35.7334387759458, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL PROFESSORA SILVIA CELINA NUNES LIMA', NULL, N'RUA BENEDITO CALAÇA LOUREIRO - 2001 - CIDADE UNIVERSITÁRIA - Maceió', N'Cidade Universitária', N'Maceió', N'AL', N'57073510', NULL, NULL, 1, 0, -9.5539008, -35.7461255, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL MARCOS SORIANO', NULL, N'CONJ. JARDIM PETROPÓLIS II B -  - PETRÓPOLIS - Maceió', N'Petrópolis', N'Maceió', N'AL', N'57062572', NULL, NULL, 1, 0, -9.56889808179245, -35.7176014453428, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL BENEDITA DA SILVA SANTOS ', NULL, N'AV ARTHUR VALENTE JUCA - 557 - BENEDITO BENTES - Maceió', N'Benedito Bentes', N'Maceió', N'AL', N'57084610', NULL, NULL, 1, 0, -9.5859671, -35.7150116, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL CESAR AUGUSTO DE OLIVEIRA', NULL, N'R. BOA ESPERANÇA -  - SANTOS DUMONT - Maceió', N'Santos Dumont', N'Maceió', N'AL', N'57075570', NULL, NULL, 1, 0, -9.5320076, -35.795684, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL JAIME AMORIM MIRANDA ', NULL, N'AV BELMIRO AMORIM  - 760 - TABULEIRO - Maceió', N'Santa Lúcia', N'Maceió', N'AL', N'57082000', NULL, NULL, 1, 0, -9.5865536, -35.7586476, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL OLAVO BILAC', NULL, N'RUA GOVERNADOR LAMENHA FILHO - SN - FEITOSA - Maceió', N'Feitosa', N'Maceió', N'AL', N'57043000', NULL, NULL, 1, 0, -9.6306916, -35.7256452, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL YEDA OLIVEIRA DOS SANTOS', NULL, N'AV JOSÉ CAMELO DE FREITAS - 595 - CIDADE UNIVERSITARIA - Maceió', N'Cidade Universitária', N'Maceió', N'AL', N'57073360', NULL, NULL, 1, 0, -9.5539008, -35.7461255, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CMEI HELOÍSA MARINHO DE GUSMÃO MEDEIROS ', NULL, N'AVENIDA MOACIR ANDRADE -  - BENEDITO BENTES II - Maceió', N'Benedito Bentes', N'Maceió', N'AL', N'57086171', NULL, NULL, 1, 0, -9.5859671, -35.7150116, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL PROFESSORA MARILUCIA MACEDO DOS SANTOS', NULL, N'RUA ANTÔNIO ZEFERINO DOS SANTOS - 20 - JACINTINHO - Maceió', N'Jacintinho', N'Maceió', N'AL', N'57042030', NULL, NULL, 1, 0, -9.6384785, -35.7124853, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CMEI PROFESSORA MARIA DE FÁTIMA MELO DOS SANTOS ', NULL, N'AVENIDA MACEIO       - 342 - TABULEIRO - Maceió', N'Tabuleiro do Martins', N'Maceió', N'AL', N'57061110', NULL, NULL, 1, 0, -9.57167852130199, -35.7601891326778, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL MONSENHOR ANTÔNIO ASSUNÇÃO ARAÚJO', NULL, N'RUA ARACI MARTINS DA SILVA - 04 - SERRARIA - Maceió', N'Serraria', N'Maceió', N'AL', N'57046161', NULL, NULL, 1, 0, -9.5945808, -35.7280492, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL PROFESSORA MARIZETTE CORREIA NUNES BRUNO', NULL, N'AVENIDA MENINO MARCELO LOTEAMENTO CASA FORTE  - 08 - SERRARIA - Maceió', N'Prado', N'Maceió', N'AL', N'57010000', NULL, NULL, 1, 0, -9.67841169043449, -35.7317200444119, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL PROFESSORA ZILKA DE OLIVEIRA GRAÇA', NULL, N'RUA JOSÉ GONZAGA DE ALMEIDA - 276 - TABULEIRO DO MARTINS - Maceió', N'Tabuleiro do Martins', N'Maceió', N'AL', N'57061060', NULL, NULL, 1, 0, -9.56707308219645, -35.7594023343747, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CMEI PROFESSORA MARIA DO SOCORRO TAVARES LIMA DA SILVA', NULL, N'RUA CARLOS DE MIRANDA - 257 - POÇO - Maceió', N'Prado', N'Maceió', N'AL', N'57010000', NULL, NULL, 1, 0, -9.68233059517171, -35.7330946156743, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL CÍCERO DUÉ DA SILVA', NULL, N'AV. MENINO MARCELO - 1391 - CIDADE UNIVERTÁRIA - Maceió', N'Cidade Universitária', N'Maceió', N'AL', N'57073460', NULL, NULL, 1, 0, -9.5539008, -35.7461255, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CMEI JORGE DE LIMA ', NULL, N'AV. BELMIRO AMORIM - 1750 - SANTA LÚCIA - Maceió', N'Santa Lúcia', N'Maceió', N'AL', N'57082000', NULL, NULL, 1, 0, -9.5865536, -35.7586476, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL PROFESSORA MARIA JOSÉ CLEMENTE ROCHA', NULL, N'RUA A 5 - 47 - BENEDITO BENTES  - Maceió', N'Poço', N'Maceió', N'AL', N'57025673', NULL, NULL, 1, 0, -9.6586248, -35.717677, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL PROFESSORA CLAUDINETE BATISTA DA SILVA', NULL, N'R. ARY PITOMBO - 290 - TRAPICHE - Maceió', N'Trapiche da Barra', N'Maceió', N'AL', N'57010376', NULL, NULL, 1, 0, -9.6880427971936, -35.7459263779812, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CMEI TOBIAS GRANJA', NULL, N'AV. JORN. TEOFILO A. LINS -  - CLIMA BOM - Maceió', N'Clima Bom', N'Maceió', N'AL', N'57071820', NULL, NULL, 1, 0, -9.58382324823213, -35.7360674005005, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CMEI HERBERT DE SOUZA  ', NULL, N'AV. GAL LUIZ DE FRANÇA ALBUQUERQUE - s/n - JACARECICA - Maceió', N'Prado', N'Maceió', N'AL', N'57010000', NULL, NULL, 1, 0, -9.68112661072629, -35.7314143293695, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CMEI VEREADOR BRAGA NETO', NULL, N'RUA ELIETE ROLEMBERG DE FIGUEIREDO - 163 - TABULEIRO DOS MARTINS - Maceió', N'Tabuleiro do Martins', N'Maceió', N'AL', N'57061070', NULL, NULL, 1, 0, -9.56612851242515, -35.7637679909151, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL PEDRO BARBOSA JÚNIOR', NULL, N'RUA ARNALDO BRAGA  -  - CRUZ DAS ALMAS - Maceió', N'Cruz das Almas', N'Maceió', N'AL', N'57038130', NULL, NULL, 1, 0, -9.6647625, -35.708704, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CMEI PROFESSORA ELZA LIRA', NULL, N'CONJ SELMA BANDEIRA -  - BENEDITO BENTES - Maceió', N'Benedito Bentes', N'Maceió', N'AL', N'57086281', NULL, NULL, 1, 0, -9.5859671, -35.7150116, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL MARIA CECILIA PONTES CARNAÚBA', NULL, N'AV. GILBERTO SOARES PINTO - 763 - ANTARES I - Maceió', N'Antares', N'Maceió', N'AL', N'57048260', NULL, NULL, 1, 0, -9.55004915985304, -35.7121244137866, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL AUDIVAL AMÉLIO DA SILVA ', NULL, N'RUA ANA PAULA - SN - SÃO JORGE - Maceió', NULL, N'Maceió', N'AL', N'57044132', NULL, NULL, 1, 0, NULL, NULL, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'ESCOLA MUNICIPAL RADIALISTA EDÉCIO LOPES', NULL, N'ALAMEDA CELIA DOS ANJOS -  Nº 06 - PETROPOLIS - Maceió', N'Petrópolis', N'Maceió', N'AL', N'57062200', NULL, NULL, 1, 0, -9.56879731405515, -35.7238417636864, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CMEI PROFESSOR RANILSON FRANÇA DE SOUZA', NULL, N'RUA PROF. MARIO BROAD - 36 - LEVADA - Maceió', NULL, N'Maceió', N'AL', N'57014530', NULL, NULL, 1, 0, NULL, NULL, 1, GETDATE());
+INSERT INTO [autistima_sa_sql].[Schools] ([Nome], [CNPJ], [Endereco], [Bairro], [Cidade], [Estado], [CEP], [Telefone], [Email], [EscolaPublica], [PossuiSalaRecursos], [Latitude], [Longitude], [Ativo], [DataCadastro]) VALUES (N'CMEI PRESIDENTE FRANCISCO DE PAULA RODRIGUES ALVES', NULL, N'AV. CACHOEIRA DO MEIRIM -  - BENEDITO BENTES - Maceió', N'Benedito Bentes', N'Maceió', N'AL', N'57084700', NULL, NULL, 1, 0, -9.5859671, -35.7150116, 1, GETDATE());");
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 1,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(180));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 2,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(560));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 3,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(560));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 4,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(560));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 5,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(560));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 6,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(590));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 7,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(600));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 8,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(610));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 9,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(620));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 10,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(640));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 11,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(550));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 12,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(650));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 13,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(550));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 14,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(550));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 15,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(550));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 16,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(550));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 17,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(550));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 18,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(560));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 19,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(560));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 20,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(560));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 21,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(570));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 22,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(570));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 23,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(600));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 24,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(600));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 25,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(600));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 26,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(600));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 27,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(600));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 28,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(600));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 29,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(610));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 30,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(610));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 31,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(610));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 32,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(610));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 33,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(610));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 34,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(610));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 35,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(620));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 36,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(620));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 37,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(620));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 38,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(620));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 39,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(630));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 40,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(640));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 41,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(640));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 42,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(640));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 43,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(640));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 44,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(640));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 45,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(640));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 46,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(650));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 47,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(650));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 48,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(650));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 49,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(650));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 50,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(650));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 51,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(650));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 52,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(660));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 53,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(660));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 54,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(660));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 55,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(1350));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 56,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(1370));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 57,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(1380));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 58,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(1380));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 59,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(1380));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 60,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(1380));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 61,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(1380));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 62,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(1380));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 63,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(1390));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 64,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(1390));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 65,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(1390));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 66,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(1390));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 67,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(1390));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 68,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(1390));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 69,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(1400));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 70,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(1400));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 71,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(1400));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 72,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(1400));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 73,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(1400));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 74,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(1400));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 75,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(1410));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 76,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(1410));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 77,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(1410));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 78,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(1410));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "Services",
+                keyColumn: "Id",
+                keyValue: 1,
+                column: "DataCadastro",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 825, DateTimeKind.Utc).AddTicks(4120));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "Services",
+                keyColumn: "Id",
+                keyValue: 2,
+                column: "DataCadastro",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 825, DateTimeKind.Utc).AddTicks(4470));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "Services",
+                keyColumn: "Id",
+                keyValue: 3,
+                column: "DataCadastro",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 825, DateTimeKind.Utc).AddTicks(4470));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "Services",
+                keyColumn: "Id",
+                keyValue: 4,
+                column: "DataCadastro",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 825, DateTimeKind.Utc).AddTicks(4470));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "Services",
+                keyColumn: "Id",
+                keyValue: 5,
+                column: "DataCadastro",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 825, DateTimeKind.Utc).AddTicks(4480));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "Services",
+                keyColumn: "Id",
+                keyValue: 6,
+                column: "DataCadastro",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 825, DateTimeKind.Utc).AddTicks(4480));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "Services",
+                keyColumn: "Id",
+                keyValue: 7,
+                column: "DataCadastro",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 825, DateTimeKind.Utc).AddTicks(4480));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "Services",
+                keyColumn: "Id",
+                keyValue: 8,
+                column: "DataCadastro",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 825, DateTimeKind.Utc).AddTicks(4820));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "Services",
+                keyColumn: "Id",
+                keyValue: 9,
+                column: "DataCadastro",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 825, DateTimeKind.Utc).AddTicks(4820));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "Services",
+                keyColumn: "Id",
+                keyValue: 10,
+                column: "DataCadastro",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 825, DateTimeKind.Utc).AddTicks(5150));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "Services",
+                keyColumn: "Id",
+                keyValue: 11,
+                column: "DataCadastro",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 825, DateTimeKind.Utc).AddTicks(5160));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "Services",
+                keyColumn: "Id",
+                keyValue: 12,
+                column: "DataCadastro",
+                value: new DateTime(2025, 12, 8, 19, 58, 19, 825, DateTimeKind.Utc).AddTicks(5160));
+        }
+
+        /// <inheritdoc />
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 1,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(120));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 2,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(480));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 3,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(480));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 4,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(480));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 5,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(500));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 6,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(510));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 7,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(520));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 8,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(530));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 9,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(620));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 10,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(630));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 11,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(470));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 12,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(630));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 13,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(470));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 14,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(470));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 15,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(470));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 16,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(470));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 17,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(470));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 18,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(510));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 19,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(510));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 20,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(510));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 21,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(510));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 22,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(510));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 23,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(520));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 24,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(520));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 25,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(520));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 26,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(520));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 27,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(520));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 28,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(520));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 29,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(530));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 30,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(530));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 31,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(530));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 32,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(530));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 33,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(530));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 34,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(610));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 35,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(610));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 36,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(610));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 37,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(610));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 38,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(620));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 39,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(620));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 40,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(620));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 41,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(620));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 42,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(620));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 43,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(620));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 44,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(630));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 45,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(630));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 46,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(630));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 47,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(630));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 48,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(630));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 49,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(640));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 50,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(640));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 51,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(650));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 52,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(650));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 53,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(650));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 54,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(650));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 55,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(1320));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 56,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(1320));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 57,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(1320));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 58,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(1320));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 59,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(1330));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 60,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(1330));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 61,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(1330));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 62,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(1330));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 63,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(1330));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 64,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(1330));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 65,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(1340));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 66,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(1340));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 67,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(1340));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 68,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(1340));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 69,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(1340));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 70,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(1340));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 71,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(1340));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 72,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(1350));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 73,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(1350));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 74,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(1350));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 75,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(1350));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 76,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(1350));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 77,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(1350));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "GlossaryTerms",
+                keyColumn: "Id",
+                keyValue: 78,
+                column: "DataCriacao",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(1360));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "Services",
+                keyColumn: "Id",
+                keyValue: 1,
+                column: "DataCadastro",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 406, DateTimeKind.Utc).AddTicks(3370));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "Services",
+                keyColumn: "Id",
+                keyValue: 2,
+                column: "DataCadastro",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 406, DateTimeKind.Utc).AddTicks(3710));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "Services",
+                keyColumn: "Id",
+                keyValue: 3,
+                column: "DataCadastro",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 406, DateTimeKind.Utc).AddTicks(3710));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "Services",
+                keyColumn: "Id",
+                keyValue: 4,
+                column: "DataCadastro",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 406, DateTimeKind.Utc).AddTicks(3740));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "Services",
+                keyColumn: "Id",
+                keyValue: 5,
+                column: "DataCadastro",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 406, DateTimeKind.Utc).AddTicks(3740));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "Services",
+                keyColumn: "Id",
+                keyValue: 6,
+                column: "DataCadastro",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 406, DateTimeKind.Utc).AddTicks(3740));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "Services",
+                keyColumn: "Id",
+                keyValue: 7,
+                column: "DataCadastro",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 406, DateTimeKind.Utc).AddTicks(3750));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "Services",
+                keyColumn: "Id",
+                keyValue: 8,
+                column: "DataCadastro",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 406, DateTimeKind.Utc).AddTicks(4080));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "Services",
+                keyColumn: "Id",
+                keyValue: 9,
+                column: "DataCadastro",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 406, DateTimeKind.Utc).AddTicks(4080));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "Services",
+                keyColumn: "Id",
+                keyValue: 10,
+                column: "DataCadastro",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 406, DateTimeKind.Utc).AddTicks(4400));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "Services",
+                keyColumn: "Id",
+                keyValue: 11,
+                column: "DataCadastro",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 406, DateTimeKind.Utc).AddTicks(4400));
+
+            migrationBuilder.UpdateData(
+                schema: "autistima_sa_sql",
+                table: "Services",
+                keyColumn: "Id",
+                keyValue: 12,
+                column: "DataCadastro",
+                value: new DateTime(2025, 12, 8, 19, 45, 55, 406, DateTimeKind.Utc).AddTicks(4410));
+
+        }
+    }
+}

@@ -4,6 +4,7 @@ using AUTistima.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AUTistima.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251208194556_SeedSchoolCoordinates")]
+    partial class SeedSchoolCoordinates
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -349,7 +352,7 @@ namespace AUTistima.Migrations
                             Id = 1,
                             Ativo = true,
                             Categoria = "Diagnóstico",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(180),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(120),
                             ExplicacaoSimples = "Transtorno do Espectro Autista - é uma condição do neurodesenvolvimento que afeta a comunicação, interação social e comportamento. Cada pessoa autista é única.",
                             TermoTecnico = "TEA"
                         },
@@ -358,7 +361,7 @@ namespace AUTistima.Migrations
                             Id = 11,
                             Ativo = true,
                             Categoria = "Diagnóstico",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(550),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(470),
                             ExplicacaoSimples = "Quando a pessoa tem mais de uma condição ao mesmo tempo. Por exemplo, autismo junto com TDAH, ansiedade ou epilepsia.",
                             TermoTecnico = "Comorbidade"
                         },
@@ -367,7 +370,7 @@ namespace AUTistima.Migrations
                             Id = 13,
                             Ativo = true,
                             Categoria = "Diagnóstico",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(550),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(470),
                             ExplicacaoSimples = "Manual de Diagnóstico e Estatística dos Transtornos Mentais, 5ª edição. É o livro que os profissionais usam para diagnosticar autismo e outras condições.",
                             TermoTecnico = "DSM-5"
                         },
@@ -376,7 +379,7 @@ namespace AUTistima.Migrations
                             Id = 14,
                             Ativo = true,
                             Categoria = "Diagnóstico",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(550),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(470),
                             ExplicacaoSimples = "Classificação Internacional de Doenças da OMS. Usada para registro médico oficial. O código do autismo é 6A02.",
                             TermoTecnico = "CID-11"
                         },
@@ -385,7 +388,7 @@ namespace AUTistima.Migrations
                             Id = 15,
                             Ativo = true,
                             Categoria = "Diagnóstico",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(550),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(470),
                             ExplicacaoSimples = "Classificação de quanto apoio a pessoa autista precisa: Nível 1 (precisa de apoio), Nível 2 (precisa de apoio substancial), Nível 3 (precisa de apoio muito substancial).",
                             TermoTecnico = "Nível de Suporte"
                         },
@@ -394,7 +397,7 @@ namespace AUTistima.Migrations
                             Id = 16,
                             Ativo = true,
                             Categoria = "Diagnóstico",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(550),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(470),
                             ExplicacaoSimples = "Quando a pessoa descobre que é autista na adolescência ou idade adulta. Muitas mulheres recebem diagnóstico tardio porque os sinais são diferentes dos meninos.",
                             TermoTecnico = "Diagnóstico Tardio"
                         },
@@ -403,7 +406,7 @@ namespace AUTistima.Migrations
                             Id = 17,
                             Ativo = true,
                             Categoria = "Diagnóstico",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(550),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(470),
                             ExplicacaoSimples = "Quando a pessoa autista 'esconde' seus traços para parecer neurotípica. É muito cansativo e pode causar burnout. Comum em mulheres autistas.",
                             TermoTecnico = "Masking/Camuflagem"
                         },
@@ -412,7 +415,7 @@ namespace AUTistima.Migrations
                             Id = 2,
                             Ativo = true,
                             Categoria = "Comportamento",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(560),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(480),
                             ExplicacaoSimples = "Movimentos repetitivos que a pessoa autista faz, como balançar o corpo, bater as mãos ou girar objetos. São formas de autorregulação e não devem ser reprimidas.",
                             TermoTecnico = "Estereotipia"
                         },
@@ -421,7 +424,7 @@ namespace AUTistima.Migrations
                             Id = 3,
                             Ativo = true,
                             Categoria = "Comportamento",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(560),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(480),
                             ExplicacaoSimples = "Quando a pessoa autista tem um interesse muito intenso por um assunto específico. Pode ser uma força quando bem direcionado.",
                             TermoTecnico = "Hiperfoco"
                         },
@@ -430,7 +433,7 @@ namespace AUTistima.Migrations
                             Id = 4,
                             Ativo = true,
                             Categoria = "Comportamento",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(560),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(480),
                             ExplicacaoSimples = "Uma crise intensa causada por sobrecarga sensorial ou emocional. Não é birra - é o corpo reagindo a algo insuportável. Requer paciência e ambiente calmo.",
                             TermoTecnico = "Meltdown"
                         },
@@ -439,7 +442,7 @@ namespace AUTistima.Migrations
                             Id = 5,
                             Ativo = true,
                             Categoria = "Comportamento",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(560),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(500),
                             ExplicacaoSimples = "Quando a pessoa 'desliga' por estar sobrecarregada. Pode ficar quieta, não responder, parecer distante. É uma forma de proteção do cérebro.",
                             TermoTecnico = "Shutdown"
                         },
@@ -448,7 +451,7 @@ namespace AUTistima.Migrations
                             Id = 18,
                             Ativo = true,
                             Categoria = "Comportamento",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(560),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(510),
                             ExplicacaoSimples = "Comportamentos de autoestimulação como balançar, girar, apertar objetos. Ajuda a pessoa autista a se regular. Não deve ser proibido, apenas redirecionado se necessário.",
                             TermoTecnico = "Stimming"
                         },
@@ -457,7 +460,7 @@ namespace AUTistima.Migrations
                             Id = 19,
                             Ativo = true,
                             Categoria = "Comportamento",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(560),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(510),
                             ExplicacaoSimples = "Necessidade de manter as coisas sempre iguais. Mudanças inesperadas podem causar muita ansiedade. Ajuda ter um calendário visual e preparar antecipadamente.",
                             TermoTecnico = "Rotina Rígida"
                         },
@@ -466,7 +469,7 @@ namespace AUTistima.Migrations
                             Id = 20,
                             Ativo = true,
                             Categoria = "Comportamento",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(560),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(510),
                             ExplicacaoSimples = "Padrões de comportamento repetitivos e interesses muito específicos. Faz parte do autismo e pode ser uma grande força quando direcionado.",
                             TermoTecnico = "Comportamento Restritivo"
                         },
@@ -475,7 +478,7 @@ namespace AUTistima.Migrations
                             Id = 21,
                             Ativo = true,
                             Categoria = "Comportamento",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(570),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(510),
                             ExplicacaoSimples = "Esgotamento extremo causado pelo esforço de se adaptar ao mundo neurotípico. Sintomas: cansaço extremo, perda de habilidades, aumento de crises.",
                             TermoTecnico = "Burnout Autista"
                         },
@@ -484,7 +487,7 @@ namespace AUTistima.Migrations
                             Id = 22,
                             Ativo = true,
                             Categoria = "Comportamento",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(570),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(510),
                             ExplicacaoSimples = "Quando a pessoa se machuca durante uma crise ou sobrecarga. Não é 'querer atenção' - é uma resposta à dor interna. Precisa de acompanhamento profissional.",
                             TermoTecnico = "Autolesão"
                         },
@@ -493,7 +496,7 @@ namespace AUTistima.Migrations
                             Id = 6,
                             Ativo = true,
                             Categoria = "Sensorial",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(590),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(510),
                             ExplicacaoSimples = "Quando os sentidos (audição, visão, tato, olfato, paladar) são mais intensos. Um som normal pode doer, uma luz pode incomodar muito, algumas texturas são insuportáveis.",
                             TermoTecnico = "Sensibilidade Sensorial"
                         },
@@ -502,7 +505,7 @@ namespace AUTistima.Migrations
                             Id = 23,
                             Ativo = true,
                             Categoria = "Sensorial",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(600),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(520),
                             ExplicacaoSimples = "Quando os sentidos são MUITO aguçados. Luzes parecem mais fortes, sons mais altos, toques mais intensos. Pode ser doloroso.",
                             TermoTecnico = "Hipersensibilidade"
                         },
@@ -511,7 +514,7 @@ namespace AUTistima.Migrations
                             Id = 24,
                             Ativo = true,
                             Categoria = "Sensorial",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(600),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(520),
                             ExplicacaoSimples = "Quando os sentidos são menos sensíveis. A pessoa pode não sentir dor, frio, ou buscar sensações intensas como pular, girar, apertar forte.",
                             TermoTecnico = "Hipossensibilidade"
                         },
@@ -520,7 +523,7 @@ namespace AUTistima.Migrations
                             Id = 25,
                             Ativo = true,
                             Categoria = "Sensorial",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(600),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(520),
                             ExplicacaoSimples = "Quando há estímulos demais ao mesmo tempo (barulho, luz, cheiros, pessoas). Causa muito desconforto e pode levar a meltdown ou shutdown.",
                             TermoTecnico = "Sobrecarga Sensorial"
                         },
@@ -529,7 +532,7 @@ namespace AUTistima.Migrations
                             Id = 26,
                             Ativo = true,
                             Categoria = "Sensorial",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(600),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(520),
                             ExplicacaoSimples = "Programa de atividades sensoriais personalizado para ajudar a pessoa autista a se regular. Inclui coisas como massagens, balanços, música.",
                             TermoTecnico = "Dieta Sensorial"
                         },
@@ -538,7 +541,7 @@ namespace AUTistima.Migrations
                             Id = 27,
                             Ativo = true,
                             Categoria = "Sensorial",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(600),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(520),
                             ExplicacaoSimples = "Sentido que nos diz onde nosso corpo está no espaço. Pessoas autistas podem ter dificuldade com isso, parecendo 'desajeitadas' ou buscando abraços apertados.",
                             TermoTecnico = "Propriocepção"
                         },
@@ -547,7 +550,7 @@ namespace AUTistima.Migrations
                             Id = 28,
                             Ativo = true,
                             Categoria = "Sensorial",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(600),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(520),
                             ExplicacaoSimples = "Sentido do equilíbrio e movimento. Algumas pessoas autistas adoram girar e balançar, outras têm muito medo de movimento.",
                             TermoTecnico = "Sistema Vestibular"
                         },
@@ -556,7 +559,7 @@ namespace AUTistima.Migrations
                             Id = 7,
                             Ativo = true,
                             Categoria = "Comunicação",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(600),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(520),
                             ExplicacaoSimples = "Repetir palavras ou frases ouvidas. Pode ser imediata ou depois de um tempo. É uma forma de comunicação e processamento de linguagem.",
                             TermoTecnico = "Ecolalia"
                         },
@@ -565,7 +568,7 @@ namespace AUTistima.Migrations
                             Id = 29,
                             Ativo = true,
                             Categoria = "Comunicação",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(610),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(530),
                             ExplicacaoSimples = "Comunicação Aumentativa e Alternativa - formas de comunicação além da fala, como pranchas de imagens, aplicativos, linguagem de sinais. Não impede a fala!",
                             TermoTecnico = "CAA"
                         },
@@ -574,7 +577,7 @@ namespace AUTistima.Migrations
                             Id = 30,
                             Ativo = true,
                             Categoria = "Comunicação",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(610),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(530),
                             ExplicacaoSimples = "Sistema de Comunicação por Troca de Figuras. A pessoa usa cartões com imagens para se comunicar. Muito usado com crianças que ainda não falam.",
                             TermoTecnico = "PECS"
                         },
@@ -583,7 +586,7 @@ namespace AUTistima.Migrations
                             Id = 31,
                             Ativo = true,
                             Categoria = "Comunicação",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(610),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(530),
                             ExplicacaoSimples = "Pessoa que não usa a fala para se comunicar. Não significa que não entende ou não tem o que dizer - usa outras formas de comunicação.",
                             TermoTecnico = "Não-Verbal"
                         },
@@ -592,7 +595,7 @@ namespace AUTistima.Migrations
                             Id = 32,
                             Ativo = true,
                             Categoria = "Comunicação",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(610),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(530),
                             ExplicacaoSimples = "Entender as coisas ao pé da letra. Expressões como 'estou morrendo de fome' ou 'chovendo canivetes' podem confundir. Seja claro e direto!",
                             TermoTecnico = "Literalidade"
                         },
@@ -601,7 +604,7 @@ namespace AUTistima.Migrations
                             Id = 33,
                             Ativo = true,
                             Categoria = "Comunicação",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(610),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(530),
                             ExplicacaoSimples = "Dificuldade com as 'regras sociais' da comunicação: quando falar, como manter uma conversa, entender sarcasmo, expressões faciais.",
                             TermoTecnico = "Dificuldade Pragmática"
                         },
@@ -610,7 +613,7 @@ namespace AUTistima.Migrations
                             Id = 8,
                             Ativo = true,
                             Categoria = "Educação",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(610),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(530),
                             ExplicacaoSimples = "Plano de Atendimento Educacional ou Plano Educacional Individualizado - documento que a escola deve fazer para adaptar o ensino às necessidades do aluno. É um direito!",
                             TermoTecnico = "PAE/PEI"
                         },
@@ -619,7 +622,7 @@ namespace AUTistima.Migrations
                             Id = 34,
                             Ativo = true,
                             Categoria = "Educação",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(610),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(610),
                             ExplicacaoSimples = "Atendimento Educacional Especializado - apoio extra que a escola oferece no contraturno. Inclui sala de recursos e profissionais especializados.",
                             TermoTecnico = "AEE"
                         },
@@ -628,7 +631,7 @@ namespace AUTistima.Migrations
                             Id = 35,
                             Ativo = true,
                             Categoria = "Educação",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(620),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(610),
                             ExplicacaoSimples = "Espaço na escola com materiais e profissionais especializados para apoiar alunos com deficiência. O aluno frequenta no contraturno.",
                             TermoTecnico = "Sala de Recursos"
                         },
@@ -637,7 +640,7 @@ namespace AUTistima.Migrations
                             Id = 36,
                             Ativo = true,
                             Categoria = "Educação",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(620),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(610),
                             ExplicacaoSimples = "Pessoa que acompanha o aluno autista na escola para ajudar nas atividades e adaptações. Também chamado de mediador ou acompanhante.",
                             TermoTecnico = "Profissional de Apoio"
                         },
@@ -646,7 +649,7 @@ namespace AUTistima.Migrations
                             Id = 37,
                             Ativo = true,
                             Categoria = "Educação",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(620),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(610),
                             ExplicacaoSimples = "Mudanças no conteúdo, metodologia ou avaliação para que o aluno autista possa aprender. Não é facilitar - é ensinar de forma diferente.",
                             TermoTecnico = "Adaptação Curricular"
                         },
@@ -655,7 +658,7 @@ namespace AUTistima.Migrations
                             Id = 38,
                             Ativo = true,
                             Categoria = "Educação",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(620),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(620),
                             ExplicacaoSimples = "Direito de estudar em escola regular com os devidos apoios. A escola deve se adaptar ao aluno, não o contrário. Garantido pela Lei Berenice Piana.",
                             TermoTecnico = "Inclusão Escolar"
                         },
@@ -664,7 +667,7 @@ namespace AUTistima.Migrations
                             Id = 9,
                             Ativo = true,
                             Categoria = "Terapia",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(620),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(620),
                             ExplicacaoSimples = "Análise do Comportamento Aplicada - terapia comportamental para desenvolver habilidades. Deve ser aplicada de forma ética, respeitosa e naturalista.",
                             TermoTecnico = "ABA"
                         },
@@ -673,7 +676,7 @@ namespace AUTistima.Migrations
                             Id = 39,
                             Ativo = true,
                             Categoria = "Terapia",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(630),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(620),
                             ExplicacaoSimples = "Trabalha habilidades do dia-a-dia, coordenação motora e integração sensorial. Ajuda a criança a ser mais independente nas atividades.",
                             TermoTecnico = "Terapia Ocupacional"
                         },
@@ -682,7 +685,7 @@ namespace AUTistima.Migrations
                             Id = 40,
                             Ativo = true,
                             Categoria = "Terapia",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(640),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(620),
                             ExplicacaoSimples = "Trabalha fala, linguagem, comunicação e alimentação. Fundamental para desenvolver a comunicação, seja verbal ou alternativa.",
                             TermoTecnico = "Fonoaudiologia"
                         },
@@ -691,7 +694,7 @@ namespace AUTistima.Migrations
                             Id = 41,
                             Ativo = true,
                             Categoria = "Terapia",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(640),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(620),
                             ExplicacaoSimples = "Terapia que ajuda o cérebro a processar melhor os sentidos. Usa atividades como balanços, texturas, massagens para regular os sentidos.",
                             TermoTecnico = "Integração Sensorial"
                         },
@@ -700,7 +703,7 @@ namespace AUTistima.Migrations
                             Id = 42,
                             Ativo = true,
                             Categoria = "Terapia",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(640),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(620),
                             ExplicacaoSimples = "Método de ensino estruturado para pessoas autistas. Usa apoios visuais, rotinas previsíveis e ambiente organizado.",
                             TermoTecnico = "TEACCH"
                         },
@@ -709,7 +712,7 @@ namespace AUTistima.Migrations
                             Id = 43,
                             Ativo = true,
                             Categoria = "Terapia",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(640),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(620),
                             ExplicacaoSimples = "Abordagem que segue os interesses da criança brincando no chão. Foca no desenvolvimento emocional e na relação, não em comportamentos.",
                             TermoTecnico = "Floortime/DIR"
                         },
@@ -718,7 +721,7 @@ namespace AUTistima.Migrations
                             Id = 10,
                             Ativo = true,
                             Categoria = "Geral",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(640),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(630),
                             ExplicacaoSimples = "Pessoa cujo cérebro funciona de forma diferente do padrão. Inclui autistas, pessoas com TDAH, dislexia e outras condições. Não é doença, é diversidade.",
                             TermoTecnico = "Neurodivergente"
                         },
@@ -727,7 +730,7 @@ namespace AUTistima.Migrations
                             Id = 44,
                             Ativo = true,
                             Categoria = "Geral",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(640),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(630),
                             ExplicacaoSimples = "Pessoa cujo cérebro funciona de forma 'típica' ou 'padrão'. Não é melhor nem pior, apenas diferente do neurodivergente.",
                             TermoTecnico = "Neurotípico"
                         },
@@ -736,7 +739,7 @@ namespace AUTistima.Migrations
                             Id = 45,
                             Ativo = true,
                             Categoria = "Geral",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(640),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(630),
                             ExplicacaoSimples = "Ideia de que diferenças neurológicas (autismo, TDAH, etc.) são variações naturais do cérebro humano, não doenças a serem curadas.",
                             TermoTecnico = "Neurodiversidade"
                         },
@@ -745,7 +748,7 @@ namespace AUTistima.Migrations
                             Id = 46,
                             Ativo = true,
                             Categoria = "Geral",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(650),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(630),
                             ExplicacaoSimples = "Preconceito contra pessoas com deficiência. Inclui baixas expectativas, exclusão, falar 'você nem parece autista' como elogio.",
                             TermoTecnico = "Capacitismo"
                         },
@@ -754,7 +757,7 @@ namespace AUTistima.Migrations
                             Id = 47,
                             Ativo = true,
                             Categoria = "Geral",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(650),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(630),
                             ExplicacaoSimples = "Algumas pessoas preferem 'pessoa com autismo' (pessoa em primeiro lugar), outras preferem 'pessoa autista' (identidade). Pergunte como a pessoa prefere!",
                             TermoTecnico = "Pessoa com Autismo vs Pessoa Autista"
                         },
@@ -763,7 +766,7 @@ namespace AUTistima.Migrations
                             Id = 12,
                             Ativo = true,
                             Categoria = "Alimentação",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(650),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(630),
                             ExplicacaoSimples = "Quando a pessoa aceita poucos alimentos. Está relacionada à sensibilidade sensorial (textura, cor, cheiro). Não é frescura ou falta de educação.",
                             TermoTecnico = "Seletividade Alimentar"
                         },
@@ -772,7 +775,7 @@ namespace AUTistima.Migrations
                             Id = 48,
                             Ativo = true,
                             Categoria = "Alimentação",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(650),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(630),
                             ExplicacaoSimples = "Transtorno Alimentar Restritivo Evitativo - quando a seletividade alimentar é tão intensa que afeta a saúde ou crescimento. Precisa de acompanhamento.",
                             TermoTecnico = "ARFID"
                         },
@@ -781,7 +784,7 @@ namespace AUTistima.Migrations
                             Id = 49,
                             Ativo = true,
                             Categoria = "Direitos",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(650),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(640),
                             ExplicacaoSimples = "Lei 12.764/2012 que garante direitos às pessoas autistas no Brasil: diagnóstico precoce, tratamento, educação inclusiva, trabalho.",
                             TermoTecnico = "Lei Berenice Piana"
                         },
@@ -790,7 +793,7 @@ namespace AUTistima.Migrations
                             Id = 50,
                             Ativo = true,
                             Categoria = "Direitos",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(650),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(640),
                             ExplicacaoSimples = "Lei 13.977/2020 que criou a CIPTEA - carteira de identificação para pessoa autista - facilitando atendimento prioritário.",
                             TermoTecnico = "Lei Romeo Mion"
                         },
@@ -799,7 +802,7 @@ namespace AUTistima.Migrations
                             Id = 51,
                             Ativo = true,
                             Categoria = "Direitos",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(650),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(650),
                             ExplicacaoSimples = "Carteira de Identificação da Pessoa com Transtorno do Espectro Autista. Documento que facilita acesso a direitos e atendimento prioritário.",
                             TermoTecnico = "CIPTEA"
                         },
@@ -808,7 +811,7 @@ namespace AUTistima.Migrations
                             Id = 52,
                             Ativo = true,
                             Categoria = "Direitos",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(660),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(650),
                             ExplicacaoSimples = "Benefício de Prestação Continuada - um salário mínimo mensal para pessoas com deficiência de baixa renda. Não precisa ter contribuído ao INSS.",
                             TermoTecnico = "BPC/LOAS"
                         },
@@ -817,7 +820,7 @@ namespace AUTistima.Migrations
                             Id = 53,
                             Ativo = true,
                             Categoria = "Direitos",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(660),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(650),
                             ExplicacaoSimples = "Quando um juiz determina que outra pessoa (curador) tome decisões pela pessoa autista. Só em casos extremos de incapacidade civil.",
                             TermoTecnico = "Curatela"
                         },
@@ -826,7 +829,7 @@ namespace AUTistima.Migrations
                             Id = 54,
                             Ativo = true,
                             Categoria = "Direitos",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(660),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(650),
                             ExplicacaoSimples = "Alternativa à curatela onde a pessoa autista escolhe apoiadores para ajudar em decisões específicas, mantendo sua autonomia.",
                             TermoTecnico = "Tomada de Decisão Apoiada"
                         },
@@ -835,7 +838,7 @@ namespace AUTistima.Migrations
                             Id = 55,
                             Ativo = true,
                             Categoria = "Aprendizagem",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(1350),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(1320),
                             ExemploUso = "Não é letra feia, é disgrafia.",
                             ExplicacaoSimples = "Dificuldade na escrita manual, com traçado irregular, cansaço e lentidão. Não é letra feia - é disgrafia.",
                             Fonte = "Mini Dicionário AUTistima",
@@ -846,7 +849,7 @@ namespace AUTistima.Migrations
                             Id = 56,
                             Ativo = true,
                             Categoria = "Aprendizagem",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(1370),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(1320),
                             ExemploUso = "Não é burrice, é discalculia.",
                             ExplicacaoSimples = "Transtorno específico da aprendizagem matemática, afetando a compreensão de números e operações. Não é burrice - é discalculia.",
                             Fonte = "Mini Dicionário AUTistima",
@@ -857,7 +860,7 @@ namespace AUTistima.Migrations
                             Id = 57,
                             Ativo = true,
                             Categoria = "Aprendizagem",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(1380),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(1320),
                             ExemploUso = "Não é falta de atenção, pode ser dislexia.",
                             ExplicacaoSimples = "Dificuldade na leitura, decodificação de palavras e compreensão escrita. Não é falta de atenção - pode ser dislexia.",
                             Fonte = "Mini Dicionário AUTistima",
@@ -868,7 +871,7 @@ namespace AUTistima.Migrations
                             Id = 58,
                             Ativo = true,
                             Categoria = "Aprendizagem",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(1380),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(1320),
                             ExemploUso = "Não é atraso escolar, é perfil de aprendizagem atípico.",
                             ExplicacaoSimples = "Desempenho irregular entre diferentes áreas de conhecimento. A criança pode ser excelente em uma matéria e ter muita dificuldade em outra.",
                             Fonte = "Mini Dicionário AUTistima",
@@ -879,7 +882,7 @@ namespace AUTistima.Migrations
                             Id = 59,
                             Ativo = true,
                             Categoria = "Processamento",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(1380),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(1330),
                             ExemploUso = "Não é desorganização, é déficit visoespacial.",
                             ExplicacaoSimples = "Dificuldade em perceber relações espaciais e organizar informações visuais. Não é desorganização - é déficit visoespacial.",
                             Fonte = "Mini Dicionário AUTistima",
@@ -890,7 +893,7 @@ namespace AUTistima.Migrations
                             Id = 60,
                             Ativo = true,
                             Categoria = "Processamento",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(1380),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(1330),
                             ExemploUso = "Não é dificuldade isolada, é déficit em funções executivas.",
                             ExplicacaoSimples = "Dificuldade de planejamento, organização, foco e controle emocional. Afeta a capacidade de iniciar e completar tarefas.",
                             Fonte = "Mini Dicionário AUTistima",
@@ -901,7 +904,7 @@ namespace AUTistima.Migrations
                             Id = 61,
                             Ativo = true,
                             Categoria = "Comportamento",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(1380),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(1330),
                             ExemploUso = "Não é birra, é desregulação emocional.",
                             ExplicacaoSimples = "Dificuldade de regular emoções diante de frustrações e estímulos. Não é birra - é desregulação emocional.",
                             Fonte = "Mini Dicionário AUTistima",
@@ -912,7 +915,7 @@ namespace AUTistima.Migrations
                             Id = 62,
                             Ativo = true,
                             Categoria = "Comportamento",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(1380),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(1330),
                             ExemploUso = "Não é teimosia, é rigidez cognitivo-comportamental.",
                             ExplicacaoSimples = "Dificuldade em lidar com mudanças de rotina ou padrões estabelecidos. Não é teimosia - é rigidez cognitivo-comportamental.",
                             Fonte = "Mini Dicionário AUTistima",
@@ -923,7 +926,7 @@ namespace AUTistima.Migrations
                             Id = 63,
                             Ativo = true,
                             Categoria = "Comportamento",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(1390),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(1330),
                             ExemploUso = "Não é fixação, é interesse restrito.",
                             ExplicacaoSimples = "Interesses muito intensos e específicos por determinados temas. Pode ser uma grande força quando bem direcionado.",
                             Fonte = "Mini Dicionário AUTistima",
@@ -934,7 +937,7 @@ namespace AUTistima.Migrations
                             Id = 64,
                             Ativo = true,
                             Categoria = "Comportamento",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(1390),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(1330),
                             ExemploUso = "Não é frescura, é necessidade de previsibilidade.",
                             ExplicacaoSimples = "Apego intenso a rotinas e necessidade de saber o que vai acontecer. Mudanças inesperadas causam grande ansiedade.",
                             Fonte = "Mini Dicionário AUTistima",
@@ -945,7 +948,7 @@ namespace AUTistima.Migrations
                             Id = 65,
                             Ativo = true,
                             Categoria = "Socialização",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(1390),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(1340),
                             ExemploUso = "Não é isolamento, é interação social atípica.",
                             ExplicacaoSimples = "Preferência por interação previsível ou por brincar sozinho. Não é isolamento - é uma forma diferente de interagir.",
                             Fonte = "Mini Dicionário AUTistima",
@@ -956,7 +959,7 @@ namespace AUTistima.Migrations
                             Id = 66,
                             Ativo = true,
                             Categoria = "Socialização",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(1390),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(1340),
                             ExemploUso = "Não é falta de educação, é dificuldade de habilidades sociais.",
                             ExplicacaoSimples = "Desafio em compreender regras sociais implícitas e expressões emocionais. Não é falta de educação - é dificuldade de habilidades sociais.",
                             Fonte = "Mini Dicionário AUTistima",
@@ -967,7 +970,7 @@ namespace AUTistima.Migrations
                             Id = 67,
                             Ativo = true,
                             Categoria = "Socialização",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(1390),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(1340),
                             ExemploUso = "Não é indiferença, é dificuldade de contato visual.",
                             ExplicacaoSimples = "Padrão atípico de atenção visual. Olhar nos olhos pode ser desconfortável ou difícil para pessoas autistas.",
                             Fonte = "Mini Dicionário AUTistima",
@@ -978,7 +981,7 @@ namespace AUTistima.Migrations
                             Id = 68,
                             Ativo = true,
                             Categoria = "Socialização",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(1390),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(1340),
                             ExemploUso = "Não é falta de afeto, é expressão afetiva atípica.",
                             ExplicacaoSimples = "Formas diferentes de demonstrar carinho e afeto. A pessoa pode amar muito, mas expressar de maneira diferente.",
                             Fonte = "Mini Dicionário AUTistima",
@@ -989,7 +992,7 @@ namespace AUTistima.Migrations
                             Id = 69,
                             Ativo = true,
                             Categoria = "Sensorial",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(1400),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(1340),
                             ExemploUso = "Não é frescura, é defesa sensorial alimentar.",
                             ExplicacaoSimples = "Restrição alimentar causada por sensibilidade a textura, cheiro, cor ou consistência dos alimentos.",
                             Fonte = "Mini Dicionário AUTistima",
@@ -1000,7 +1003,7 @@ namespace AUTistima.Migrations
                             Id = 70,
                             Ativo = true,
                             Categoria = "Sensorial",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(1400),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(1340),
                             ExemploUso = "Não é descontrole, é busca sensorial.",
                             ExplicacaoSimples = "Necessidade intensa de estímulos físicos como pular, girar, apertar. O corpo precisa dessa entrada sensorial.",
                             Fonte = "Mini Dicionário AUTistima",
@@ -1011,7 +1014,7 @@ namespace AUTistima.Migrations
                             Id = 71,
                             Ativo = true,
                             Categoria = "Comunicação",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(1400),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(1340),
                             ExemploUso = "Não é timidez, é apraxia da fala.",
                             ExplicacaoSimples = "Dificuldade na programação motora da fala - o cérebro tem dificuldade em coordenar os movimentos para produzir sons.",
                             Fonte = "Mini Dicionário AUTistima",
@@ -1022,7 +1025,7 @@ namespace AUTistima.Migrations
                             Id = 72,
                             Ativo = true,
                             Categoria = "Comunicação",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(1400),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(1350),
                             ExemploUso = "Não é atraso simples, pode ser transtorno do desenvolvimento da linguagem.",
                             ExplicacaoSimples = "Dificuldades persistentes na compreensão e expressão verbal que não são explicadas por outras condições.",
                             Fonte = "Mini Dicionário AUTistima",
@@ -1033,7 +1036,7 @@ namespace AUTistima.Migrations
                             Id = 73,
                             Ativo = true,
                             Categoria = "Motor",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(1400),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(1350),
                             ExemploUso = "Não é preguiça, pode ser dispraxia.",
                             ExplicacaoSimples = "Dificuldades de planejamento e execução de movimentos coordenados. Afeta tarefas como escrever, amarrar sapato, andar de bicicleta.",
                             Fonte = "Mini Dicionário AUTistima",
@@ -1044,7 +1047,7 @@ namespace AUTistima.Migrations
                             Id = 74,
                             Ativo = true,
                             Categoria = "Motor",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(1400),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(1350),
                             ExemploUso = "Não é preguiça, é fadiga motora fina.",
                             ExplicacaoSimples = "Cansaço rápido em tarefas que exigem movimentos precisos das mãos, como escrever ou recortar.",
                             Fonte = "Mini Dicionário AUTistima",
@@ -1055,7 +1058,7 @@ namespace AUTistima.Migrations
                             Id = 75,
                             Ativo = true,
                             Categoria = "Motor",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(1410),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(1350),
                             ExemploUso = "Não é falta de jeito, pode ser alteração motora global.",
                             ExplicacaoSimples = "Dificuldades em movimentos amplos como correr, pular, subir escadas. Pode parecer desajeitado ou descoordenado.",
                             Fonte = "Mini Dicionário AUTistima",
@@ -1066,7 +1069,7 @@ namespace AUTistima.Migrations
                             Id = 76,
                             Ativo = true,
                             Categoria = "Diagnóstico",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(1410),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(1350),
                             ExemploUso = "Não é contradição, é dupla excepcionalidade.",
                             ExplicacaoSimples = "Quando coexistem superdotação/altas habilidades e um transtorno como autismo. A pessoa pode ter talentos extraordinários e desafios significativos.",
                             Fonte = "Mini Dicionário AUTistima",
@@ -1077,7 +1080,7 @@ namespace AUTistima.Migrations
                             Id = 77,
                             Ativo = true,
                             Categoria = "Neurodivergência",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(1410),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(1350),
                             ExemploUso = "Não é distração, pode ser TDAH.",
                             ExplicacaoSimples = "Transtorno do Déficit de Atenção e Hiperatividade - condição que afeta atenção, controle de impulsos e nível de atividade. Frequentemente coexiste com autismo.",
                             Fonte = "Mini Dicionário AUTistima",
@@ -1088,7 +1091,7 @@ namespace AUTistima.Migrations
                             Id = 78,
                             Ativo = true,
                             Categoria = "Tratamento",
-                            DataCriacao = new DateTime(2025, 12, 8, 19, 58, 19, 823, DateTimeKind.Utc).AddTicks(1410),
+                            DataCriacao = new DateTime(2025, 12, 8, 19, 45, 55, 404, DateTimeKind.Utc).AddTicks(1360),
                             ExemploUso = "Não é esperar crescer - intervenção precoce é fundamental.",
                             ExplicacaoSimples = "Estimulação e terapias iniciadas nos primeiros anos de vida. Quanto mais cedo começar, melhores os resultados do desenvolvimento.",
                             Fonte = "Mini Dicionário AUTistima",
@@ -1677,7 +1680,7 @@ namespace AUTistima.Migrations
                             Bairro = "Centro",
                             CEP = "57020-090",
                             Cidade = "Maceió",
-                            DataCadastro = new DateTime(2025, 12, 8, 19, 58, 19, 825, DateTimeKind.Utc).AddTicks(4120),
+                            DataCadastro = new DateTime(2025, 12, 8, 19, 45, 55, 406, DateTimeKind.Utc).AddTicks(3370),
                             Descricao = "Centro de Atenção Psicossocial para atendimento de adultos com transtornos mentais graves e persistentes. Oferece acolhimento, atendimento individual e em grupo, oficinas terapêuticas e acompanhamento familiar.",
                             Endereco = "Rua Comendador Palmeira, 270",
                             Especialidade = 1,
@@ -1697,7 +1700,7 @@ namespace AUTistima.Migrations
                             Bairro = "Jacintinho",
                             CEP = "57041-400",
                             Cidade = "Maceió",
-                            DataCadastro = new DateTime(2025, 12, 8, 19, 58, 19, 825, DateTimeKind.Utc).AddTicks(4470),
+                            DataCadastro = new DateTime(2025, 12, 8, 19, 45, 55, 406, DateTimeKind.Utc).AddTicks(3710),
                             Descricao = "Centro de Atenção Psicossocial para atendimento de adultos com transtornos mentais graves. Equipe multidisciplinar com psicólogos, psiquiatras, assistentes sociais e terapeutas ocupacionais.",
                             Endereco = "Rua Conselheiro Lourenço de Albuquerque, s/n",
                             Especialidade = 1,
@@ -1717,7 +1720,7 @@ namespace AUTistima.Migrations
                             Bairro = "Benedito Bentes",
                             CEP = "57084-000",
                             Cidade = "Maceió",
-                            DataCadastro = new DateTime(2025, 12, 8, 19, 58, 19, 825, DateTimeKind.Utc).AddTicks(4470),
+                            DataCadastro = new DateTime(2025, 12, 8, 19, 45, 55, 406, DateTimeKind.Utc).AddTicks(3710),
                             Descricao = "Centro de Atenção Psicossocial para atendimento de adultos com transtornos mentais. Oferece atendimento individual, em grupo, oficinas terapêuticas e visitas domiciliares.",
                             Endereco = "Conjunto Denisson Menezes, s/n",
                             Especialidade = 1,
@@ -1737,7 +1740,7 @@ namespace AUTistima.Migrations
                             Bairro = "Farol",
                             CEP = "57055-000",
                             Cidade = "Maceió",
-                            DataCadastro = new DateTime(2025, 12, 8, 19, 58, 19, 825, DateTimeKind.Utc).AddTicks(4470),
+                            DataCadastro = new DateTime(2025, 12, 8, 19, 45, 55, 406, DateTimeKind.Utc).AddTicks(3740),
                             Descricao = "CAPS especializado no atendimento de crianças e adolescentes com transtornos mentais graves, incluindo autismo (TEA). Equipe especializada em saúde mental infantojuvenil com psicólogos, fonoaudiólogos, terapeutas ocupacionais e psiquiatras.",
                             Endereco = "Av. Fernandes Lima, 1681",
                             Especialidade = 1,
@@ -1757,7 +1760,7 @@ namespace AUTistima.Migrations
                             Bairro = "Trapiche da Barra",
                             CEP = "57010-005",
                             Cidade = "Maceió",
-                            DataCadastro = new DateTime(2025, 12, 8, 19, 58, 19, 825, DateTimeKind.Utc).AddTicks(4480),
+                            DataCadastro = new DateTime(2025, 12, 8, 19, 45, 55, 406, DateTimeKind.Utc).AddTicks(3740),
                             Descricao = "CAPS especializado em tratamento de pessoas com transtornos relacionados ao uso de álcool e outras drogas. Funciona 24 horas com leitos de acolhimento noturno.",
                             Endereco = "Av. Siqueira Campos, 1655",
                             Especialidade = 1,
@@ -1777,7 +1780,7 @@ namespace AUTistima.Migrations
                             Bairro = "Tabuleiro do Martins",
                             CEP = "57081-000",
                             Cidade = "Maceió",
-                            DataCadastro = new DateTime(2025, 12, 8, 19, 58, 19, 825, DateTimeKind.Utc).AddTicks(4480),
+                            DataCadastro = new DateTime(2025, 12, 8, 19, 45, 55, 406, DateTimeKind.Utc).AddTicks(3740),
                             Descricao = "Centro de Atenção Psicossocial com funcionamento 24 horas para adultos com transtornos mentais graves. Possui leitos de acolhimento noturno e atendimento de urgência psiquiátrica.",
                             Endereco = "Rua México, s/n",
                             Especialidade = 1,
@@ -1797,7 +1800,7 @@ namespace AUTistima.Migrations
                             Bairro = "Poço",
                             CEP = "57025-000",
                             Cidade = "Maceió",
-                            DataCadastro = new DateTime(2025, 12, 8, 19, 58, 19, 825, DateTimeKind.Utc).AddTicks(4480),
+                            DataCadastro = new DateTime(2025, 12, 8, 19, 45, 55, 406, DateTimeKind.Utc).AddTicks(3750),
                             Descricao = "Ambulatório de especialidades com atendimento em neurologia, psiquiatria e psicologia. Realiza avaliação diagnóstica para TEA e acompanhamento de pessoas autistas.",
                             Endereco = "Av. Major Cícero de Góes Monteiro, 1655",
                             Especialidade = 5,
@@ -1817,7 +1820,7 @@ namespace AUTistima.Migrations
                             Bairro = "Farol",
                             CEP = "57055-170",
                             Cidade = "Maceió",
-                            DataCadastro = new DateTime(2025, 12, 8, 19, 58, 19, 825, DateTimeKind.Utc).AddTicks(4820),
+                            DataCadastro = new DateTime(2025, 12, 8, 19, 45, 55, 406, DateTimeKind.Utc).AddTicks(4080),
                             Descricao = "Instituição filantrópica que oferece atendimento multidisciplinar gratuito para pessoas com deficiência intelectual e autismo. Serviços incluem: psicologia, fonoaudiologia, terapia ocupacional, fisioterapia, pedagogia e serviço social.",
                             Email = "apae.maceio@gmail.com",
                             Endereco = "Rua José de Alencar, 340",
@@ -1838,7 +1841,7 @@ namespace AUTistima.Migrations
                             Bairro = "Pitanguinha",
                             CEP = "57052-280",
                             Cidade = "Maceió",
-                            DataCadastro = new DateTime(2025, 12, 8, 19, 58, 19, 825, DateTimeKind.Utc).AddTicks(4820),
+                            DataCadastro = new DateTime(2025, 12, 8, 19, 45, 55, 406, DateTimeKind.Utc).AddTicks(4080),
                             Descricao = "Associação especializada no atendimento de pessoas autistas e suas famílias. Oferece terapia ABA, fonoaudiologia, terapia ocupacional, psicopedagogia e grupos de apoio para famílias.",
                             Email = "ama.alagoas@gmail.com",
                             Endereco = "Rua Melo Moraes, 99",
@@ -1859,7 +1862,7 @@ namespace AUTistima.Migrations
                             Bairro = "Trapiche da Barra",
                             CEP = "57010-300",
                             Cidade = "Maceió",
-                            DataCadastro = new DateTime(2025, 12, 8, 19, 58, 19, 825, DateTimeKind.Utc).AddTicks(5150),
+                            DataCadastro = new DateTime(2025, 12, 8, 19, 45, 55, 406, DateTimeKind.Utc).AddTicks(4400),
                             Descricao = "Clínica escola da Universidade Estadual de Ciências da Saúde de Alagoas. Oferece atendimento fonoaudiológico gratuito para avaliação e terapia de linguagem, fala e comunicação alternativa.",
                             Endereco = "Rua Dr. Jorge de Lima, 113",
                             Especialidade = 2,
@@ -1880,7 +1883,7 @@ namespace AUTistima.Migrations
                             Bairro = "Farol",
                             CEP = "57051-160",
                             Cidade = "Maceió",
-                            DataCadastro = new DateTime(2025, 12, 8, 19, 58, 19, 825, DateTimeKind.Utc).AddTicks(5160),
+                            DataCadastro = new DateTime(2025, 12, 8, 19, 45, 55, 406, DateTimeKind.Utc).AddTicks(4400),
                             Descricao = "Clínica escola do CESMAC com atendimento psicológico por estudantes supervisionados. Oferece avaliação psicológica, psicoterapia individual e familiar, e grupos terapêuticos.",
                             Endereco = "Rua Cônego Machado, 918",
                             Especialidade = 1,
@@ -1901,7 +1904,7 @@ namespace AUTistima.Migrations
                             Bairro = "Cidade Universitária",
                             CEP = "57072-970",
                             Cidade = "Maceió",
-                            DataCadastro = new DateTime(2025, 12, 8, 19, 58, 19, 825, DateTimeKind.Utc).AddTicks(5160),
+                            DataCadastro = new DateTime(2025, 12, 8, 19, 45, 55, 406, DateTimeKind.Utc).AddTicks(4410),
                             Descricao = "Serviço de Psicologia Aplicada da Universidade Federal de Alagoas. Oferece atendimento psicológico gratuito à comunidade, incluindo avaliação e acompanhamento de crianças autistas.",
                             Endereco = "Campus A.C. Simões, Av. Lourival Melo Mota, s/n",
                             Especialidade = 1,

@@ -1,19 +1,4 @@
-﻿@using AUTistima.Models.Enums
-@using System.Linq
-
-@functions {
-    public record SidebarItem(
-        string Titulo,
-        string Icone,
-        string? Area,
-        string Controller,
-        string Action,
-        string ClasseCss,
-        TipoPerfil[] Destinatarios,
-        string? Descricao = null);
-}
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="utf-8" />
@@ -58,390 +43,334 @@
     <!-- Sidebar Styles -->
     <style>
         :root {
-            --sidebar-width: 296px;
+            --sidebar-width: 280px;
             --sidebar-collapsed-width: 0px;
             --topbar-height: 60px;
-            --color-salmon: #F28B82;
-            --color-azul: #AECBFA;
-            --color-ink: #1A1F2B;
-            --sidebar-border: rgba(242,139,130,0.35);
-            --sidebar-glow: rgba(242,139,130,0.18);
-            --sidebar-chip: rgba(25,32,44,0.08);
         }
-
-        body.sidebar-open {
-            overflow: hidden;
-        }
-
+        
+        /* Sidebar */
         .sidebar {
             position: fixed;
-            top: var(--topbar-height);
+            top: 0;
             left: 0;
             width: var(--sidebar-width);
-            height: calc(100vh - var(--topbar-height));
-            background: linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(255,245,245,0.95) 50%, rgba(255,255,255,0.92) 100%);
-            backdrop-filter: blur(18px);
-            border-right: 1px solid var(--sidebar-border);
-            box-shadow: 0 25px 80px rgba(0,0,0,0.12);
-            z-index: 1030;
+            height: 100vh;
+            background: linear-gradient(180deg, #FFFFFF 0%, #FFF9F9 100%);
+            border-right: 1px solid rgba(242, 139, 130, 0.2);
+            z-index: 1040;
             transform: translateX(-100%);
-            transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 0.3s ease-in-out;
             overflow-y: auto;
             overflow-x: hidden;
+            box-shadow: 2px 0 15px rgba(0,0,0,0.1);
         }
-
-        .sidebar::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(circle at 20% 20%, rgba(174,203,250,0.35), transparent 55%);
-            pointer-events: none;
-        }
-
+        
         .sidebar.show {
             transform: translateX(0);
         }
-
-        .sidebar::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .sidebar::-webkit-scrollbar-thumb {
-            background: rgba(0,0,0,0.15);
-            border-radius: 3px;
-        }
-
+        
         .sidebar-header {
-            padding: 1.75rem 1.5rem 1.25rem;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, var(--color-salmon) 0%, #E57373 100%);
+            color: white;
             position: sticky;
             top: 0;
             z-index: 10;
-            background: linear-gradient(135deg, rgba(242,139,130,0.9), rgba(240,98,146,0.85));
-            color: #fff;
-            border-bottom: 1px solid rgba(255,255,255,0.25);
-            box-shadow: 0 12px 30px rgba(242,139,130,0.25);
         }
-
+        
+        .sidebar-header .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
         .sidebar-header .user-info {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255,255,255,0.3);
         }
-
+        
         .sidebar-header .user-avatar {
-            width: 56px;
-            height: 56px;
-            border-radius: 16px;
-            background: rgba(255,255,255,0.15);
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.35rem;
-            font-weight: 700;
             color: var(--color-salmon);
-            background: #fff;
+            font-size: 1.5rem;
+            font-weight: bold;
         }
-
+        
         .sidebar-header .user-name {
             font-weight: 600;
             font-size: 1rem;
         }
-
+        
         .sidebar-header .user-type {
             font-size: 0.75rem;
-            letter-spacing: 0.04em;
+            opacity: 0.9;
             background: rgba(255,255,255,0.2);
-            padding: 2px 10px;
-            border-radius: 999px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            display: inline-block;
         }
-
+        
         .sidebar-section {
-            padding: 0.25rem 0 0.75rem;
+            padding: 0.5rem 0;
         }
-
+        
         .sidebar-section-title {
-            padding: 0.75rem 1.5rem 0.5rem;
-            font-size: 0.72rem;
-            font-weight: 700;
+            padding: 0.5rem 1.5rem;
+            font-size: 0.7rem;
+            font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 0.12em;
-            color: rgba(26,31,43,0.6);
+            letter-spacing: 0.5px;
+            color: #999;
+            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: space-between;
+            user-select: none;
+            transition: all 0.2s;
         }
-
-        .sidebar-section-title .sidebar-chip {
-            font-weight: 600;
-            font-size: 0.65rem;
-            padding: 2px 8px;
+        
+        .sidebar-section-title:hover {
+            color: var(--color-salmon);
         }
-
+        
+        .sidebar-section-title::after {
+            content: '\F282';
+            font-family: 'bootstrap-icons';
+            font-size: 0.8rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .sidebar-section.collapsed .sidebar-section-title::after {
+            transform: rotate(-90deg);
+        }
+        
+        .sidebar-section .sidebar-nav {
+            max-height: 500px;
+            overflow: hidden;
+            transition: max-height 0.3s ease, opacity 0.3s ease;
+            opacity: 1;
+        }
+        
+        .sidebar-section.collapsed .sidebar-nav {
+            max-height: 0;
+            opacity: 0;
+        }
+        
         .sidebar-nav {
             list-style: none;
             padding: 0;
             margin: 0;
         }
-
+        
         .sidebar-nav-item {
-            margin: 0.1rem 0.85rem;
+            margin: 2px 0.75rem;
         }
-
+        
         .sidebar-nav-link {
-            position: relative;
             display: flex;
-            flex-direction: column;
-            gap: 0.15rem;
-            padding: 0.85rem 1rem;
-            border-radius: 14px;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            color: #555;
             text-decoration: none;
-            background: rgba(255,255,255,0.65);
-            border: 1px solid transparent;
-            transition: all 0.25s ease;
-            color: var(--color-ink);
-            box-shadow: 0 10px 25px rgba(15,23,42,0.05);
+            border-radius: 10px;
+            transition: all 0.2s;
+            font-size: 0.9rem;
         }
-
+        
         .sidebar-nav-link:hover {
-            border-color: var(--sidebar-border);
-            box-shadow: 0 15px 35px rgba(242,139,130,0.2);
-            transform: translateY(-1px);
+            background: rgba(242, 139, 130, 0.1);
+            color: var(--color-salmon);
         }
-
+        
         .sidebar-nav-link.active {
-            background: linear-gradient(120deg, var(--color-salmon), #f06292);
-            color: #fff;
-            border-color: transparent;
-            box-shadow: 0 20px 40px rgba(242,139,130,0.35);
+            background: var(--color-salmon);
+            color: white;
+            font-weight: 500;
         }
-
-        .sidebar-nav-link .icon-label {
-            display: flex;
-            align-items: center;
-            gap: 0.65rem;
-            font-weight: 600;
-        }
-
-        .sidebar-nav-link .icon-label i {
+        
+        .sidebar-nav-link i {
             font-size: 1.2rem;
-            color: inherit;
+            width: 28px;
+            margin-right: 0.75rem;
         }
-
-        .sidebar-nav-link small {
-            font-size: 0.72rem;
-            color: rgba(26,31,43,0.6);
+        
+        .sidebar-nav-link .badge {
+            margin-left: auto;
+            font-size: 0.65rem;
         }
-
-        .sidebar-nav-link.active small {
-            color: rgba(255,255,255,0.85);
-        }
-
-        .sidebar-nav-link.admin {
-            border-color: rgba(220,53,69,0.25);
-        }
-
-        .sidebar-nav-link.admin .icon-label i {
-            color: #dc3545;
-        }
-
-        .sidebar-nav-link.mae {
-            border-color: rgba(242,139,130,0.4);
-        }
-
-        .sidebar-nav-link.mae .icon-label i {
-            color: #F28B82;
-        }
-
-        .sidebar-nav-link.profissional {
-            border-color: rgba(13,110,253,0.25);
-        }
-
-        .sidebar-nav-link.profissional .icon-label i {
-            color: #0d6efd;
-        }
-
-        .sidebar-nav-link.empresa {
-            border-color: rgba(25,135,84,0.25);
-        }
-
-        .sidebar-nav-link.empresa .icon-label i {
-            color: #198754;
-        }
-
-        .sidebar-nav-link.governo {
-            border-color: rgba(111,66,193,0.28);
-        }
-
-        .sidebar-nav-link.governo .icon-label i {
-            color: #6f42c1;
-        }
-
-        .sidebar-chip {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.25rem;
-            padding: 3px 10px;
-            border-radius: 999px;
-            background: var(--sidebar-chip);
-            font-size: 0.7rem;
-            color: rgba(26,31,43,0.65);
-            font-weight: 600;
-        }
-
-        .sidebar-chip.subtle {
-            background: rgba(255,255,255,0.35);
-            color: #fff;
-        }
-
+        
+        /* Divider */
         .sidebar-divider {
             height: 1px;
-            margin: 0.75rem 1.5rem;
-            background: linear-gradient(90deg, transparent, rgba(242,139,130,0.6), transparent);
+            background: linear-gradient(90deg, transparent, rgba(242,139,130,0.3), transparent);
+            margin: 0.5rem 1.5rem;
         }
-
+        
+        /* Perfil específico colors */
+        .sidebar-nav-link.admin { color: #dc3545; }
+        .sidebar-nav-link.admin:hover, .sidebar-nav-link.admin.active { background: #dc3545; color: white; }
+        
+        .sidebar-nav-link.profissional { color: #0d6efd; }
+        .sidebar-nav-link.profissional:hover, .sidebar-nav-link.profissional.active { background: #0d6efd; color: white; }
+        
+        .sidebar-nav-link.empresa { color: #198754; }
+        .sidebar-nav-link.empresa:hover, .sidebar-nav-link.empresa.active { background: #198754; color: white; }
+        
+        .sidebar-nav-link.governo { color: #6f42c1; }
+        .sidebar-nav-link.governo:hover, .sidebar-nav-link.governo.active { background: #6f42c1; color: white; }
+        
+        .sidebar-nav-link.mae { color: #F28B82; }
+        .sidebar-nav-link.mae:hover, .sidebar-nav-link.mae.active { background: #F28B82; color: white; }
+        
+        /* Toggle Button - Desktop Modern Style */
         .sidebar-toggle {
             position: fixed;
-            top: 10px;
-            left: 10px;
+            top: 12px;
+            left: 20px;
             z-index: 1100;
-            width: 44px;
-            height: 44px;
+            width: 40px;
+            height: 40px;
             border: none;
-            border-radius: 12px;
-            background: var(--color-salmon);
-            color: #fff;
+            border-radius: 8px;
+            background: transparent;
+            color: white;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.25rem;
-            transition: all 0.25s ease;
-            box-shadow: 0 4px 16px rgba(242, 139, 130, 0.35);
+            transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 1.1rem;
+            padding: 0;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
-
+        
         .sidebar-toggle:hover {
-            background: #f06292;
+            background: rgba(255, 255, 255, 0.1);
             transform: translateY(-2px);
-            box-shadow: 0 6px 24px rgba(242, 139, 130, 0.45);
         }
-
+        
+        .sidebar-toggle:active {
+            transform: translateY(0);
+        }
+        
+        /* Esconder botão quando não autenticado */
         .sidebar-toggle.hidden {
             display: none !important;
         }
-
+        
+        /* Desktops grandes: ajustar posição quando sidebar aberta */
+        @@media (min-width: 992px) {
+            .sidebar.show ~ .sidebar-toggle {
+                left: calc(var(--sidebar-width) + 15px);
+            }
+            
+            .sidebar:not(.show) ~ .sidebar-toggle {
+                left: 20px;
+            }
+        }
+        
+        /* Close button inside sidebar - Hidden on desktop */
         .sidebar-close {
             position: absolute;
             top: 1rem;
             right: 1rem;
-            border: none;
-            border-radius: 12px;
-            width: 38px;
-            height: 38px;
             background: rgba(255,255,255,0.2);
-            color: #fff;
+            border: none;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
             cursor: pointer;
-            transition: background 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
         }
-
+        
         .sidebar-close:hover {
-            background: rgba(255,255,255,0.35);
+            background: rgba(255,255,255,0.3);
         }
-
+        
+        /* Hide close button on desktop */
+        @@media (min-width: 992px) {
+            .sidebar-close {
+                display: none;
+            }
+        }
+        
+        /* Overlay */
         .sidebar-overlay {
             position: fixed;
-            inset: 0;
-            background: rgba(16,21,31,0.55);
-            z-index: 1025;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1035;
             opacity: 0;
             visibility: hidden;
-            transition: all 0.3s ease;
+            transition: all 0.3s;
         }
-
+        
         .sidebar-overlay.show {
             opacity: 1;
             visibility: visible;
         }
-
+        
+        /* Main content adjustment */
         .main-wrapper {
-            margin-top: 60px;
-            transition: margin-left 0.35s ease;
+            transition: margin-left 0.3s;
         }
-
+        
+        /* Navbar simplificada */
         .navbar-autistima {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            width: 100%;
-            height: 60px !important;
-            padding: 0 20px !important;
-            background: #fff;
-            border-bottom: 1px solid rgba(242, 139, 130, 0.15);
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
-            z-index: 1040;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            padding-left: 70px !important;
         }
-
-        .navbar-autistima .container-fluid {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            position: relative;
-        }
-
-        .navbar-autistima .navbar-brand {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            font-weight: 700;
-            font-size: 1.25rem;
-            color: var(--color-ink) !important;
-            margin: 0;
-        }
-
-        .sidebar-footer {
-            padding: 1.25rem 1.5rem 1.75rem;
-            border-top: 1px solid rgba(0,0,0,0.08);
-            background: rgba(255,255,255,0.8);
-        }
-
-        .sidebar-footer .btn {
-            width: 100%;
-            border-radius: 12px;
-        }
-
-        .sidebar-pwa-install {
-            margin: 0.75rem 1.25rem 1.5rem;
-            border-radius: 16px;
-            padding: 1.1rem;
-            text-align: center;
-            background: linear-gradient(135deg, rgba(174,203,250,0.35), rgba(242,139,130,0.25));
-            border: 1px solid rgba(255,255,255,0.6);
-        }
-
-        .sidebar-pwa-install .btn {
-            border-radius: 12px;
-        }
-
+        
+        /* Desktop: sidebar pode ficar fixa */
         @@media (min-width: 992px) {
             .sidebar.show ~ .main-wrapper {
                 margin-left: var(--sidebar-width);
             }
-
-            .sidebar {
-                transform: translateX(0) !important;
+            
+            .sidebar.show ~ .navbar-autistima {
+                padding-left: calc(var(--sidebar-width) + 15px) !important;
             }
-
+            
             .sidebar-overlay {
                 display: none;
             }
-
-            .sidebar-close {
-                display: none;
-            }
+        }
+        
+        /* Footer do sidebar */
+        .sidebar-footer {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid rgba(242,139,130,0.2);
+            background: #f8f9fa;
+            margin-top: auto;
+        }
+        
+        .sidebar-footer .btn {
+            width: 100%;
+        }
+        
+        /* PWA install no sidebar */
+        .sidebar-pwa-install {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            margin: 0.75rem;
+            border-radius: 10px;
+            padding: 1rem;
+            text-align: center;
+        }
+        
+        .sidebar-pwa-install .btn {
+            font-size: 0.85rem;
         }
     </style>
 </head>
@@ -479,132 +408,6 @@
             AUTistima.Models.Enums.TipoPerfil.Governo => "governo",
             _ => ""
         };
-
-        var menuPrincipal = new List<SidebarItem>
-        {
-            new("Início", "bi-house-heart", null, "Home", "Index", "", Array.Empty<TipoPerfil>(), "Visão geral da rede"),
-            new("Central de Acolhimento", "bi-chat-heart", null, "Acolhimento", "Index", "mae", new[] { TipoPerfil.Mae }, "Escuta acolhedora entre mães"),
-            new("Manejos", "bi-lightbulb", null, "Manejos", "Index", "", Array.Empty<TipoPerfil>(), "Dicas práticas validadas"),
-            new("Oportunidades", "bi-briefcase", null, "Oportunidades", "Index", "", Array.Empty<TipoPerfil>(), "Vagas e benefícios inclusivos"),
-            new("Saúde", "bi-heart-pulse", null, "Saude", "Index", "", Array.Empty<TipoPerfil>(), "Rede de profissionais"),
-            new("Mini Dicionário", "bi-book", null, "Glossario", "Index", "", Array.Empty<TipoPerfil>(), "Glossário em linguagem simples"),
-            new("Busca Inteligente", "bi-search", null, "Busca", "Index", "", Array.Empty<TipoPerfil>(), "Encontre serviços, escolas e pessoas"),
-        };
-
-        var menusPorPerfil = new Dictionary<TipoPerfil, List<SidebarItem>>
-        {
-            [TipoPerfil.Administrador] = new()
-            {
-                new("Painel Admin", "bi-speedometer2", "Admin", "Admin", "Index", "admin", Array.Empty<TipoPerfil>(), "Resumo do sistema"),
-                new("Usuários", "bi-people", "Admin", "Usuarios", "Index", "admin", Array.Empty<TipoPerfil>(), "Gestão e bloqueios"),
-                new("Manejos", "bi-lightbulb", "Admin", "Manejos", "Index", "admin", Array.Empty<TipoPerfil>(), "Curadoria de dicas"),
-                new("Escolas", "bi-building", "Admin", "Escolas", "Index", "admin", Array.Empty<TipoPerfil>(), "Rede escolar"),
-                new("Serviços", "bi-hospital", "Admin", "Servicos", "Index", "admin", Array.Empty<TipoPerfil>(), "Profissionais e CAPS"),
-                new("Glossário", "bi-journal-text", "Admin", "Glossario", "Index", "admin", Array.Empty<TipoPerfil>(), "Termos e categorias"),
-                new("Oportunidades", "bi-briefcase-fill", "Admin", "Oportunidades", "Index", "admin", Array.Empty<TipoPerfil>(), "Curadoria de vagas"),
-                new("Estatísticas", "bi-graph-up", "Admin", "Estatisticas", "Index", "admin", Array.Empty<TipoPerfil>(), "Indicadores diários"),
-                new("Configurações", "bi-gear", "Admin", "Configuracoes", "Index", "admin", Array.Empty<TipoPerfil>(), "Parâmetros gerais"),
-            },
-            [TipoPerfil.Mae] = new()
-            {
-                new("Meu Cantinho", "bi-house-heart-fill", "Mae", "Mae", "Index", "mae", Array.Empty<TipoPerfil>(), "Feed personalizado"),
-                new("Meus Filhos", "bi-people-fill", null, "Filhos", "Index", "mae", Array.Empty<TipoPerfil>(), "Cadastre e acompanhe"),
-                new("Compartilhar Manejo", "bi-pencil-heart", null, "Manejos", "Create", "mae", Array.Empty<TipoPerfil>(), "Divida suas dicas"),
-                new("Triagem Escolar", "bi-clipboard-check", null, "Triagem", "Index", "mae", Array.Empty<TipoPerfil>(), "Status das solicitações"),
-            },
-            [TipoPerfil.ProfissionalSaude] = new()
-            {
-                new("Meu Painel", "bi-person-badge", "Profissional", "Profissional", "Index", "profissional", Array.Empty<TipoPerfil>(), "Agenda e indicadores"),
-                new("Meus Serviços", "bi-activity", "Profissional", "Profissional", "MeusServicos", "profissional", Array.Empty<TipoPerfil>(), "Ofertas cadastradas"),
-                new("Triagens", "bi-clipboard-pulse", "Profissional", "Profissional", "Triagens", "profissional", Array.Empty<TipoPerfil>(), "Encaminhamentos pendentes"),
-            },
-            [TipoPerfil.ProfissionalEducacao] = new()
-            {
-                new("Meu Painel", "bi-mortarboard", "Profissional", "Profissional", "Index", "profissional", Array.Empty<TipoPerfil>(), "Visão da escola"),
-                new("Minhas Triagens", "bi-journal-check", "Profissional", "Profissional", "Triagens", "profissional", Array.Empty<TipoPerfil>(), "Solicitações enviadas"),
-            },
-            [TipoPerfil.Empresa] = new()
-            {
-                new("Painel da Empresa", "bi-building", "Empresa", "Empresa", "Index", "empresa", Array.Empty<TipoPerfil>(), "Indicadores e selo"),
-                new("Minhas Oportunidades", "bi-briefcase", "Empresa", "Empresa", "MinhasOportunidades", "empresa", Array.Empty<TipoPerfil>(), "Vagas publicadas"),
-                new("Nova Oportunidade", "bi-plus-circle", "Empresa", "Empresa", "NovaOportunidade", "empresa", Array.Empty<TipoPerfil>(), "Registrar oportunidade"),
-            },
-            [TipoPerfil.Governo] = new()
-            {
-                new("Dashboard", "bi-bank", "Governo", "Governo", "Index", "governo", Array.Empty<TipoPerfil>(), "Panorama municipal"),
-                new("Estatísticas", "bi-graph-up-arrow", "Governo", "Governo", "Estatisticas", "governo", Array.Empty<TipoPerfil>(), "Métricas detalhadas"),
-                new("Triagens", "bi-clipboard-data", "Governo", "Governo", "Triagens", "governo", Array.Empty<TipoPerfil>(), "Filtrar por status"),
-                new("Rede Escolar", "bi-building-check", "Governo", "Governo", "Escolas", "governo", Array.Empty<TipoPerfil>(), "Cobertura e contatos"),
-            }
-        };
-
-        var menuPerfilAtual = tipoPerfil.HasValue && menusPorPerfil.TryGetValue(tipoPerfil.Value, out var menuEspecializado)
-            ? menuEspecializado
-            : new List<SidebarItem>();
-
-        string tituloSecaoPerfil = tipoPerfil switch
-        {
-            TipoPerfil.Administrador => "🔧 Administração",
-            TipoPerfil.Mae => "💕 Meu Espaço",
-            TipoPerfil.ProfissionalSaude => "👩‍⚕️ Área da Saúde",
-            TipoPerfil.ProfissionalEducacao => "📚 Área da Educação",
-            TipoPerfil.Empresa => "🏢 Área da Empresa",
-            TipoPerfil.Governo => "🏛️ Gestão Pública",
-            _ => string.Empty
-        };
-
-        bool PodeVerLink(SidebarItem item)
-        {
-            if (item.Destinatarios.Length == 0)
-            {
-                return true;
-            }
-
-            if (!tipoPerfil.HasValue)
-            {
-                return false;
-            }
-
-            return item.Destinatarios.Contains(tipoPerfil.Value);
-        }
-
-        bool LinkAtivo(SidebarItem item)
-        {
-            var rota = ViewContext.RouteData;
-            var areaAtual = rota.Values["area"]?.ToString();
-            var controllerAtual = rota.Values["controller"]?.ToString();
-            var acaoAtual = rota.Values["action"]?.ToString();
-
-            if (!string.Equals(controllerAtual, item.Controller, StringComparison.OrdinalIgnoreCase))
-            {
-                return false;
-            }
-
-            if (!string.Equals(acaoAtual, item.Action, StringComparison.OrdinalIgnoreCase))
-            {
-                return false;
-            }
-
-            if (string.IsNullOrEmpty(item.Area))
-            {
-                return string.IsNullOrEmpty(areaAtual);
-            }
-
-            return string.Equals(areaAtual, item.Area, StringComparison.OrdinalIgnoreCase);
-        }
-
-        string PerfilLabel(TipoPerfil perfil) => perfil switch
-        {
-            TipoPerfil.Administrador => "Administradores",
-            TipoPerfil.Mae => "Mães",
-            TipoPerfil.ProfissionalSaude => "Profissionais de Saúde",
-            TipoPerfil.ProfissionalEducacao => "Educadores",
-            TipoPerfil.Empresa => "Empresas",
-            TipoPerfil.Governo => "Gestão",
-            _ => "Usuários"
-        };
-
-        string DestinatariosTexto(TipoPerfil[] perfis) => string.Join(" · ", perfis.Select(PerfilLabel));
     }
     
     <!-- Sidebar Toggle Button - Desktop Modern Style -->
@@ -647,141 +450,246 @@
         </div>
         
         <nav class="d-flex flex-column" style="min-height: calc(100vh - 200px);">
-            @if (menuPrincipal.Any(PodeVerLink))
-            {
-                <div class="sidebar-section">
-                    <div class="sidebar-section-title">
-                        <span>Menu Principal</span>
-                        <span class="sidebar-chip subtle">Comunidade</span>
-                    </div>
-                    <ul class="sidebar-nav">
-                        @foreach (var item in menuPrincipal.Where(PodeVerLink))
-                        {
-                            var classes = ($"sidebar-nav-link {item.ClasseCss}").Trim();
-                            if (LinkAtivo(item))
-                            {
-                                classes += " active";
-                            }
-                            <li class="sidebar-nav-item">
-                                <a class="@classes" asp-area="@(item.Area ?? string.Empty)" asp-controller="@item.Controller" asp-action="@item.Action">
-                                    <div class="icon-label">
-                                        <i class="bi @item.Icone"></i>
-                                        <span>@item.Titulo</span>
-                                    </div>
-                                    @if (!string.IsNullOrWhiteSpace(item.Descricao))
-                                    {
-                                        <small>@item.Descricao</small>
-                                    }
-                                    @if (item.Destinatarios.Length > 0)
-                                    {
-                                        <span class="sidebar-chip">@DestinatariosTexto(item.Destinatarios)</span>
-                                    }
-                                </a>
-                            </li>
-                        }
-                    </ul>
-                </div>
-            }
-
-            @if (User.Identity?.IsAuthenticated == true && menuPerfilAtual.Any())
-            {
-                <div class="sidebar-divider"></div>
-                <div class="sidebar-section">
-                    <div class="sidebar-section-title">
-                        <span>@tituloSecaoPerfil</span>
-                        <span class="sidebar-chip subtle">@tipoPerfilDisplay</span>
-                    </div>
-                    <ul class="sidebar-nav">
-                        @foreach (var item in menuPerfilAtual)
-                        {
-                            var classes = ($"sidebar-nav-link {item.ClasseCss}").Trim();
-                            if (LinkAtivo(item))
-                            {
-                                classes += " active";
-                            }
-                            <li class="sidebar-nav-item">
-                                <a class="@classes" asp-area="@(item.Area ?? string.Empty)" asp-controller="@item.Controller" asp-action="@item.Action">
-                                    <div class="icon-label">
-                                        <i class="bi @item.Icone"></i>
-                                        <span>@item.Titulo</span>
-                                    </div>
-                                    @if (!string.IsNullOrWhiteSpace(item.Descricao))
-                                    {
-                                        <small>@item.Descricao</small>
-                                    }
-                                </a>
-                            </li>
-                        }
-                    </ul>
-                </div>
-            }
-
+            <!-- Menu Principal -->
+            <div class="sidebar-section">
+                <div class="sidebar-section-title">Menu Principal</div>
+                <ul class="sidebar-nav">
+                    <li class="sidebar-nav-item">
+                        <a class="sidebar-nav-link" asp-controller="Home" asp-action="Index">
+                            <i class="bi bi-house-heart"></i> Início
+                        </a>
+                    </li>
+                    <li class="sidebar-nav-item">
+                        <a class="sidebar-nav-link" asp-controller="Acolhimento" asp-action="Index">
+                            <i class="bi bi-chat-heart"></i> Central de Acolhimento
+                        </a>
+                    </li>
+                    <li class="sidebar-nav-item">
+                        <a class="sidebar-nav-link" asp-controller="Manejos" asp-action="Index">
+                            <i class="bi bi-lightbulb"></i> Manejos
+                        </a>
+                    </li>
+                    <li class="sidebar-nav-item">
+                        <a class="sidebar-nav-link" asp-controller="Oportunidades" asp-action="Index">
+                            <i class="bi bi-briefcase"></i> Oportunidades
+                        </a>
+                    </li>
+                    <li class="sidebar-nav-item">
+                        <a class="sidebar-nav-link" asp-controller="Saude" asp-action="Index">
+                            <i class="bi bi-heart-pulse"></i> Saúde
+                        </a>
+                    </li>
+                    <li class="sidebar-nav-item">
+                        <a class="sidebar-nav-link" asp-controller="Glossario" asp-action="Index">
+                            <i class="bi bi-book"></i> Mini Dicionário
+                        </a>
+                    </li>
+                    <li class="sidebar-nav-item">
+                        <a class="sidebar-nav-link" asp-controller="Busca" asp-action="Index">
+                            <i class="bi bi-search"></i> Busca
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            
             @if (User.Identity?.IsAuthenticated == true)
             {
                 <div class="sidebar-divider"></div>
-
+                
+                <!-- Menu específico por perfil -->
+                @if (tipoPerfil == AUTistima.Models.Enums.TipoPerfil.Administrador)
+                {
+                    <div class="sidebar-section">
+                        <div class="sidebar-section-title">🔧 Administração</div>
+                        <ul class="sidebar-nav">
+                            <li class="sidebar-nav-item">
+                                <a class="sidebar-nav-link admin" asp-area="Admin" asp-controller="Admin" asp-action="Index">
+                                    <i class="bi bi-speedometer2"></i> Painel Admin
+                                </a>
+                            </li>
+                            <li class="sidebar-nav-item">
+                                <a class="sidebar-nav-link admin" asp-area="Admin" asp-controller="Usuarios" asp-action="Index">
+                                    <i class="bi bi-people"></i> Usuários
+                                </a>
+                            </li>
+                            <li class="sidebar-nav-item">
+                                <a class="sidebar-nav-link admin" asp-area="Admin" asp-controller="Manejos" asp-action="Index">
+                                    <i class="bi bi-lightbulb"></i> Manejos
+                                </a>
+                            </li>
+                            <li class="sidebar-nav-item">
+                                <a class="sidebar-nav-link admin" asp-area="Admin" asp-controller="Escolas" asp-action="Index">
+                                    <i class="bi bi-building"></i> Escolas
+                                </a>
+                            </li>
+                            <li class="sidebar-nav-item">
+                                <a class="sidebar-nav-link admin" asp-area="Admin" asp-controller="Glossario" asp-action="Index">
+                                    <i class="bi bi-journal-text"></i> Glossário
+                                </a>
+                            </li>
+                            <li class="sidebar-nav-item">
+                                <a class="sidebar-nav-link admin" asp-area="Admin" asp-controller="Configuracoes" asp-action="Index">
+                                    <i class="bi bi-gear"></i> Configurações
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                }
+                else if (tipoPerfil == AUTistima.Models.Enums.TipoPerfil.Mae)
+                {
+                    <div class="sidebar-section">
+                        <div class="sidebar-section-title">💕 Meu Espaço</div>
+                        <ul class="sidebar-nav">
+                            <li class="sidebar-nav-item">
+                                <a class="sidebar-nav-link mae" asp-area="Mae" asp-controller="Mae" asp-action="Index">
+                                    <i class="bi bi-house-heart"></i> Meu Cantinho
+                                </a>
+                            </li>
+                            <li class="sidebar-nav-item">
+                                <a class="sidebar-nav-link mae" asp-controller="Filhos" asp-action="Index">
+                                    <i class="bi bi-people-fill"></i> Meus Filhos
+                                </a>
+                            </li>
+                            <li class="sidebar-nav-item">
+                                <a class="sidebar-nav-link mae" asp-controller="Manejos" asp-action="MeusManejos">
+                                    <i class="bi bi-lightbulb-fill"></i> Minhas Dicas
+                                </a>
+                            </li>
+                            <li class="sidebar-nav-item">
+                                <a class="sidebar-nav-link mae" asp-controller="Triagem" asp-action="Index">
+                                    <i class="bi bi-clipboard-check"></i> Triagem
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                }
+                else if (tipoPerfil == AUTistima.Models.Enums.TipoPerfil.ProfissionalSaude || 
+                         tipoPerfil == AUTistima.Models.Enums.TipoPerfil.ProfissionalEducacao)
+                {
+                    <div class="sidebar-section">
+                        <div class="sidebar-section-title">👨‍⚕️ Área Profissional</div>
+                        <ul class="sidebar-nav">
+                            <li class="sidebar-nav-item">
+                                <a class="sidebar-nav-link profissional" asp-area="Profissional" asp-controller="Profissional" asp-action="Index">
+                                    <i class="bi bi-person-badge"></i> Meu Painel
+                                </a>
+                            </li>
+                            <li class="sidebar-nav-item">
+                                <a class="sidebar-nav-link profissional" asp-area="Profissional" asp-controller="Profissional" asp-action="Agenda">
+                                    <i class="bi bi-calendar-check"></i> Agenda
+                                </a>
+                            </li>
+                            <li class="sidebar-nav-item">
+                                <a class="sidebar-nav-link profissional" asp-area="Profissional" asp-controller="Profissional" asp-action="Pacientes">
+                                    <i class="bi bi-people"></i> Pacientes
+                                </a>
+                            </li>
+                            <li class="sidebar-nav-item">
+                                <a class="sidebar-nav-link profissional" asp-controller="Manejos" asp-action="Validar">
+                                    <i class="bi bi-check-circle"></i> Validar Manejos
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                }
+                else if (tipoPerfil == AUTistima.Models.Enums.TipoPerfil.Empresa)
+                {
+                    <div class="sidebar-section">
+                        <div class="sidebar-section-title">🏢 Área da Empresa</div>
+                        <ul class="sidebar-nav">
+                            <li class="sidebar-nav-item">
+                                <a class="sidebar-nav-link empresa" asp-area="Empresa" asp-controller="Empresa" asp-action="Index">
+                                    <i class="bi bi-building"></i> Meu Painel
+                                </a>
+                            </li>
+                            <li class="sidebar-nav-item">
+                                <a class="sidebar-nav-link empresa" asp-area="Empresa" asp-controller="Empresa" asp-action="Vagas">
+                                    <i class="bi bi-briefcase"></i> Minhas Vagas
+                                </a>
+                            </li>
+                            <li class="sidebar-nav-item">
+                                <a class="sidebar-nav-link empresa" asp-area="Empresa" asp-controller="Empresa" asp-action="Candidatos">
+                                    <i class="bi bi-people"></i> Candidatos
+                                </a>
+                            </li>
+                            <li class="sidebar-nav-item">
+                                <a class="sidebar-nav-link empresa" asp-area="Empresa" asp-controller="Empresa" asp-action="Selo">
+                                    <i class="bi bi-award"></i> Selo Empresa Amiga
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                }
+                else if (tipoPerfil == AUTistima.Models.Enums.TipoPerfil.Governo)
+                {
+                    <div class="sidebar-section">
+                        <div class="sidebar-section-title">🏛️ Gestão Pública</div>
+                        <ul class="sidebar-nav">
+                            <li class="sidebar-nav-item">
+                                <a class="sidebar-nav-link governo" asp-area="Governo" asp-controller="Governo" asp-action="Index">
+                                    <i class="bi bi-bank"></i> Dashboard
+                                </a>
+                            </li>
+                            <li class="sidebar-nav-item">
+                                <a class="sidebar-nav-link governo" asp-area="Governo" asp-controller="Governo" asp-action="Indicadores">
+                                    <i class="bi bi-graph-up"></i> Indicadores
+                                </a>
+                            </li>
+                            <li class="sidebar-nav-item">
+                                <a class="sidebar-nav-link governo" asp-area="Governo" asp-controller="Governo" asp-action="Relatorios">
+                                    <i class="bi bi-file-earmark-bar-graph"></i> Relatórios
+                                </a>
+                            </li>
+                            <li class="sidebar-nav-item">
+                                <a class="sidebar-nav-link governo" asp-area="Governo" asp-controller="Governo" asp-action="Politicas">
+                                    <i class="bi bi-clipboard-data"></i> Políticas
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                }
+                
+                <div class="sidebar-divider"></div>
+                
+                <!-- Comunicação -->
                 <div class="sidebar-section">
                     <div class="sidebar-section-title">📬 Comunicação</div>
                     <ul class="sidebar-nav">
                         <li class="sidebar-nav-item">
                             <a class="sidebar-nav-link" asp-controller="Notificacoes" asp-action="Index">
-                                <div class="icon-label">
-                                    <i class="bi bi-bell"></i>
-                                    <span>Notificações</span>
-                                </div>
-                                <small>Avisos importantes</small>
+                                <i class="bi bi-bell"></i> Notificações
                                 <span id="sidebar-notif-badge" class="badge bg-danger" style="display: none;">0</span>
                             </a>
                         </li>
                         <li class="sidebar-nav-item">
                             <a class="sidebar-nav-link" asp-controller="Chat" asp-action="Index">
-                                <div class="icon-label">
-                                    <i class="bi bi-chat-dots"></i>
-                                    <span>Mensagens</span>
-                                </div>
-                                <small>Conversas abertas</small>
+                                <i class="bi bi-chat-dots"></i> Mensagens
                                 <span id="sidebar-chat-badge" class="badge bg-primary" style="display: none;">0</span>
                             </a>
                         </li>
                     </ul>
                 </div>
-
+                
                 <div class="sidebar-divider"></div>
-
+                
+                <!-- Minha Conta -->
                 <div class="sidebar-section">
                     <div class="sidebar-section-title">👤 Minha Conta</div>
                     <ul class="sidebar-nav">
-                        <li class="sidebar-nav-item" style="margin-bottom: 0.5rem;">
-                            <a class="sidebar-nav-link" asp-controller="Account" asp-action="Profile" style="display: flex; align-items: center; gap: 1rem; padding: 1rem;">
-                                @if (!string.IsNullOrEmpty(currentUser?.FotoPerfilUrl))
-                                {
-                                    <img src="@currentUser.FotoPerfilUrl" alt="@currentUser.NomeCompleto" style="width: 48px; height: 48px; border-radius: 12px; object-fit: cover; flex-shrink: 0;" />
-                                }
-                                else
-                                {
-                                    <div style="width: 48px; height: 48px; border-radius: 12px; background: var(--color-salmon); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.2rem; flex-shrink: 0;">
-                                        @userInitial
-                                    </div>
-                                }
-                                <div style="flex: 1; min-width: 0;">
-                                    <div style="font-weight: 600; font-size: 0.95rem; color: var(--color-ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">@firstName</div>
-                                    <small style="color: rgba(26,31,43,0.65); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">@tipoPerfilDisplay</small>
-                                </div>
-                                <i class="bi bi-chevron-right" style="color: rgba(26,31,43,0.4); font-size: 1rem;"></i>
+                        <li class="sidebar-nav-item">
+                            <a class="sidebar-nav-link" asp-controller="Account" asp-action="Profile">
+                                <i class="bi bi-person-circle"></i> Meu Perfil
                             </a>
                         </li>
                         <li class="sidebar-nav-item">
                             <a class="sidebar-nav-link" asp-controller="Account" asp-action="ChangePassword">
-                                <div class="icon-label">
-                                    <i class="bi bi-key"></i>
-                                    <span>Alterar Senha</span>
-                                </div>
-                                <small>Atualize com segurança</small>
+                                <i class="bi bi-key"></i> Alterar Senha
                             </a>
                         </li>
                     </ul>
                 </div>
-
+                
+                <!-- PWA Install -->
                 <div class="sidebar-pwa-install" id="sidebar-pwa-install" style="display: none;">
                     <i class="bi bi-phone-fill text-primary fs-4 mb-2 d-block"></i>
                     <p class="small mb-2">Instale o app!</p>
@@ -789,7 +697,8 @@
                         <i class="bi bi-download me-1"></i> Instalar
                     </button>
                 </div>
-
+                
+                <!-- Footer -->
                 <div class="sidebar-footer mt-auto">
                     <form asp-controller="Account" asp-action="Logout" method="post">
                         <button type="submit" class="btn btn-outline-danger">
@@ -802,36 +711,57 @@
     </aside>
     }
     
-    <!-- Header simplificado - apenas para usuários autenticados -->
-    @if (User.Identity?.IsAuthenticated == true)
-    {
-        <header class="main-wrapper">
-            <nav class="navbar navbar-expand-lg navbar-autistima">
-                <div class="container-fluid">
-                    <!-- Botão hamburger à esquerda -->
-                    <div style="position: absolute; left: 10px;">
-                        <!-- Espaço para hamburger -->
-                    </div>
-                    
-                    <!-- Logo/Brand centralizada -->
-                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                        <img src="~/images/logo.png" alt="" height="35" onerror="this.style.display='none'">
-                        <span>
-                            <span style="color: var(--color-salmon);">AUT</span>istima
-                        </span>
-                    </a>
-                    
-                    <!-- Notificações à direita -->
-                    <div style="position: absolute; right: 10px;">
-                        <a class="btn btn-link position-relative" asp-controller="Notificacoes" asp-action="Index" title="Notificações" style="color: #555; transition: color 0.2s; font-size: 1.3rem; padding: 0.5rem;">
-                            <i class="bi bi-bell"></i>
+    <!-- Header simplificado -->
+    <header class="main-wrapper">
+        <nav class="navbar navbar-expand-lg navbar-autistima">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img src="~/images/logo.png" alt="" height="35" onerror="this.style.display='none'">
+                    <span>
+                        <span style="color: var(--color-salmon);">AUT</span>istima
+                    </span>
+                </a>
+                
+                <div class="d-flex align-items-center gap-2">
+                    @if (User.Identity?.IsAuthenticated == true)
+                    {
+                        <!-- Notificações -->
+                        <a class="btn btn-link position-relative p-2" asp-controller="Notificacoes" asp-action="Index" title="Notificações" style="color: #555; transition: color 0.2s;">
+                            <i class="bi bi-bell fs-5"></i>
                             <span id="notificacao-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="display: none; font-size: 0.6rem;">0</span>
                         </a>
-                    </div>
+                        <!-- Chat -->
+                        <a class="btn btn-link position-relative p-2" asp-controller="Chat" asp-action="Index" title="Mensagens" style="color: #555; transition: color 0.2s;">
+                            <i class="bi bi-chat-dots fs-5"></i>
+                            <span id="chat-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary" style="display: none; font-size: 0.6rem;">0</span>
+                        </a>
+                        <!-- Avatar / Perfil -->
+                        @if (!string.IsNullOrEmpty(currentUser?.FotoPerfilUrl))
+                        {
+                            <a class="btn p-0" asp-controller="Account" asp-action="Profile" title="Meu Perfil" style="border-radius: 50%; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; overflow: hidden; background: var(--color-salmon); color: white; font-weight: 600; text-decoration: none; transition: all 0.2s; box-shadow: 0 2px 8px rgba(242, 139, 130, 0.2);">
+                                <img src="@currentUser.FotoPerfilUrl" alt="@currentUser.NomeCompleto" style="width: 100%; height: 100%; object-fit: cover;" />
+                            </a>
+                        }
+                        else
+                        {
+                            <a class="btn p-0" asp-controller="Account" asp-action="Profile" title="Meu Perfil" style="border-radius: 50%; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: var(--color-salmon); color: white; font-weight: 600; text-decoration: none; transition: all 0.2s; box-shadow: 0 2px 8px rgba(242, 139, 130, 0.2);">
+                                @userInitial
+                            </a>
+                        }
+                    }
+                    else
+                    {
+                        <a class="btn btn-outline-salmon btn-sm" asp-controller="Account" asp-action="Login">
+                            <i class="bi bi-box-arrow-in-right me-1"></i> Entrar
+                        </a>
+                        <a class="btn btn-salmon btn-sm d-none d-md-inline-block" asp-controller="Account" asp-action="Register">
+                            <i class="bi bi-heart me-1"></i> Faça Parte
+                        </a>
+                    }
                 </div>
-            </nav>
-        </header>
-    }
+            </div>
+        </nav>
+    </header>
     
     <div class="main-wrapper">
         <div class="container">
@@ -909,7 +839,6 @@
             function toggleSidebar() {
                 sidebar.classList.toggle('show');
                 sidebarOverlay.classList.toggle('show');
-                document.body.classList.toggle('sidebar-open', sidebar.classList.contains('show'));
                 
                 // Salvar preferência apenas em desktop, e apenas quando aberta
                 if (window.innerWidth >= 992) {
@@ -926,7 +855,6 @@
             function closeSidebar() {
                 sidebar.classList.remove('show');
                 sidebarOverlay.classList.remove('show');
-                document.body.classList.remove('sidebar-open');
             }
             
             sidebarToggle.addEventListener('click', toggleSidebar);
