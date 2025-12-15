@@ -779,6 +779,18 @@
                                 <small>Atualize com segurança</small>
                             </a>
                         </li>
+                        @if (currentUser?.TipoPerfil == AUTistima.Models.Enums.TipoPerfil.Administrador)
+                        {
+                            <li class="sidebar-nav-item">
+                                <a class="sidebar-nav-link" asp-area="Admin" asp-controller="Docs" asp-action="Index">
+                                    <div class="icon-label">
+                                        <i class="bi bi-file-earmark-code"></i>
+                                        <span>Documentação</span>
+                                    </div>
+                                    <small>Técnica (PDF)</small>
+                                </a>
+                            </li>
+                        }
                     </ul>
                 </div>
 
