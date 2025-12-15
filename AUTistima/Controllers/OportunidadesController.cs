@@ -67,7 +67,13 @@ public class OportunidadesController : Controller
             .ThenByDescending(o => o.DataCriacao)
             .ToListAsync();
 
-        return View(oportunidades);
+        // Estatísticas
+        ViewBag.TotalVagasMaes = await _context.Opportunities.CountAsync(o => o.Ativo && o.Tipo == TipoOportunidade.EmpregoParaMae);
+        ViewBag.TotalVagasFilhos = await _context.Opportunities.CountAsync(o => o.Ativo && o.Tipo == TipoOportunidade.EmpregoParaFilho);
+        ViewBag.TotalServicos = await _context.Opportunities.CountAsync(o => o.Ativo && o.Tipo == TipoOportunidade.ServicoMae);
+        ViewBag.EmpresasAmigas = await _context.Users.CountAsync(u => u.EmpresaAmiga);
+
+        return View("Index", oportunidades);
     }
 
     // GET: Oportunidades/Servicos (Marketplace de mães)
@@ -81,7 +87,13 @@ public class OportunidadesController : Controller
             .OrderByDescending(o => o.DataCriacao)
             .ToListAsync();
 
-        return View(servicos);
+        // Estatísticas
+        ViewBag.TotalVagasMaes = await _context.Opportunities.CountAsync(o => o.Ativo && o.Tipo == TipoOportunidade.EmpregoParaMae);
+        ViewBag.TotalVagasFilhos = await _context.Opportunities.CountAsync(o => o.Ativo && o.Tipo == TipoOportunidade.EmpregoParaFilho);
+        ViewBag.TotalServicos = await _context.Opportunities.CountAsync(o => o.Ativo && o.Tipo == TipoOportunidade.ServicoMae);
+        ViewBag.EmpresasAmigas = await _context.Users.CountAsync(u => u.EmpresaAmiga);
+
+        return View("Index", servicos);
     }
 
     // GET: Oportunidades/Details/5
