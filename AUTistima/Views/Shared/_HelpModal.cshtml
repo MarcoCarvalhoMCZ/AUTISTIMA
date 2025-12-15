@@ -1,0 +1,84 @@
+<!-- Modal de Ajuda -->
+<div class="modal fade" id="helpModal" tabindex="-1" aria-labelledby="helpModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content border-0 shadow-lg">
+            <div class="modal-header bg-salmon text-white border-0">
+                <h5 class="modal-title fw-bold" id="helpModalLabel">
+                    <i class="bi bi-question-circle-fill me-2"></i>Como usar esta página?
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body p-4">
+                <!-- O conteúdo será injetado aqui via JavaScript -->
+                <div id="helpModalContent">
+                    <div class="text-center text-muted py-4">
+                        <div class="spinner-border text-salmon" role="status">
+                            <span class="visually-hidden">Carregando...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer border-0 bg-light">
+                <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Entendi! 👍</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Botão Flutuante de Ajuda -->
+<button id="btnHelpFloating" class="btn btn-salmon rounded-circle shadow-lg d-none" 
+        style="position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px; z-index: 1050; border: 3px solid white;"
+        data-bs-toggle="modal" data-bs-target="#helpModal" title="Precisa de ajuda?">
+    <i class="bi bi-question-lg fs-3"></i>
+</button>
+
+<style>
+    #btnHelpFloating {
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        animation: floatHelp 3s ease-in-out infinite;
+    }
+    
+    #btnHelpFloating:hover {
+        transform: scale(1.1) rotate(10deg);
+    }
+
+    @@keyframes floatHelp {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+        100% { transform: translateY(0px); }
+    }
+
+    .help-step {
+        display: flex;
+        margin-bottom: 1.5rem;
+        align-items: flex-start;
+    }
+
+    .help-step-number {
+        background-color: #F28B82; /* Salmon */
+        color: white;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        flex-shrink: 0;
+        margin-right: 1rem;
+        margin-top: 0.2rem;
+    }
+
+    .help-step-content h6 {
+        font-weight: 700;
+        color: #1A1F2B;
+        margin-bottom: 0.25rem;
+    }
+
+    .help-step-content p {
+        color: #6c757d;
+        margin-bottom: 0;
+        font-size: 0.95rem;
+        line-height: 1.5;
+    }
+</style>

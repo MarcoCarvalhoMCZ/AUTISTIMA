@@ -66,7 +66,7 @@ public class SaudeController : Controller
         ViewBag.TotalConvenio = await _context.Services.CountAsync(s => s.Ativo && s.TipoAtendimento == TipoAtendimento.ConvenioUniversitario);
         ViewBag.TotalOnline = await _context.Services.CountAsync(s => s.Ativo && s.AtendeOnline);
 
-        return View(servicos);
+        return View("Index", servicos);
     }
 
     // GET: Saude/Gratuitos
@@ -81,7 +81,13 @@ public class SaudeController : Controller
             .ThenBy(s => s.Especialidade)
             .ToListAsync();
 
-        return View(servicos);
+        // Estatísticas
+        ViewBag.TotalGratuitos = await _context.Services.CountAsync(s => s.Ativo && s.TipoAtendimento == TipoAtendimento.Gratuito);
+        ViewBag.TotalValorSocial = await _context.Services.CountAsync(s => s.Ativo && s.TipoAtendimento == TipoAtendimento.ValorSocial);
+        ViewBag.TotalConvenio = await _context.Services.CountAsync(s => s.Ativo && s.TipoAtendimento == TipoAtendimento.ConvenioUniversitario);
+        ViewBag.TotalOnline = await _context.Services.CountAsync(s => s.Ativo && s.AtendeOnline);
+
+        return View("Index", servicos);
     }
 
     // GET: Saude/Details/5

@@ -18,17 +18,20 @@ public class AcolhimentoController : Controller
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly ILogger<AcolhimentoController> _logger;
     private readonly IPushNotificationService _pushService;
+    private readonly SentimentService _sentimentService;
 
     public AcolhimentoController(
         ApplicationDbContext context, 
         UserManager<ApplicationUser> userManager,
         ILogger<AcolhimentoController> logger,
-        IPushNotificationService pushService)
+        IPushNotificationService pushService,
+        SentimentService sentimentService)
     {
         _context = context;
         _userManager = userManager;
         _logger = logger;
         _pushService = pushService;
+        _sentimentService = sentimentService;
     }
 
     // GET: Acolhimento
@@ -72,7 +75,18 @@ public class AcolhimentoController : Controller
             _context.Posts.Add(post);
             await _context.SaveChangesAsync();
 
-            TempData["Mensagem"] = "Sua mensagem foi compartilhada com carinho. Você não está sozinha! 💕";
+            // Análise de sentimento para feedback personalizado
+            var (isPositive, _) = _sentimentService.Analyze(post.Conteudo);
+            
+            if (isPositive)
+            {
+                TempData["Mensagem"] = "Que notícia boa! Obrigado por compartilhar essa vitória! 🎉";
+            }
+            else
+            {
+                TempData["Mensagem"] = "Sua mensagem foi recebida. A comunidade está aqui para te acolher! 🫂";
+            }
+
             return RedirectToAction(nameof(Index));
         }
         

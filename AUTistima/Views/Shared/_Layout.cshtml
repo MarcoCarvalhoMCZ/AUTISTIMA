@@ -752,7 +752,7 @@
                     <div class="sidebar-section-title">👤 Minha Conta</div>
                     <ul class="sidebar-nav">
                         <li class="sidebar-nav-item" style="margin-bottom: 0.5rem;">
-                            <a class="sidebar-nav-link" asp-controller="Account" asp-action="Profile" style="display: flex; align-items: center; gap: 1rem; padding: 1rem;">
+                            <a class="sidebar-nav-link" asp-area="" asp-controller="Account" asp-action="Profile" style="display: flex; align-items: center; gap: 1rem; padding: 1rem;">
                                 @if (!string.IsNullOrEmpty(currentUser?.FotoPerfilUrl))
                                 {
                                     <img src="@currentUser.FotoPerfilUrl" alt="@currentUser.NomeCompleto" style="width: 48px; height: 48px; border-radius: 12px; object-fit: cover; flex-shrink: 0;" />
@@ -771,7 +771,7 @@
                             </a>
                         </li>
                         <li class="sidebar-nav-item">
-                            <a class="sidebar-nav-link" asp-controller="Account" asp-action="ChangePassword">
+                            <a class="sidebar-nav-link" asp-area="" asp-controller="Account" asp-action="ChangePassword">
                                 <div class="icon-label">
                                     <i class="bi bi-key"></i>
                                     <span>Alterar Senha</span>
@@ -1277,6 +1277,15 @@
         }
     </script>
     
+    <!-- Modal de Ajuda -->
+    <partial name="_HelpModal" />
+
+    <!-- jQuery e Máscaras -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+    <script src="~/js/masks.js"></script>
+    <script src="~/js/help.js"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

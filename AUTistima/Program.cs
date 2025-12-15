@@ -47,6 +47,8 @@ builder.Services.ConfigureApplicationCookie(options =>
 builder.Services.AddControllersWithViews();
 
 // Registrar serviços personalizados
+builder.Services.AddSignalR();
+builder.Services.AddSingleton<AUTistima.Services.SentimentService>();
 builder.Services.AddAIServices();
 builder.Services.AddScoped<IPushNotificationService, PushNotificationService>();
 builder.Services.AddScoped<IActivityTrackingService, ActivityTrackingService>();
@@ -77,6 +79,7 @@ app.UseAuthorization();
 app.UseSession();
 
 app.MapStaticAssets();
+app.MapHub<AUTistima.Hubs.ChatHub>("/chatHub");
 
 // Rota para área administrativa
 app.MapControllerRoute(
@@ -128,6 +131,30 @@ using (var scope = app.Services.CreateScope())
             {
                 var logger = services.GetRequiredService<ILogger<Program>>();
                 logger.LogInformation("Usuário administrador criado: {Email}", adminEmail);
+            }
+        }
+
+        // Criar usuário administrador adicional (Solicitado)
+        var adminEmail2 = "diretoria@sosdados.com.br";
+        var adminUser2 = await userManager.FindByEmailAsync(adminEmail2);
+        if (adminUser2 == null)
+        {
+            adminUser2 = new ApplicationUser
+            {
+                UserName = adminEmail2,
+                Email = adminEmail2,
+                NomeCompleto = "Diretoria SOS Dados",
+                TipoPerfil = TipoPerfil.Administrador,
+                EmailConfirmed = true,
+                Ativo = true,
+                DataCadastro = DateTime.UtcNow
+            };
+            
+            var result2 = await userManager.CreateAsync(adminUser2, "Eamf5644");
+            if (result2.Succeeded)
+            {
+                var logger = services.GetRequiredService<ILogger<Program>>();
+                logger.LogInformation("Usuário administrador criado: {Email}", adminEmail2);
             }
         }
     }

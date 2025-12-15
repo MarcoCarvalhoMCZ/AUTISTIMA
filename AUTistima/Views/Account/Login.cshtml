@@ -4,6 +4,31 @@
     Layout = "~/Views/Home/_LayoutHome.cshtml";
 }
 
+<!-- Conteúdo de Ajuda -->
+<div id="page-help-content" class="d-none">
+    <div class="help-step">
+        <div class="help-step-number">1</div>
+        <div class="help-step-content">
+            <h6>Acesso</h6>
+            <p>Use o e-mail e senha que você cadastrou para entrar.</p>
+        </div>
+    </div>
+    <div class="help-step">
+        <div class="help-step-number">2</div>
+        <div class="help-step-content">
+            <h6>Esqueceu a senha?</h6>
+            <p>Se não lembrar da senha, entre em contato com o suporte ou tente recuperar (em breve).</p>
+        </div>
+    </div>
+    <div class="help-step">
+        <div class="help-step-number">3</div>
+        <div class="help-step-content">
+            <h6>Novo Cadastro</h6>
+            <p>Se ainda não tem conta, clique em "Criar Conta" abaixo do formulário.</p>
+        </div>
+    </div>
+</div>
+
 <div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-md-6 col-lg-5">
@@ -18,7 +43,7 @@
                         Bem-vinda de volta! Entre para acessar a comunidade.
                     </p>
                     
-                    <form asp-action="Login" method="post">
+                    <form asp-action="Login" method="post" id="loginForm">
                         <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
                         
                         <div class="mb-3">
@@ -38,7 +63,7 @@
                             <label asp-for="RememberMe" class="form-check-label"></label>
                         </div>
                         
-                        <button type="submit" class="btn btn-salmon w-100 mb-3">
+                        <button type="submit" class="btn btn-salmon w-100 mb-3" id="btnSubmit">
                             <i class="bi bi-box-arrow-in-right me-2"></i>Entrar
                         </button>
                     </form>
@@ -59,4 +84,15 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(document).ready(function () {
+            $('#loginForm').on('submit', function () {
+                if ($(this).valid()) {
+                    var btn = $('#btnSubmit');
+                    btn.prop('disabled', true);
+                    btn.html('<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Entrando...');
+                }
+            });
+        });
+    </script>
 }

@@ -253,7 +253,7 @@ public class AccountController : Controller
             user.Especialidade = model.Especialidade;
         }
         
-        user.FotoPerfilUrl = model.FotoPerfilUrl;
+        // user.FotoPerfilUrl = model.FotoPerfilUrl; // Removido para evitar sobrescrever com null se não estiver no form
         
         var result = await _userManager.UpdateAsync(user);
         
@@ -359,8 +359,26 @@ public class AccountController : Controller
             var uploadDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", "profile-photos");
             Directory.CreateDirectory(uploadDir);
 
-            // Gerar nome único para o arquivo
-            var nomeArquivo = $"{user.Id}{extensao}";
+            // Remover foto antiga se existir
+            if (!string.IsNullOrEmpty(user.FotoPerfilUrl))
+            {
+                try 
+                {
+                    var nomeArquivoAntigo = Path.GetFileName(user.FotoPerfilUrl);
+                    var caminhoArquivoAntigo = Path.Combine(uploadDir, nomeArquivoAntigo);
+                    if (System.IO.File.Exists(caminhoArquivoAntigo))
+                    {
+                        System.IO.File.Delete(caminhoArquivoAntigo);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogWarning(ex, "Não foi possível remover a foto antiga: {Path}", user.FotoPerfilUrl);
+                }
+            }
+
+            // Gerar nome único para o arquivo (com timestamp para evitar cache)
+            var nomeArquivo = $"{user.Id}_{DateTime.UtcNow.Ticks}{extensao}";
             var caminhoCompleto = Path.Combine(uploadDir, nomeArquivo);
 
             // Salvar arquivo

@@ -6,6 +6,9 @@ using AUTistima.Data;
 using AUTistima.Models;
 using System.Security.Claims;
 
+using Microsoft.AspNetCore.SignalR;
+using AUTistima.Hubs;
+
 namespace AUTistima.Controllers;
 
 /// <summary>
@@ -17,15 +20,18 @@ public class ChatController : Controller
     private readonly ApplicationDbContext _context;
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly ILogger<ChatController> _logger;
+    private readonly IHubContext<ChatHub> _hubContext;
 
     public ChatController(
         ApplicationDbContext context, 
         UserManager<ApplicationUser> userManager,
-        ILogger<ChatController> logger)
+        ILogger<ChatController> logger,
+        IHubContext<ChatHub> hubContext)
     {
         _context = context;
         _userManager = userManager;
         _logger = logger;
+        _hubContext = hubContext;
     }
 
     // GET: Chat - Lista de conversas
@@ -180,6 +186,15 @@ public class ChatController : Controller
         );
         
         await _context.SaveChangesAsync();
+
+        // Enviar mensagem em tempo real via SignalR
+        await _hubContext.Clients.Group(destinatarioId).SendAsync("ReceberMensagem", new 
+        {
+            remetenteId = userId,
+            nomeRemetente = remetente?.NomeCompleto ?? "Usuário",
+            conteudo = mensagem.Conteudo,
+            dataEnvio = mensagem.DataEnvio.ToString("HH:mm")
+        });
         
         return RedirectToAction(nameof(Conversa), new { id = destinatarioId });
     }

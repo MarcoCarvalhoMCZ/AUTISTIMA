@@ -242,6 +242,15 @@
         }
     </script>
     
+    <!-- Modal de Ajuda -->
+    <partial name="_HelpModal" />
+
+    <!-- jQuery e Máscaras -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+    <script src="~/js/masks.js"></script>
+    <script src="~/js/help.js"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

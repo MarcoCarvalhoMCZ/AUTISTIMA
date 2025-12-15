@@ -89,15 +89,14 @@
 </div>
 
 @section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.0/signalr.min.js"></script>
+    <script src="~/js/chat.js"></script>
     <script>
         // Scroll para o final das mensagens
         const chatMessages = document.getElementById('chat-messages');
         chatMessages.scrollTop = chatMessages.scrollHeight;
-        
-        // Auto-refresh a cada 10 segundos
-        setInterval(() => {
-            // Em produção, usar SignalR para tempo real
-            location.reload();
+    </script>
+}
         }, 30000);
     </script>
 }
