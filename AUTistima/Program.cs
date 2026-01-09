@@ -51,6 +51,7 @@ builder.Services.AddSignalR();
 builder.Services.AddSingleton<AUTistima.Services.SentimentService>();
 builder.Services.AddAIServices();
 builder.Services.AddScoped<IPushNotificationService, PushNotificationService>();
+builder.Services.AddScoped<IPanicService, PanicService>();
 builder.Services.AddScoped<IActivityTrackingService, ActivityTrackingService>();
 builder.Services.AddScoped<IStatisticsService, StatisticsService>();
 

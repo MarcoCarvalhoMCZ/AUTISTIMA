@@ -1,0 +1,265 @@
+@{
+    ViewData["Title"] = "Botão de Pânico - Apoio Rápido";
+}
+
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <!-- Alerta de Informação -->
+            <div class="alert alert-info border-2 border-info" role="alert">
+                <div class="d-flex align-items-start">
+                    <i class="bi bi-info-circle-fill me-3" style="font-size: 1.5rem; color: #0d6efd;"></i>
+                    <div>
+                        <strong>💙 Você não está sozinha</strong>
+                        <p class="mb-0 mt-2">Este botão foi criado para você! Se estiver passando por um momento difícil, depressão, ansiedade ou em situação de risco, clique no botão abaixo para conectar rapidamente com profissionais que podem ajudar.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card Principal do Botão de Pânico -->
+            <div class="card border-danger shadow-lg mt-5">
+                <div class="card-body text-center py-5">
+                    <i class="bi bi-exclamation-circle-fill" style="font-size: 3rem; color: #F28B82;"></i>
+                    <h2 class="card-title mt-3 mb-3">Preciso de Apoio Agora</h2>
+                    
+                    <p class="text-muted mb-4">
+                        Clique no botão abaixo se estiver passando por uma crise ou situação de urgência.
+                        Você será conectado imediatamente via WhatsApp com profissionais disponíveis.
+                    </p>
+
+                    <button type="button" class="btn btn-danger btn-lg rounded-pill px-5" data-bs-toggle="modal" data-bs-target="#modalConfirmacaoPanico">
+                        <i class="bi bi-telephone-fill me-2"></i> CHAMAR APOIO AGORA
+                    </button>
+
+                    <hr class="my-5">
+
+                    <!-- Informações Adicionais -->
+                    <div class="row text-start mt-4">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <i class="bi bi-shield-check" style="font-size: 1.5rem; color: #F28B82;"></i>
+                                <h5 class="mt-2">Confidencial & Seguro</h5>
+                                <p class="text-muted small">Suas informações são confidenciais e protegidas.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <i class="bi bi-clock" style="font-size: 1.5rem; color: #F28B82;"></i>
+                                <h5 class="mt-2">Resposta Rápida</h5>
+                                <p class="text-muted small">Conecte-se em minutos com um profissional.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <i class="bi bi-heart-fill" style="font-size: 1.5rem; color: #F28B82;"></i>
+                                <h5 class="mt-2">Apoio Humanizado</h5>
+                                <p class="text-muted small">Fale com quem entende e se importa.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <i class="bi bi-chat-dots" style="font-size: 1.5rem; color: #F28B82;"></i>
+                                <h5 class="mt-2">Suporte Contínuo</h5>
+                                <p class="text-muted small">Acompanhamento durante todo o processo.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Alertas Ativos -->
+            @if (ViewBag.AlertasAtivos != null && ViewBag.AlertasAtivos.Count > 0)
+            {
+                <div class="mt-5">
+                    <h4 class="mb-3">🔴 Seus Alertas Ativos</h4>
+                    <div class="list-group">
+                        @foreach (var alerta in ViewBag.AlertasAtivos)
+                        {
+                            <div class="list-group-item border-danger border-2">
+                                <div class="d-flex w-100 justify-content-between align-items-start">
+                                    <div>
+                                        <h6 class="mb-1 text-danger">
+                                            <i class="bi bi-exclamation-diamond-fill"></i>
+                                            Alerta #@alerta.Id - @alerta.NivelUrgencia
+                                        </h6>
+                                        <p class="mb-2">@alerta.Descricao</p>
+                                        <small class="text-muted">
+                                            Criado em: @alerta.DataCriacao.ToString("dd/MM/yyyy HH:mm")
+                                            @if (alerta.Confirmado)
+                                            {
+                                                <span class="badge bg-success ms-2">✓ Confirmado</span>
+                                            }
+                                        </small>
+                                    </div>
+                                    <a href="@Url.Action("Detalhes", "Panico", new { id = alerta.Id })" class="btn btn-sm btn-outline-danger">
+                                        Ver Detalhes
+                                    </a>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+
+            <!-- Link para Histórico -->
+            <div class="mt-4 text-center">
+                <a href="@Url.Action("Historico", "Panico")" class="link-secondary">
+                    <i class="bi bi-clock-history"></i> Ver histórico de alertas
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Confirmação -->
+<div class="modal fade" id="modalConfirmacaoPanico" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-danger border-2">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                    Confirme Seu Pedido de Apoio
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-danger" role="alert">
+                    <strong>⚠️ Ação Crítica</strong>
+                    <p class="mb-0 mt-2">Você está acionando um alerta de pânico. Uma conversa será iniciada via WhatsApp com profissionais de apoio.</p>
+                </div>
+
+                <form id="formPanico">
+                    @Html.AntiForgeryToken()
+                    <div class="mb-3">
+                        <label for="descricaoPanico" class="form-label">
+                            Descreva brevemente o que está sentindo (máx. 500 caracteres):
+                        </label>
+                        <textarea class="form-control" id="descricaoPanico" name="descricao" rows="4" 
+                                  placeholder="Ex: Estou com ansiedade, meu filho está em crise, preciso de ajuda..." 
+                                  maxlength="500" required></textarea>
+                        <small class="text-muted d-block mt-1">
+                            <span id="charCount">0</span>/500 caracteres
+                        </small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="nivelUrgencia" class="form-label">Nível de Urgência:</label>
+                        <select class="form-select" id="nivelUrgencia" name="nivelUrgencia">
+                            <option value="1">🟡 Normal - Preciso conversar com alguém</option>
+                            <option value="2">🟠 Moderado - Estou com dificuldade em lidar</option>
+                            <option value="3" selected>🔴 Crítico - Situação urgente</option>
+                            <option value="4">⚫ Emergência - Risco iminente</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-danger btn-lg" id="btnConfirmarPanico">
+                    <i class="bi bi-whatsapp me-2"></i> Confirmar e Abrir WhatsApp
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Contador de caracteres
+        document.getElementById('descricaoPanico').addEventListener('input', function() {
+            document.getElementById('charCount').textContent = this.value.length;
+        });
+
+        // Confirmar e acionar alerta (fluxo simplificado: um passo, sem segunda confirmação)
+        document.getElementById('btnConfirmarPanico').addEventListener('click', async function() {
+            const descricao = document.getElementById('descricaoPanico').value.trim();
+            const nivelUrgencia = document.getElementById('nivelUrgencia').value;
+
+            if (!descricao) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Campo obrigatório',
+                    text: 'Descreva brevemente o que está sentindo.'
+                });
+                return;
+            }
+
+            try {
+                // 1. Acionar alerta
+                const responseAlerta = await fetch('/Panico/AcionarAlerta', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        descricao: descricao,
+                        nivelUrgencia: parseInt(nivelUrgencia)
+                    })
+                });
+
+                const dataAlerta = await responseAlerta.json();
+
+                if (!dataAlerta.sucesso) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Erro',
+                        text: dataAlerta.mensagem
+                    });
+                    return;
+                }
+
+                // 2. Confirmar alerta e obter link WhatsApp (sem diálogo extra)
+                const responseConfirm = await fetch('/Panico/ConfirmarAlerta', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        panicAlertId: dataAlerta.panicAlertId
+                    })
+                });
+
+                const dataConfirm = await responseConfirm.json();
+
+                if (dataConfirm.sucesso) {
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('modalConfirmacaoPanico'));
+                    modal.hide();
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Abrindo WhatsApp...',
+                        text: 'Você será redirecionada para a conversa de apoio.',
+                        timer: 1200,
+                        showConfirmButton: false
+                    });
+
+                    window.location.href = dataConfirm.linkWhatsApp;
+
+                    setTimeout(() => {
+                        location.reload();
+                    }, 2000);
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Erro ao processar',
+                        text: dataConfirm.mensagem
+                    });
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erro',
+                    text: 'Erro ao processar seu pedido. Tente novamente.'
+                });
+            }
+        });
+
+        // Limpar formulário ao fechar modal
+        document.getElementById('modalConfirmacaoPanico').addEventListener('hidden.bs.modal', function() {
+            document.getElementById('descricaoPanico').value = '';
+            document.getElementById('charCount').textContent = '0';
+            document.getElementById('nivelUrgencia').value = '3';
+        });
+    </script>
+}

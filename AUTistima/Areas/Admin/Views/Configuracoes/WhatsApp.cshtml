@@ -1,0 +1,193 @@
+@model AUTistima.Models.WhatsAppConfigViewModel
+@{
+    ViewData["Title"] = "Configurações de WhatsApp";
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-action="Index">Configurações</a></li>
+                <li class="breadcrumb-item active">WhatsApp</li>
+            </ol>
+        </nav>
+
+        <!-- Mensagem de Sucesso -->
+        @if (TempData["Mensagem"] != null)
+        {
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                @TempData["Mensagem"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        }
+
+        <div class="card border-0 shadow-sm">
+            <div class="card-header" style="background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);">
+                <h5 class="mb-0 text-white">
+                    <i class="bi bi-whatsapp me-2"></i>Configurações de WhatsApp - Botão de Pânico
+                </h5>
+            </div>
+            <div class="card-body p-4">
+                <form asp-action="WhatsApp" method="post">
+                    @Html.AntiForgeryToken()
+                    
+                    <div class="row g-3">
+                        <!-- Status -->
+                        <div class="col-12">
+                            <div class="alert alert-info">
+                                <i class="bi bi-info-circle me-2"></i>
+                                <strong>Botão de Pânico:</strong> As mães terão acesso a um botão de emergência que abre uma conversa no WhatsApp com o número configurado abaixo.
+                            </div>
+                        </div>
+
+                        <!-- Habilitar Botão de Pânico -->
+                        <div class="col-12">
+                            <div class="form-check form-switch">
+                                <input asp-for="PanicoHabilitado" class="form-check-input" role="switch" id="panicoHabilitado">
+                                <label class="form-check-label" for="panicoHabilitado">
+                                    <strong>Botão de Pânico Habilitado</strong>
+                                </label>
+                            </div>
+                            <small class="text-muted">Quando ativo, o botão "Pânico" aparecerá na navbar para mães</small>
+                        </div>
+
+                        <hr class="my-3">
+
+                        <!-- Número WhatsApp -->
+                        <div class="col-12">
+                            <label asp-for="NumeroPanico" class="form-label fw-semibold"></label>
+                            <input asp-for="NumeroPanico" id="numeroPanico" class="form-control" 
+                                   placeholder="5582999999999" 
+                                   type="text" inputmode="numeric"
+                                   maxlength="20" autocomplete="off" />
+                            <span asp-validation-for="NumeroPanico" class="text-danger"></span>
+                            <small class="text-muted d-block mt-1">
+                                <i class="bi bi-info-circle me-1"></i>
+                                <strong>Formato:</strong> Código do país + DDD + número (sem espaços, traços ou parênteses)<br>
+                                <strong>Exemplo Brasil:</strong> 5582999999999 (55 = Brasil, 82 = Alagoas)
+                            </small>
+                        </div>
+
+                        <!-- Mensagem Padrão -->
+                        <div class="col-12">
+                            <label asp-for="MensagemPadrao" class="form-label fw-semibold"></label>
+                            <textarea asp-for="MensagemPadrao" class="form-control" rows="3" 
+                                      placeholder="Olá! Preciso de apoio urgente através do AUTistima."
+                                      maxlength="500"></textarea>
+                            <span asp-validation-for="MensagemPadrao" class="text-danger"></span>
+                            <small class="text-muted">Esta será a mensagem inicial no WhatsApp (máx. 500 caracteres)</small>
+                        </div>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <div class="d-flex justify-content-between">
+                        <a asp-action="Index" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left me-2"></i>Voltar
+                        </a>
+                        <button type="submit" class="btn text-white" style="background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);">
+                            <i class="bi bi-check-circle me-2"></i>Salvar Configurações
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Dicas -->
+        <div class="card border-0 bg-light mt-4">
+            <div class="card-body">
+                <h6><i class="bi bi-lightbulb me-2"></i>Dicas de Configuração</h6>
+                <ul class="mb-0 small text-muted">
+                    <li><strong>Número Profissional:</strong> Use um número de telefone dedicado para atendimento de emergência</li>
+                    <li><strong>Disponibilidade:</strong> Certifique-se de que alguém monitorará este número 24/7 ou em horário comercial</li>
+                    <li><strong>WhatsApp Business:</strong> Considere usar WhatsApp Business para melhor organização</li>
+                    <li><strong>Mensagens Automáticas:</strong> Configure resposta automática no WhatsApp para horários fora do expediente</li>
+                    <li><strong>Privacidade:</strong> O número aparecerá apenas quando a mãe clicar no botão de pânico</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Preview do Botão -->
+        <div class="card border-0 shadow-sm mt-4">
+            <div class="card-header bg-light">
+                <h6 class="mb-0"><i class="bi bi-eye me-2"></i>Pré-visualização do Botão</h6>
+            </div>
+            <div class="card-body text-center py-5">
+                <p class="text-muted mb-3">Assim as mães verão o botão na navbar:</p>
+                <button class="btn btn-danger rounded-pill d-inline-flex align-items-center gap-2 px-4" 
+                        style="font-size: 0.9rem; animation: pulse 2s infinite;">
+                    <i class="bi bi-exclamation-circle-fill"></i>
+                    <span>Pânico</span>
+                </button>
+                <p class="text-muted mt-3 small">
+                    O botão ficará pulsando para chamar atenção em momentos de necessidade
+                </p>
+            </div>
+        </div>
+
+        <!-- Como Funciona -->
+        <div class="card border-0 bg-light mt-4">
+            <div class="card-body">
+                <h6><i class="bi bi-question-circle me-2"></i>Como Funciona o Botão de Pânico?</h6>
+                <ol class="mb-0 small text-muted">
+                    <li>A mãe clica no botão "Pânico" na navbar</li>
+                    <li>Uma página de confirmação é exibida com aviso crítico</li>
+                    <li>Ela pode descrever a situação (opcional) e selecionar nível de urgência</li>
+                    <li>Ao confirmar, o alerta é registrado no sistema para fins de auditoria</li>
+                    <li>O WhatsApp abre automaticamente com uma mensagem para o número configurado</li>
+                    <li>A conversa com o profissional de apoio é iniciada imediatamente</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    @@keyframes pulse {
+        0%, 100% {
+            opacity: 1;
+            box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7);
+        }
+        50% {
+            opacity: 0.8;
+        }
+        70% {
+            box-shadow: 0 0 0 10px rgba(220, 53, 69, 0);
+        }
+    }
+</style>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const input = document.getElementById('numeroPanico');
+            
+            // Remove qualquer máscara existente
+            if (input) {
+                // Remove mascaras ao copiar/colar
+                input.addEventListener('paste', function(e) {
+                    e.preventDefault();
+                    let paste = (e.clipboardData || window.clipboardData).getData('text');
+                    paste = paste.replace(/\D/g, ''); // Remove tudo que não é número
+                    input.value = paste;
+                });
+                
+                // Remove caracteres não numéricos ao digitar
+                input.addEventListener('input', function(e) {
+                    let value = e.target.value;
+                    // Remove caracteres especiais, mantendo apenas números
+                    value = value.replace(/\D/g, '');
+                    e.target.value = value;
+                });
+                
+                // Remove qualquer máscara que possa estar aplicada
+                input.removeAttribute('pattern');
+                input.removeAttribute('type'); // Remove type="tel" que pode ativar máscara
+                input.setAttribute('type', 'text');
+            }
+        });
+    </script>
+}

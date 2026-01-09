@@ -33,6 +33,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<PushSubscription> PushSubscriptions { get; set; } = null!;
     public DbSet<UserActivity> UserActivities { get; set; } = null!;
     public DbSet<StatisticSnapshot> StatisticSnapshots { get; set; } = null!;
+    public DbSet<PanicAlert> PanicAlerts { get; set; } = null!;
     
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -286,6 +287,26 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         {
             entity.ToTable("StatisticSnapshots");
             entity.HasIndex(e => e.Data).IsUnique();
+        });
+        
+        // PanicAlert - Alertas de pânico para mães
+        builder.Entity<PanicAlert>(entity =>
+        {
+            entity.ToTable("PanicAlerts");
+            entity.HasIndex(e => e.UserId);
+            entity.HasIndex(e => e.Status);
+            entity.HasIndex(e => e.NivelUrgencia);
+            entity.HasIndex(e => e.DataCriacao);
+            entity.HasIndex(e => new { e.UserId, e.Status });
+            
+            entity.HasOne(e => e.Usuario)
+                .WithMany()
+                .HasForeignKey(e => e.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+            
+            entity.Property(e => e.Descricao).HasMaxLength(500);
+            entity.Property(e => e.LinkWhatsApp).HasMaxLength(500);
+            entity.Property(e => e.NotaAtendimento).HasMaxLength(1000);
         });
         
         // Seed de dados iniciais para o Glossário

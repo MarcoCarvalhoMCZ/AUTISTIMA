@@ -237,6 +237,57 @@ public class ConfiguracoesController : Controller
         }
     }
 
+    // GET: Admin/Configuracoes/WhatsApp
+    public async Task<IActionResult> WhatsApp()
+    {
+        if (!await IsAdmin())
+            return RedirectToAction("Index", "Home", new { area = "" });
+
+        var model = new WhatsAppConfigViewModel();
+        
+        // Carregar configurações existentes
+        var configs = await _context.SystemConfigurations
+            .Where(c => c.Categoria == "WhatsApp" && c.Ativo)
+            .ToListAsync();
+
+        foreach (var config in configs)
+        {
+            switch (config.Chave)
+            {
+                case "WHATSAPP_NUMERO_PANICO": model.NumeroPanico = config.Valor; break;
+                case "PANICO_HABILITADO": model.PanicoHabilitado = config.Valor == "true"; break;
+                case "WHATSAPP_MENSAGEM_PADRAO": model.MensagemPadrao = config.Valor; break;
+            }
+        }
+
+        return View(model);
+    }
+
+    // POST: Admin/Configuracoes/WhatsApp
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> WhatsApp(WhatsAppConfigViewModel model)
+    {
+        if (!await IsAdmin())
+            return RedirectToAction("Index", "Home", new { area = "" });
+
+        if (ModelState.IsValid)
+        {
+            await SalvarConfiguracao("WHATSAPP_NUMERO_PANICO", model.NumeroPanico, "WhatsApp", "Número WhatsApp para botão de pânico (formato: 5511999999999)", false);
+            await SalvarConfiguracao("PANICO_HABILITADO", model.PanicoHabilitado ? "true" : "false", "WhatsApp", "Habilitar botão de pânico", false);
+            await SalvarConfiguracao("WHATSAPP_MENSAGEM_PADRAO", model.MensagemPadrao ?? "Preciso de apoio urgente!", "WhatsApp", "Mensagem padrão do botão de pânico", false);
+
+            await _context.SaveChangesAsync();
+            
+            _logger.LogInformation("Configurações de WhatsApp atualizadas pelo administrador");
+            TempData["Mensagem"] = "✅ Configurações de WhatsApp salvas com sucesso!";
+            
+            return RedirectToAction(nameof(WhatsApp));
+        }
+
+        return View(model);
+    }
+
     // GET: Admin/Configuracoes/Todas
     public async Task<IActionResult> Todas()
     {

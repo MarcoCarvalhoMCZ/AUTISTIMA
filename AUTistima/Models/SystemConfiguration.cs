@@ -115,3 +115,22 @@ public class IAConfigViewModel
     [Display(Name = "Ativo")]
     public bool Ativo { get; set; } = false;
 }
+
+/// <summary>
+/// ViewModel para configurações de WhatsApp
+/// </summary>
+public class WhatsAppConfigViewModel
+{
+    [Required(ErrorMessage = "O número do WhatsApp é obrigatório")]
+    [Display(Name = "Número do WhatsApp")]
+    [Phone(ErrorMessage = "Número inválido")]
+    [StringLength(20, MinimumLength = 10, ErrorMessage = "Digite o número no formato completo: 5511999999999")]
+    public string NumeroPanico { get; set; } = string.Empty;
+    
+    [Display(Name = "Mensagem Padrão")]
+    [StringLength(500)]
+    public string? MensagemPadrao { get; set; } = "Preciso de apoio urgente!";
+    
+    [Display(Name = "Botão de Pânico Habilitado")]
+    public bool PanicoHabilitado { get; set; } = true;
+}

@@ -1,0 +1,247 @@
+@model AUTistima.Models.PanicAlert
+@using AUTistima.Models.Enums
+
+@{
+    ViewData["Title"] = $"Alerta de Pânico #{Model.Id}";
+}
+
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <!-- Breadcrumb -->
+            <nav aria-label="breadcrumb" class="mb-4">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "Panico")">Apoio Rápido</a></li>
+                    <li class="breadcrumb-item"><a href="@Url.Action("Historico", "Panico")">Histórico</a></li>
+                    <li class="breadcrumb-item active">Alerta #@Model.Id</li>
+                </ol>
+            </nav>
+
+            <!-- Card Principal -->
+            <div class="card border-2 mb-4" id="alertaCard">
+                <div class="card-header" style="background: linear-gradient(135deg, #F28B82 0%, #AECBFA 100%); color: white;">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h3 class="mb-0">
+                                <i class="bi bi-exclamation-circle-fill me-2"></i>
+                                Alerta de Pânico #@Model.Id
+                            </h3>
+                        </div>
+                        @{
+                            var statusClass = Model.Status switch
+                            {
+                                StatusAlertaPanico.Ativo => "danger",
+                                StatusAlertaPanico.Atendido => "warning",
+                                StatusAlertaPanico.Resolvido => "success",
+                                StatusAlertaPanico.Escalado => "info",
+                                _ => "secondary"
+                            };
+                        }
+                        <span class="badge bg-@statusClass" style="font-size: 1rem;">@Model.Status</span>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <!-- Status e Urgência -->
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center">
+                                <div style="font-size: 2rem; margin-right: 15px;">
+                                    @switch (Model.NivelUrgencia)
+                                    {
+                                        case NivelUrgenciaPanico.Normal:
+                                            <span>🟢</span>
+                                            break;
+                                        case NivelUrgenciaPanico.Moderado:
+                                            <span>🟠</span>
+                                            break;
+                                        case NivelUrgenciaPanico.Critico:
+                                            <span>🔴</span>
+                                            break;
+                                        case NivelUrgenciaPanico.Emergencia:
+                                            <span>⚫</span>
+                                            break;
+                                    }
+                                </div>
+                                <div>
+                                    <strong>Nível de Urgência</strong>
+                                    <p class="mb-0 text-muted">@Model.NivelUrgencia</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-calendar" style="font-size: 2rem; margin-right: 15px; color: #F28B82;"></i>
+                                <div>
+                                    <strong>Criado em</strong>
+                                    <p class="mb-0 text-muted">@Model.DataCriacao.ToString("dd/MM/yyyy HH:mm:ss")</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <!-- Descrição -->
+                    <div class="mb-4">
+                        <h5 class="card-title">
+                            <i class="bi bi-chat-dots-fill me-2"></i> Descrição da Situação
+                        </h5>
+                        <div class="alert alert-light">
+                            <p class="mb-0 lead">@Model.Descricao</p>
+                        </div>
+                    </div>
+
+                    <!-- Status de Confirmação -->
+                    <div class="mb-4">
+                        <h5 class="card-title">
+                            <i class="bi bi-check-circle me-2"></i> Status de Confirmação
+                        </h5>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="alert @(Model.Confirmado ? "alert-success" : "alert-warning")">
+                                    @if (Model.Confirmado)
+                                    {
+                                        <strong>✅ Confirmado</strong>
+                                        <p class="mb-0 mt-2">
+                                            Data: @Model.DataConfirmacao?.ToString("dd/MM/yyyy HH:mm")
+                                        </p>
+                                    }
+                                    else
+                                    {
+                                        <strong>⏳ Pendente de Confirmação</strong>
+                                        <p class="mb-0 mt-2">Você não confirmou este alerta ainda.</p>
+                                    }
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                @if (!string.IsNullOrEmpty(Model.LinkWhatsApp))
+                                {
+                                    <div class="alert alert-info">
+                                        <strong>📱 Link WhatsApp Gerado</strong>
+                                        <p class="mb-2 mt-2 small">Seu link de conversa foi criado com sucesso.</p>
+                                        <a href="@Model.LinkWhatsApp" target="_blank" class="btn btn-sm btn-success">
+                                            <i class="bi bi-whatsapp me-1"></i> Abrir WhatsApp
+                                        </a>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Status de Atendimento -->
+                    @if (Model.DataAtendimento.HasValue)
+                    {
+                        <div class="mb-4">
+                            <h5 class="card-title">
+                                <i class="bi bi-telephone-fill me-2"></i> Atendimento
+                            </h5>
+                            <div class="alert alert-success">
+                                <strong>✅ Atendido em @Model.DataAtendimento.Value.ToString("dd/MM/yyyy HH:mm")</strong>
+                            </div>
+                        </div>
+                    }
+
+                    <!-- Nota de Atendimento -->
+                    @if (!string.IsNullOrEmpty(Model.NotaAtendimento))
+                    {
+                        <div class="mb-4">
+                            <h5 class="card-title">
+                                <i class="bi bi-file-text me-2"></i> Nota do Profissional
+                            </h5>
+                            <div class="card bg-light">
+                                <div class="card-body">
+                                    <p class="mb-0">@Model.NotaAtendimento</p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                    <!-- Timeline de Ações -->
+                    <div class="mb-4">
+                        <h5 class="card-title">
+                            <i class="bi bi-clock-history me-2"></i> Timeline
+                        </h5>
+                        <div class="list-group">
+                            <div class="list-group-item">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-1">🔴 Alerta Acionado</h6>
+                                    <small>@Model.DataCriacao.ToString("HH:mm")</small>
+                                </div>
+                                <p class="mb-0 small text-muted">@Model.DataCriacao.ToString("dd/MM/yyyy")</p>
+                            </div>
+                            @if (Model.Confirmado)
+                            {
+                                <div class="list-group-item">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h6 class="mb-1">✅ Confirmado</h6>
+                                        <small>@Model.DataConfirmacao?.ToString("HH:mm")</small>
+                                    </div>
+                                    <p class="mb-0 small text-muted">@Model.DataConfirmacao?.ToString("dd/MM/yyyy")</p>
+                                </div>
+                            }
+                            @if (Model.DataAtendimento.HasValue)
+                            {
+                                <div class="list-group-item">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h6 class="mb-1">📞 Atendido por Profissional</h6>
+                                        <small>@Model.DataAtendimento.Value.ToString("HH:mm")</small>
+                                    </div>
+                                    <p class="mb-0 small text-muted">@Model.DataAtendimento.Value.ToString("dd/MM/yyyy")</p>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <!-- Informações Adicionais -->
+                    <div class="alert alert-info">
+                        <i class="bi bi-info-circle me-2"></i>
+                        <strong>Precisa de mais ajuda?</strong>
+                        <p class="mb-0 mt-2">
+                            Se você ainda está em crise, não hesite em 
+                            <a href="@Url.Action("Index", "Panico")">acionar um novo alerta</a>.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card-footer bg-light">
+                    <div class="d-flex justify-content-between">
+                        <a href="@Url.Action("Historico", "Panico")" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left me-2"></i> Voltar ao Histórico
+                        </a>
+                        @if (!Model.Confirmado && Model.Status == StatusAlertaPanico.Ativo)
+                        {
+                            <a href="@Url.Action("Index", "Panico")" class="btn btn-danger">
+                                <i class="bi bi-exclamation-circle me-2"></i> Acionar Novo Alerta
+                            </a>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- Suporte Contínuo -->
+            <div class="card border-2 border-success">
+                <div class="card-body">
+                    <h5 class="card-title text-success mb-3">
+                        <i class="bi bi-heart-fill me-2"></i> Você Não Está Sozinha
+                    </h5>
+                    <p>
+                        A AUTistima está aqui para você 24/7. Se precisar de apoio emocional, orientação ou 
+                        simplesmente conversar com alguém que entende, estamos aqui.
+                    </p>
+                    <div class="list-group">
+                        <a href="@Url.Action("Index", "Acolhimento")" class="list-group-item list-group-item-action">
+                            <i class="bi bi-chat-hearts me-2"></i> Central de Acolhimento - Compartilhe sua história
+                        </a>
+                        <a href="@Url.Action("Index", "Saude")" class="list-group-item list-group-item-action">
+                            <i class="bi bi-hospital me-2"></i> Encontre Profissionais - Psicólogos e Terapeutas
+                        </a>
+                        <a href="@Url.Action("Index", "Manejos")" class="list-group-item list-group-item-action">
+                            <i class="bi bi-lightbulb me-2"></i> Estratégias e Manejos - Dicas práticas
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

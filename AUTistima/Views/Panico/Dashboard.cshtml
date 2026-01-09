@@ -1,0 +1,258 @@
+@model List<AUTistima.Models.PanicAlert>
+@using AUTistima.Models.Enums
+
+@{
+    ViewData["Title"] = "Dashboard de Alertas de Pânico";
+}
+
+<div class="container-fluid py-4">
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <h2>
+                    <i class="bi bi-exclamation-octagon-fill text-danger me-2"></i>
+                    Dashboard de Alertas de Pânico
+                </h2>
+                <div class="badge bg-danger">MONITORANDO</div>
+            </div>
+            <p class="text-muted">Acompanhe todos os alertas de pânico do sistema em tempo real</p>
+        </div>
+    </div>
+
+    <!-- Métricas -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card border-danger border-2 text-center">
+                <div class="card-body">
+                    <i class="bi bi-exclamation-circle-fill text-danger" style="font-size: 2rem;"></i>
+                    <h5 class="card-title mt-3">Alertas Ativos</h5>
+                    <h2 class="text-danger">@ViewBag.AlertasAtivos</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-warning border-2 text-center">
+                <div class="card-body">
+                    <i class="bi bi-telephone-fill text-warning" style="font-size: 2rem;"></i>
+                    <h5 class="card-title mt-3">Atendidos</h5>
+                    <h2 class="text-warning">@ViewBag.AlertasAtendidos</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-success border-2 text-center">
+                <div class="card-body">
+                    <i class="bi bi-check-circle-fill text-success" style="font-size: 2rem;"></i>
+                    <h5 class="card-title mt-3">Resolvidos</h5>
+                    <h2 class="text-success">@ViewBag.AlertasResolvidos</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-info border-2 text-center">
+                <div class="card-body">
+                    <i class="bi bi-graph-up text-info" style="font-size: 2rem;"></i>
+                    <h5 class="card-title mt-3">Total</h5>
+                    <h2 class="text-info">@ViewBag.TotalAlertas</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alertas Críticos -->
+    @if (Model == null || Model.Count == 0)
+    {
+        <div class="alert alert-success text-center py-5">
+            <i class="bi bi-check-circle-fill" style="font-size: 2rem;"></i>
+            <p class="mt-3 mb-0">✅ Nenhum alerta crítico pendente no momento.</p>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-md-12">
+                <h4 class="mb-3">
+                    <i class="bi bi-fire text-danger me-2"></i>
+                    Alertas Críticos - Ação Imediata Necessária
+                </h4>
+
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped align-middle">
+                        <thead class="table-danger">
+                            <tr>
+                                <th style="width: 10%;">ID</th>
+                                <th style="width: 20%;">Usuária</th>
+                                <th style="width: 30%;">Descrição</th>
+                                <th style="width: 15%;">Urgência</th>
+                                <th style="width: 15%;">Criado em</th>
+                                <th style="width: 10%;">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var alerta in Model.OrderByDescending(a => a.NivelUrgencia).ThenByDescending(a => a.DataCriacao))
+                            {
+                                var urgenciaClass = alerta.NivelUrgencia switch
+                                {
+                                    NivelUrgenciaPanico.Normal => "success",
+                                    NivelUrgenciaPanico.Moderado => "warning",
+                                    NivelUrgenciaPanico.Critico => "danger",
+                                    NivelUrgenciaPanico.Emergencia => "dark",
+                                    _ => "secondary"
+                                };
+
+                                var urgenciaIcon = alerta.NivelUrgencia switch
+                                {
+                                    NivelUrgenciaPanico.Normal => "🟢",
+                                    NivelUrgenciaPanico.Moderado => "🟠",
+                                    NivelUrgenciaPanico.Critico => "🔴",
+                                    NivelUrgenciaPanico.Emergencia => "⚫",
+                                    _ => "⚪"
+                                };
+
+                                <tr>
+                                    <td>
+                                        <strong>#@alerta.Id</strong>
+                                    </td>
+                                    <td>
+                                        @if (alerta.Usuario != null)
+                                        {
+                                            <div>
+                                                <strong>@alerta.Usuario.NomeCompleto</strong>
+                                                <br>
+                                                <small class="text-muted">@alerta.Usuario.Email</small>
+                                            </div>
+                                        }
+                                    </td>
+                                    <td>
+                                        <div class="text-truncate" title="@alerta.Descricao">
+                                            @alerta.Descricao.Substring(0, Math.Min(50, alerta.Descricao.Length))...
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-@urgenciaClass">@urgenciaIcon @alerta.NivelUrgencia</span>
+                                    </td>
+                                    <td>
+                                        <small class="text-muted">
+                                            @alerta.DataCriacao.ToString("dd/MM HH:mm")
+                                        </small>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-sm btn-outline-danger" 
+                                                data-bs-toggle="modal" 
+                                                data-bs-target="#modalAcaoAlerta@alerta.Id"
+                                                title="Visualizar e responder">
+                                            <i class="bi bi-arrow-right"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modais de Ação -->
+        @foreach (var alerta in Model)
+        {
+            <div class="modal fade" id="modalAcaoAlerta@(alerta.Id)" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header bg-danger text-white">
+                            <h5 class="modal-title">
+                                <i class="bi bi-exclamation-circle-fill me-2"></i>
+                                Atender Alerta #@alerta.Id
+                            </h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- Informações do Alerta -->
+                            <div class="card mb-3">
+                                <div class="card-header">
+                                    <strong>ℹ️ Informações do Alerta</strong>
+                                </div>
+                                <div class="card-body">
+                                    <p><strong>Usuária:</strong> @alerta.Usuario?.NomeCompleto (@alerta.Usuario?.Email)</p>
+                                    <p><strong>Descrição:</strong> @alerta.Descricao</p>
+                                    <p><strong>Urgência:</strong> @alerta.NivelUrgencia</p>
+                                    <p><strong>Criado em:</strong> @alerta.DataCriacao.ToString("dd/MM/yyyy HH:mm:ss")</p>
+                                </div>
+                            </div>
+
+                            <!-- Formulário de Atendimento -->
+                            <form id="formAtendimento@(alerta.Id)" class="needs-validation">
+                                <div class="mb-3">
+                                    <label for="notaAtendimento@(alerta.Id)" class="form-label">
+                                        <strong>📝 Nota de Atendimento</strong>
+                                    </label>
+                                    <textarea class="form-control" 
+                                              id="notaAtendimento@(alerta.Id)" 
+                                              name="notaAtendimento"
+                                              placeholder="Descreva as ações tomadas, orientações dadas, etc..."
+                                              rows="4"></textarea>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" 
+                                           id="confirmoAtendimento@(alerta.Id)" 
+                                           required>
+                                    <label class="form-check-label" for="confirmoAtendimento@(alerta.Id)">
+                                        Confirmo que atendi este alerta de pânico
+                                    </label>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="button" class="btn btn-danger" 
+                                    onclick="atenderAlerta(@alerta.Id, '@alerta.Usuario?.Id')">
+                                <i class="bi bi-check-circle me-2"></i> Marcar como Atendido
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>
+
+@section Scripts {
+    <script>
+        async function atenderAlerta(panicAlertId, userId) {
+            const notaAtendimento = document.getElementById(`notaAtendimento${panicAlertId}`).value;
+            const confirmado = document.getElementById(`confirmoAtendimento${panicAlertId}`).checked;
+
+            if (!confirmado) {
+                Swal.fire('Confirmação necessária', 'Marque a caixa para confirmar.', 'warning');
+                return;
+            }
+
+            try {
+                const response = await fetch('/Panico/MarcarComoAtendido', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-CSRF-TOKEN': document.querySelector('input[name="__RequestVerificationToken"]')?.value || ''
+                    },
+                    body: `id=${panicAlertId}&notaAtendimento=${encodeURIComponent(notaAtendimento)}`
+                });
+
+                const data = await response.json();
+
+                if (data.sucesso) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Alerta Marcado como Atendido',
+                        text: 'O alerta foi registrado como atendido.',
+                        didClose: () => location.reload()
+                    });
+                } else {
+                    Swal.fire('Erro', data.mensagem, 'error');
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                Swal.fire('Erro', 'Erro ao processar a solicitação.', 'error');
+            }
+        }
+    </script>
+}

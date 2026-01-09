@@ -95,7 +95,17 @@ public enum TipoAtividade
     
     // Admin
     [Display(Name = "Ação Administrativa")]
-    AcaoAdministrativa = 90
+    AcaoAdministrativa = 90,
+    
+    // Pânico
+    [Display(Name = "Acionamento de Alerta de Pânico")]
+    AcionamentoPanico = 100,
+    
+    [Display(Name = "Confirmação de Alerta de Pânico")]
+    ConfirmacaoPanico = 101,
+    
+    [Display(Name = "Redirecionamento WhatsApp")]
+    RedirecionamentoWhatsApp = 102
 }
 
 /// <summary>
