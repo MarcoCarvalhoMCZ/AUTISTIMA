@@ -21,6 +21,15 @@
                     </h4>
                 </div>
                 <div class="card-body p-4">
+                    @if (TempData["Erro"] != null)
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="bi bi-exclamation-triangle me-2"></i>
+                            <strong>Erro:</strong> @TempData["Erro"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    }
+                    
                     <div class="alert alert-info border-0 mb-4">
                         <i class="bi bi-shield-check me-2"></i>
                         <strong>Privacidade:</strong> Esses dados são confidenciais e serão usados apenas 
@@ -135,10 +144,15 @@
     <partial name="_ValidationScriptsPartial" />
     <script>
         function updateEscolaNome() {
-            const select = document.querySelector('select[asp-for="EscolaId"]');
-            const selectedOption = select.options[select.selectedIndex];
-            const escolaNome = selectedOption.text;
-            document.querySelector('input[asp-for="EscolaNome"]').value = escolaNome === 'Selecione a escola (opcional)' ? '' : escolaNome;
+            const select = document.getElementById('EscolaId');
+            if (select) {
+                const selectedOption = select.options[select.selectedIndex];
+                const escolaNome = selectedOption.text;
+                const hiddenField = document.getElementById('EscolaNome');
+                if (hiddenField) {
+                    hiddenField.value = escolaNome === 'Selecione a escola (opcional)' ? '' : escolaNome;
+                }
+            }
         }
     </script>
 }

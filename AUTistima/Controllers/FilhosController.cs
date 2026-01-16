@@ -73,12 +73,22 @@ public class FilhosController : Controller
         filho.UserId = userId;
         filho.DataCadastro = DateTime.Now;
 
+        // Remover validação do UserId que é setado automaticamente
+        ModelState.Remove("UserId");
+
         if (ModelState.IsValid)
         {
             _context.Add(filho);
             await _context.SaveChangesAsync();
             TempData["Sucesso"] = "✅ Filho(a) cadastrado(a) com sucesso!";
             return RedirectToAction(nameof(Index));
+        }
+        
+        // Debug: Mostrar erros de validação
+        var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
+        if (errors.Any())
+        {
+            TempData["Erro"] = string.Join("; ", errors);
         }
         
         // Recarregar escolas se validação falhar
