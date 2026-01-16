@@ -64,16 +64,26 @@ public class FilhosController : Controller
     public async Task<IActionResult> Create(Child filho)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        filho.UserId = userId!;
+        
+        if (string.IsNullOrEmpty(userId))
+        {
+            return RedirectToAction("Login", "Account");
+        }
+        
+        filho.UserId = userId;
         filho.DataCadastro = DateTime.Now;
 
         if (ModelState.IsValid)
         {
             _context.Add(filho);
             await _context.SaveChangesAsync();
-            TempData["Sucesso"] = "Filho(a) cadastrado(a) com sucesso!";
+            TempData["Sucesso"] = "✅ Filho(a) cadastrado(a) com sucesso!";
             return RedirectToAction(nameof(Index));
         }
+        
+        // Recarregar escolas se validação falhar
+        var escolas = await _context.Schools.Where(e => e.Ativo).OrderBy(e => e.Nome).ToListAsync();
+        ViewBag.Escolas = escolas;
         return View(filho);
     }
 
